@@ -1,0 +1,730 @@
+"use client";
+
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowRight, Download, RefreshCcw, Volume2, VolumeX } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { interludes, questions } from "@/data/quiz";
+import { getNatureResult, scoreChoices } from "@/lib/personality";
+import type { AnswerChoice, NatureResult } from "@/types/quiz";
+import type { MutableRefObject, RefObject } from "react";
+
+const totalQuestions = questions.length;
+
+const sceneVariants = {
+  enter: { opacity: 0, scale: 1.02, filter: "blur(8px)" },
+  center: { opacity: 1, scale: 1, filter: "blur(0px)" },
+  exit: { opacity: 0, scale: 0.985, filter: "blur(8px)" }
+};
+
+const quietFade = {
+  enter: { opacity: 0 },
+  center: { opacity: 1 },
+  exit: { opacity: 0 }
+};
+
+type Phase = "intro" | "question" | "interlude" | "result";
+
+type AmbientAudio = {
+  element: HTMLAudioElement;
+  fadeFrame: number | null;
+};
+
+const ambientVolume = 0.38;
+
+export default function Home() {
+  const [phase, setPhase] = useState<Phase>("intro");
+  const [step, setStep] = useState(0);
+  const [answers, setAnswers] = useState<AnswerChoice[]>([]);
+  const [isMuted, setIsMuted] = useState(true);
+  const [isAdvancing, setIsAdvancing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<"idle" | "downloaded">("idle");
+  const audioRef = useRef<AmbientAudio | null>(null);
+  const downloadResetTimerRef = useRef<number | null>(null);
+  const introHeadingRef = useRef<HTMLHeadingElement | null>(null);
+  const interludeHeadingRef = useRef<HTMLHeadingElement | null>(null);
+  const questionHeadingRef = useRef<HTMLHeadingElement | null>(null);
+  const resultHeadingRef = useRef<HTMLHeadingElement | null>(null);
+  const currentQuestion = questions[step];
+  const interlude = interludes[Math.min(answers.length, interludes.length - 1)] ?? interludes[0];
+  const previewResult = useMemo(() => {
+    if (answers.length < totalQuestions) {
+      return null;
+    }
+
+    return getNatureResult(scoreChoices(answers));
+  }, [answers]);
+
+  const result = useMemo(() => {
+    if (phase !== "result") {
+      return null;
+    }
+
+    return getNatureResult(scoreChoices(answers));
+  }, [answers, phase]);
+
+  const interludeImage =
+    answers.length >= totalQuestions
+      ? previewResult?.imageUrl
+      : questions[Math.min(answers.length, totalQuestions - 1)]?.imageUrl;
+  const activeImage = phase === "interlude" ? interludeImage ?? questions[0].imageUrl : result?.imageUrl ?? currentQuestion?.imageUrl ?? questions[0].imageUrl;
+
+  useEffect(() => {
+    return () => {
+      clearDownloadResetTimer(downloadResetTimerRef);
+      stopAmbientAudio(audioRef.current);
+    };
+  }, []);
+
+  async function startAmbientAudio() {
+    if (audioRef.current) {
+      if (!isMuted) {
+        await audioRef.current.element.play().catch(() => undefined);
+      }
+      return;
+    }
+
+    const audio = new Audio("/sound/sound.mp3");
+    audio.loop = true;
+    audio.preload = "auto";
+    audio.volume = 0;
+
+    audioRef.current = { element: audio, fadeFrame: null };
+    await audio.play().catch(() => undefined);
+  }
+
+  async function beginJourney() {
+    await startAmbientAudio();
+    setIsMuted(false);
+    fadeAmbientVolume(audioRef.current, ambientVolume, 1800);
+    setPhase("interlude");
+  }
+
+  function chooseAnswer(choice: AnswerChoice) {
+    if (isAdvancing) {
+      return;
+    }
+
+    setIsAdvancing(true);
+    const nextAnswers = [...answers.slice(0, step), choice];
+    setAnswers(nextAnswers);
+    setPhase("interlude");
+  }
+
+  function continueJourney() {
+    if (answers.length >= totalQuestions) {
+      setPhase("result");
+      return;
+    }
+
+    setStep(answers.length);
+    setIsAdvancing(false);
+    setPhase("question");
+  }
+
+  function restart() {
+    setAnswers([]);
+    setStep(0);
+    setIsAdvancing(false);
+    clearDownloadResetTimer(downloadResetTimerRef);
+    setSaveStatus("idle");
+    setIsMuted(true);
+    fadeAmbientVolume(audioRef.current, 0, 900);
+    setPhase("intro");
+  }
+
+  async function toggleSound() {
+    const nextMuted = !isMuted;
+    await startAmbientAudio();
+    setIsMuted(nextMuted);
+    fadeAmbientVolume(audioRef.current, nextMuted ? 0 : ambientVolume, nextMuted ? 900 : 1400);
+  }
+
+  async function saveResultImage() {
+    if (!result) {
+      return;
+    }
+
+    setIsSaving(true);
+    clearDownloadResetTimer(downloadResetTimerRef);
+    setSaveStatus("idle");
+
+    try {
+      const blob = await createResultImage(result);
+      downloadBlob(blob, `lok-khang-nai-${result.id}.png`);
+      setSaveStatus("downloaded");
+      downloadResetTimerRef.current = window.setTimeout(() => {
+        setSaveStatus("idle");
+        downloadResetTimerRef.current = null;
+      }, 2600);
+    } finally {
+      setIsSaving(false);
+    }
+  }
+
+  return (
+    <main className="relative min-h-svh overflow-hidden bg-ink text-white">
+      <NatureBackdrop imageUrl={activeImage} />
+
+      {phase !== "intro" ? (
+        <button
+          type="button"
+          onClick={toggleSound}
+          aria-label={isMuted ? "เปิดเสียง" : "ปิดเสียง"}
+          className="fixed right-4 top-4 z-40 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/15 text-white shadow-mist backdrop-blur transition hover:bg-white/25 focus:outline-none focus:ring-2 focus:ring-white/60"
+        >
+          {isMuted ? <VolumeX className="h-5 w-5" aria-hidden="true" /> : <Volume2 className="h-5 w-5" aria-hidden="true" />}
+        </button>
+      ) : null}
+
+      <AnimatePresence mode="wait">
+        {phase === "intro" ? (
+          <motion.section
+            key="intro"
+            variants={quietFade}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            onAnimationComplete={(definition) => focusSceneHeading(definition, introHeadingRef)}
+            className="relative z-10 flex min-h-svh flex-col justify-end px-5 py-8 sm:justify-center"
+          >
+            <div className="mx-auto w-full max-w-lg pb-8 sm:pb-0">
+              <p className="font-kicker-thai text-sm font-medium leading-7 text-white/72">เว็บเดินทางสั้น ๆ ผ่านธรรมชาติของใจ</p>
+              <h1
+                ref={introHeadingRef}
+                tabIndex={-1}
+                className="font-display-thai mt-3 text-balance text-5xl font-semibold leading-[1.05] text-white outline-none sm:text-6xl"
+              >
+                โลกข้างใน
+              </h1>
+              <p className="font-poem-thai mt-5 max-w-md text-pretty text-lg font-medium leading-9 text-white/78">
+                ลองเดินผ่านป่า หมอก น้ำ ลม และแสง เพื่อค้นพบว่าคุณอาศัยอยู่ในโลกธรรมชาติแบบไหน
+              </p>
+              <button
+                type="button"
+                onClick={beginJourney}
+                className="mt-8 inline-flex min-h-12 items-center justify-center rounded-lg bg-white px-5 text-sm font-semibold text-ink shadow-mist transition hover:bg-mistBlue focus:outline-none focus:ring-2 focus:ring-white/70"
+              >
+                เริ่มเดินทาง
+              </button>
+              <p className="font-kicker-thai mt-5 text-xs leading-5 text-white/58">
+                ประสบการณ์นี้เป็นพื้นที่สะท้อนใจเพื่อความบันเทิง ไม่ใช่การประเมินทางจิตวิทยา
+              </p>
+            </div>
+          </motion.section>
+        ) : null}
+
+        {phase === "interlude" ? (
+          <motion.section
+            key={`interlude-${step}-${answers.length}`}
+            variants={quietFade}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            onAnimationComplete={(definition) => focusSceneHeading(definition, interludeHeadingRef)}
+            className="relative z-10 flex min-h-svh items-center justify-center px-6 text-center"
+          >
+            <div className="mx-auto max-w-sm">
+              <motion.div
+                className="relative mx-auto h-32 w-32 rounded-full border border-white/20 bg-white/10 shadow-mist backdrop-blur"
+                animate={{ scale: [1, 1.07, 1], opacity: [0.72, 1, 0.72] }}
+                transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <motion.span
+                  className="absolute left-1/2 top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/80"
+                  animate={{ y: [-18, 18, -18], opacity: [0.45, 1, 0.45] }}
+                  transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <motion.span
+                  className="absolute inset-5 rounded-full border border-white/18"
+                  animate={{ rotate: [0, 360] }}
+                  transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+                />
+              </motion.div>
+              <p className="font-kicker-thai mt-8 text-sm font-medium leading-7 text-white/68">{interlude.eyebrow}</p>
+              <h2
+                ref={interludeHeadingRef}
+                tabIndex={-1}
+                className="font-display-thai mt-2 text-balance text-[27px] font-semibold leading-tight text-white outline-none"
+              >
+                {interlude.title}
+              </h2>
+              <p className="font-poem-thai mt-4 text-pretty text-[17px] font-medium leading-8 text-white/76">{interlude.body}</p>
+              <motion.button
+                type="button"
+                onClick={continueJourney}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7, duration: 0.45, ease: "easeOut" }}
+                className="mt-8 inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-white px-5 text-sm font-semibold text-ink shadow-mist transition hover:bg-mistBlue focus:outline-none focus:ring-2 focus:ring-white/70"
+              >
+                {answers.length >= totalQuestions ? "ดูโลกของฉัน" : "เดินต่อ"}
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </motion.button>
+            </div>
+          </motion.section>
+        ) : null}
+
+        {phase === "question" && currentQuestion ? (
+          <motion.section
+            key={currentQuestion.id}
+            variants={sceneVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.58, ease: "easeOut" }}
+            onAnimationComplete={(definition) => focusSceneHeading(definition, questionHeadingRef)}
+            className="relative z-10 flex min-h-svh flex-col px-5 py-4 max-[340px]:px-4 sm:py-6"
+          >
+            <header className="mx-auto flex w-full max-w-md items-center justify-between pr-12 text-sm text-white/72">
+              <span>{currentQuestion.scene}</span>
+              <span>
+                {step + 1} จาก {totalQuestions}
+              </span>
+            </header>
+
+            <div className="mx-auto mt-3 h-1.5 w-full max-w-md overflow-hidden rounded-full bg-white/20 sm:mt-4">
+              <motion.div
+                className="h-full rounded-full bg-white"
+                initial={false}
+                animate={{ width: `${((step + 1) / totalQuestions) * 100}%` }}
+                transition={{ duration: 0.42, ease: "easeOut" }}
+              />
+            </div>
+
+            <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center py-5 max-[340px]:py-2 min-[700px]:py-10">
+              <p className="font-kicker-thai mb-2 text-sm font-medium leading-7 text-white/70 min-[700px]:mb-4">โลกข้างใน</p>
+              <h1
+                ref={questionHeadingRef}
+                tabIndex={-1}
+                className="font-display-thai text-balance text-[27px] font-semibold leading-tight text-white outline-none max-[340px]:text-[23px] min-[700px]:text-[34px]"
+              >
+                {currentQuestion.title}
+              </h1>
+              <p className="font-poem-thai mt-3 text-pretty text-[16px] font-medium leading-8 text-white/78 max-[340px]:mt-2 max-[340px]:text-[15px] max-[340px]:leading-7 min-[700px]:mt-5 min-[700px]:text-lg min-[700px]:leading-9">
+                {currentQuestion.prompt}
+              </p>
+
+              <div className="mt-5 grid gap-2.5 max-[340px]:mt-3 max-[340px]:gap-2 min-[700px]:mt-9 min-[700px]:gap-3">
+                {currentQuestion.choices.map((choice, index) => (
+                  <motion.button
+                    key={choice.id}
+                    type="button"
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.16 + index * 0.05 }}
+                    whileTap={{ scale: 0.985 }}
+                    onClick={() => chooseAnswer(choice)}
+                    disabled={isAdvancing}
+                    className="group min-h-20 rounded-lg border border-white/20 bg-white/14 px-4 py-3 text-left shadow-mist backdrop-blur-md transition hover:border-white/40 hover:bg-white/22 focus:outline-none focus:ring-2 focus:ring-white/60 disabled:cursor-wait disabled:opacity-70 max-[340px]:min-h-[72px] max-[340px]:py-2.5 min-[700px]:min-h-24 min-[700px]:py-4"
+                  >
+                    <span className="font-display-thai block text-[15px] font-semibold leading-6 text-white max-[340px]:text-sm max-[340px]:leading-5 min-[700px]:text-base min-[700px]:leading-7">
+                      {choice.text}
+                    </span>
+                    <span className="font-poem-thai mt-1 block text-sm font-medium leading-6 text-white/62 max-[340px]:text-[13px] max-[340px]:leading-5 min-[700px]:leading-6">
+                      {choice.subtext}
+                    </span>
+                  </motion.button>
+                ))}
+              </div>
+            </div>
+
+            <p className="font-kicker-thai mx-auto w-full max-w-md pb-1 text-xs leading-5 text-white/54">
+              ประสบการณ์นี้เป็นพื้นที่สะท้อนใจเพื่อความบันเทิง ไม่ใช่การประเมินทางจิตวิทยา
+            </p>
+          </motion.section>
+        ) : null}
+
+        {phase === "result" && result ? (
+          <motion.section
+            key="result"
+            variants={quietFade}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.62, ease: "easeOut" }}
+            onAnimationComplete={(definition) => focusSceneHeading(definition, resultHeadingRef)}
+            className="relative z-10 flex min-h-svh flex-col px-5 py-4 max-[340px]:px-4 sm:py-6"
+          >
+            <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-start py-5 pb-44 min-[700px]:justify-center min-[700px]:py-8">
+              <p className="font-kicker-thai text-sm font-medium leading-7 text-white/68">โลกธรรมชาติของคุณ</p>
+              <h1
+                ref={resultHeadingRef}
+                tabIndex={-1}
+                className="font-display-thai mt-3 text-balance text-[42px] font-semibold leading-[1.08] text-white outline-none min-[700px]:mt-4 min-[700px]:text-5xl"
+              >
+                {result.worldName}
+              </h1>
+              <p className="font-poem-thai mt-3 text-[16px] font-medium leading-8 text-white/78 min-[700px]:mt-4 min-[700px]:text-lg min-[700px]:leading-9">
+                {result.description}
+              </p>
+
+              <blockquote className="font-poem-thai mt-5 border-l-2 border-white/28 pl-4 text-[17px] font-semibold leading-8 text-white/86 min-[700px]:mt-6 min-[700px]:text-lg min-[700px]:leading-9">
+                {result.quote}
+              </blockquote>
+
+              <div className="mt-5 flex items-center gap-3 border-y border-white/20 py-3 min-[700px]:mt-7 min-[700px]:py-4">
+                <span className="font-kicker-thai text-sm text-white/58">ธรรมชาติที่รายล้อม</span>
+                <span className="font-display-thai rounded-full bg-white/18 px-3 py-1 text-sm font-semibold text-white backdrop-blur">{result.relatedNature}</span>
+              </div>
+
+              <section className="mt-5 min-[700px]:mt-7">
+                <h2 className="font-display-thai text-base font-semibold text-white">พลังของโลกนี้</h2>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {result.strengths.map((strength) => (
+                    <span key={strength} className="font-poem-thai rounded-full border border-white/20 bg-white/14 px-3 py-2 text-sm font-medium text-white/78 backdrop-blur">
+                      {strength}
+                    </span>
+                  ))}
+                </div>
+              </section>
+
+              <section className="mt-5 grid gap-4 min-[700px]:mt-7 min-[700px]:gap-5">
+                <div>
+                  <h2 className="font-display-thai text-base font-semibold text-white">ความรู้สึกที่ซ่อนอยู่</h2>
+                  <p className="font-poem-thai mt-2 text-[16px] font-medium leading-8 text-white/76 min-[700px]:text-lg min-[700px]:leading-9">
+                    {result.hiddenFeelings}
+                  </p>
+                </div>
+                <div>
+                  <h2 className="font-display-thai text-base font-semibold text-white">ในวันที่คุณเหนื่อย</h2>
+                  <p className="font-poem-thai mt-2 text-[16px] font-medium leading-8 text-white/76 min-[700px]:text-lg min-[700px]:leading-9">
+                    {result.tiredMessage}
+                  </p>
+                </div>
+              </section>
+
+              <div className="mx-auto mt-6 grid w-full max-w-md grid-cols-2 gap-2 rounded-lg bg-ink/32 py-1 backdrop-blur-md min-[341px]:fixed min-[341px]:inset-x-4 min-[341px]:bottom-3 min-[341px]:z-20 min-[341px]:w-auto min-[341px]:max-w-none min-[700px]:static min-[700px]:mt-9 min-[700px]:w-full min-[700px]:max-w-md min-[700px]:bg-transparent min-[700px]:py-0 min-[700px]:backdrop-blur-0">
+                <button
+                  type="button"
+                  onClick={restart}
+                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg border border-white/24 bg-white/14 px-3 text-sm font-medium text-white shadow-mist transition hover:bg-white/22 focus:outline-none focus:ring-2 focus:ring-white/60"
+                >
+                  <RefreshCcw className="h-4 w-4" aria-hidden="true" />
+                  เริ่มใหม่
+                </button>
+                <button
+                  type="button"
+                  onClick={saveResultImage}
+                  disabled={isSaving}
+                  className="inline-flex min-h-12 items-center justify-center rounded-lg border border-white/24 bg-white/14 px-3 text-sm font-medium text-white shadow-mist transition hover:bg-white/22 focus:outline-none focus:ring-2 focus:ring-white/60 disabled:cursor-wait disabled:opacity-80"
+                >
+                  <Download className="mr-2 h-4 w-4" aria-hidden="true" />
+                  {isSaving ? "กำลังวาดรูป" : saveStatus === "downloaded" ? "ดาวน์โหลดแล้ว" : "ดาวน์โหลด"}
+                </button>
+              </div>
+
+              <p className="font-kicker-thai mt-5 text-xs leading-5 text-white/54 min-[700px]:mt-7">
+                ประสบการณ์นี้เป็นพื้นที่สะท้อนใจเพื่อความบันเทิง ไม่ใช่การประเมินทางจิตวิทยา
+              </p>
+            </div>
+          </motion.section>
+        ) : null}
+      </AnimatePresence>
+    </main>
+  );
+}
+
+function focusSceneHeading(definition: unknown, ref: RefObject<HTMLHeadingElement>) {
+  if (definition !== "center") {
+    return;
+  }
+
+  ref.current?.focus({ preventScroll: true });
+}
+
+function clearDownloadResetTimer(timerRef: MutableRefObject<number | null>) {
+  if (timerRef.current === null) {
+    return;
+  }
+
+  window.clearTimeout(timerRef.current);
+  timerRef.current = null;
+}
+
+function fadeAmbientVolume(ambient: AmbientAudio | null, targetVolume: number, duration: number) {
+  if (!ambient) {
+    return;
+  }
+
+  if (ambient.fadeFrame !== null) {
+    window.cancelAnimationFrame(ambient.fadeFrame);
+    ambient.fadeFrame = null;
+  }
+
+  if (targetVolume > 0 && ambient.element.paused) {
+    void ambient.element.play();
+  }
+
+  const startVolume = ambient.element.volume;
+  const startedAt = window.performance.now();
+
+  const step = (now: number) => {
+    const progress = Math.min((now - startedAt) / duration, 1);
+    const easedProgress = 1 - Math.pow(1 - progress, 3);
+    ambient.element.volume = startVolume + (targetVolume - startVolume) * easedProgress;
+
+    if (progress < 1) {
+      ambient.fadeFrame = window.requestAnimationFrame(step);
+      return;
+    }
+
+    ambient.element.volume = targetVolume;
+    ambient.fadeFrame = null;
+
+    if (targetVolume === 0) {
+      ambient.element.pause();
+    }
+  };
+
+  ambient.fadeFrame = window.requestAnimationFrame(step);
+}
+
+function stopAmbientAudio(ambient: AmbientAudio | null) {
+  if (!ambient) {
+    return;
+  }
+
+  if (ambient.fadeFrame !== null) {
+    window.cancelAnimationFrame(ambient.fadeFrame);
+  }
+
+  ambient.element.pause();
+  ambient.element.src = "";
+}
+
+function NatureBackdrop({ imageUrl }: { imageUrl: string }) {
+  return (
+    <div className="pointer-events-none absolute inset-0">
+      <motion.div
+        key={imageUrl}
+        initial={{ opacity: 0, scale: 1.05 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.4, ease: "easeOut" }}
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${imageUrl})` }}
+      />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(255,255,255,0.1),transparent_22rem),linear-gradient(180deg,rgba(9,20,25,0.24),rgba(9,20,25,0.44)_46%,rgba(9,20,25,0.66))]" />
+      <motion.div
+        className="absolute inset-x-[-20%] top-1/4 h-48 bg-white/10 blur-3xl"
+        animate={{ x: ["-8%", "8%", "-8%"], opacity: [0.24, 0.38, 0.24] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+      />
+    </div>
+  );
+}
+
+async function createResultImage(result: NatureResult): Promise<Blob> {
+  const width = 1080;
+  const height = 1920;
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+
+  const context = canvas.getContext("2d");
+  if (!context) {
+    throw new Error("Canvas is not supported in this browser.");
+  }
+
+  const image = await loadCanvasImage(result.imageUrl);
+  const imageRatio = image.width / image.height;
+  const canvasRatio = width / height;
+  const drawHeight = imageRatio > canvasRatio ? height : width / imageRatio;
+  const drawWidth = imageRatio > canvasRatio ? height * imageRatio : width;
+  const drawX = (width - drawWidth) / 2;
+  const drawY = (height - drawHeight) / 2;
+
+  context.drawImage(image, drawX, drawY, drawWidth, drawHeight);
+
+  const gradient = context.createLinearGradient(0, 0, 0, height);
+  gradient.addColorStop(0, "rgba(11, 25, 31, 0.42)");
+  gradient.addColorStop(0.26, "rgba(11, 25, 31, 0.56)");
+  gradient.addColorStop(0.78, "rgba(11, 25, 31, 0.72)");
+  gradient.addColorStop(1, "rgba(11, 25, 31, 0.92)");
+  context.fillStyle = gradient;
+  context.fillRect(0, 0, width, height);
+
+  const cardX = 74;
+  const cardY = 226;
+  const cardWidth = width - cardX * 2;
+  const cardHeight = 1360;
+
+  context.fillStyle = "rgba(255, 255, 255, 0.12)";
+  roundRect(context, cardX, cardY, cardWidth, cardHeight, 34);
+  context.fill();
+  context.strokeStyle = "rgba(255, 255, 255, 0.22)";
+  context.lineWidth = 2;
+  context.stroke();
+
+  const left = 128;
+  let y = 320;
+
+  context.fillStyle = "rgba(255, 255, 255, 0.7)";
+  context.font = canvasFont(34, 500);
+  context.fillText("โลกธรรมชาติของฉัน", left, y);
+
+  y += 108;
+  context.fillStyle = "#ffffff";
+  context.font = canvasFont(78, 700);
+  y = drawWrappedText(context, result.worldName, left, y, 830, 92);
+
+  y += 20;
+  context.fillStyle = "rgba(255, 255, 255, 0.78)";
+  context.font = canvasFont(35, 500);
+  y = drawWrappedText(context, result.relatedNature, left, y, 830, 46);
+
+  y += 66;
+  context.strokeStyle = "rgba(255, 255, 255, 0.22)";
+  context.beginPath();
+  context.moveTo(left, y);
+  context.lineTo(width - left, y);
+  context.stroke();
+
+  y += 74;
+  context.fillStyle = "rgba(255, 255, 255, 0.9)";
+  context.font = canvasFont(42, 600);
+  y = drawWrappedText(context, result.quote, left, y, 830, 62, 3);
+
+  y += 62;
+  context.fillStyle = "rgba(255, 255, 255, 0.86)";
+  context.font = canvasFont(38, 600);
+  context.fillText("โลกนี้บอกว่า", left, y);
+
+  y += 58;
+  context.fillStyle = "rgba(255, 255, 255, 0.82)";
+  context.font = canvasFont(38, 400);
+  y = drawWrappedText(context, result.description, left, y, 830, 58, 4);
+
+  y += 58;
+  context.fillStyle = "rgba(255, 255, 255, 0.86)";
+  context.font = canvasFont(38, 600);
+  context.fillText("พลังของคุณ", left, y);
+
+  y += 48;
+  context.font = canvasFont(31, 500);
+  let chipX = left;
+  let chipY = y;
+  for (const strength of result.strengths) {
+    const metrics = context.measureText(strength);
+    const chipWidth = metrics.width + 58;
+
+    if (chipX + chipWidth > width - left) {
+      chipX = left;
+      chipY += 68;
+    }
+
+    context.fillStyle = "rgba(255, 255, 255, 0.16)";
+    roundRect(context, chipX, chipY - 34, chipWidth, 52, 26);
+    context.fill();
+    context.fillStyle = "rgba(255, 255, 255, 0.84)";
+    context.fillText(strength, chipX + 29, chipY);
+    chipX += chipWidth + 18;
+  }
+
+  y = chipY + 96;
+  context.fillStyle = "rgba(255, 255, 255, 0.86)";
+  context.font = canvasFont(38, 600);
+  context.fillText("ในวันที่คุณเหนื่อย", left, y);
+
+  y += 58;
+  context.fillStyle = "rgba(255, 255, 255, 0.82)";
+  context.font = canvasFont(38, 400);
+  drawWrappedText(context, result.tiredMessage, left, y, 830, 58, 3);
+
+  context.fillStyle = "rgba(255, 255, 255, 0.72)";
+  context.font = canvasFont(30, 500);
+  context.fillText("โลกข้างใน", left, height - 232);
+  context.fillStyle = "rgba(255, 255, 255, 0.52)";
+  context.font = canvasFont(25, 400);
+  context.fillText("ประสบการณ์สะท้อนใจ ไม่ใช่การประเมินทางจิตวิทยา", left, height - 184);
+
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((blob) => {
+      if (!blob) {
+        reject(new Error("Could not create result image."));
+        return;
+      }
+
+      resolve(blob);
+    }, "image/png");
+  });
+}
+
+function loadCanvasImage(src: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = () => reject(new Error(`Could not load image: ${src}`));
+    image.src = src;
+  });
+}
+
+function drawWrappedText(
+  context: CanvasRenderingContext2D,
+  text: string,
+  x: number,
+  y: number,
+  maxWidth: number,
+  lineHeight: number,
+  maxLines = Number.POSITIVE_INFINITY
+) {
+  const words = text.split(" ");
+  const lines: string[] = [];
+  let line = "";
+
+  for (const word of words) {
+    const testLine = line ? `${line} ${word}` : word;
+
+    if (context.measureText(testLine).width <= maxWidth) {
+      line = testLine;
+      continue;
+    }
+
+    if (line) {
+      lines.push(line);
+    }
+    line = word;
+  }
+
+  if (line) {
+    lines.push(line);
+  }
+
+  const visibleLines = lines.slice(0, maxLines);
+  visibleLines.forEach((visibleLine, index) => {
+    context.fillText(visibleLine, x, y + index * lineHeight);
+  });
+
+  return y + visibleLines.length * lineHeight;
+}
+
+function roundRect(context: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, radius: number) {
+  context.beginPath();
+  context.moveTo(x + radius, y);
+  context.lineTo(x + width - radius, y);
+  context.quadraticCurveTo(x + width, y, x + width, y + radius);
+  context.lineTo(x + width, y + height - radius);
+  context.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+  context.lineTo(x + radius, y + height);
+  context.quadraticCurveTo(x, y + height, x, y + height - radius);
+  context.lineTo(x, y + radius);
+  context.quadraticCurveTo(x, y, x + radius, y);
+  context.closePath();
+}
+
+function canvasFont(size: number, weight: number) {
+  return `${weight} ${size}px "Noto Sans Thai", "Leelawadee UI", "Segoe UI", sans-serif`;
+}
+
+function downloadBlob(blob: Blob, fileName: string) {
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = fileName;
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+  window.setTimeout(() => URL.revokeObjectURL(url), 500);
+}
