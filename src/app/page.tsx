@@ -179,6 +179,17 @@ export default function Home() {
       const fileName = `lok-khang-nai-${result.id}.png`;
       const file = new File([blob], fileName, { type: "image/png" });
 
+      if (isInAppBrowser()) {
+        showDownloadFallback(blob, fileName);
+        trackJourneyEvent("result_download_fallback_shown", {
+          reason: "in_app_browser",
+          resultId: result.id,
+          resultName: result.worldName
+        });
+        markResultSaved();
+        return;
+      }
+
       if (shouldUseNativeFileShare(file)) {
         try {
           await navigator.share({
@@ -853,10 +864,12 @@ function shouldUseNativeFileShare(file: File) {
 function shouldShowLongPressFallback() {
   const hasTouch = navigator.maxTouchPoints > 0;
   const hasCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
-  const userAgent = navigator.userAgent.toLowerCase();
-  const isInAppBrowser = /instagram|line|fban|fbav|fb_iab|messenger|twitter|tiktok|wv/.test(userAgent);
 
-  return hasTouch || hasCoarsePointer || isInAppBrowser;
+  return hasTouch || hasCoarsePointer || isInAppBrowser();
+}
+
+function isInAppBrowser() {
+  return /instagram|line|fban|fbav|fb_iab|messenger|twitter|tiktok|wv/.test(navigator.userAgent.toLowerCase());
 }
 
 function revokeDownloadFallback(urlRef: MutableRefObject<string | null>) {
