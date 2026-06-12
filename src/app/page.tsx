@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
+import { track } from "@vercel/analytics";
 import { ArrowRight, Download, RefreshCcw, Volume2, VolumeX } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { interludes, questions } from "@/data/quiz";
@@ -97,6 +98,7 @@ export default function Home() {
     await startAmbientAudio();
     setIsMuted(false);
     fadeAmbientVolume(audioRef.current, ambientVolume, 1800);
+    trackJourneyEvent("journey_started");
     setPhase("interlude");
   }
 
@@ -107,12 +109,22 @@ export default function Home() {
 
     setIsAdvancing(true);
     const nextAnswers = [...answers.slice(0, step), choice];
+    trackJourneyEvent("question_answered", {
+      choiceId: choice.id,
+      questionId: currentQuestion.id,
+      questionStep: step + 1
+    });
     setAnswers(nextAnswers);
     setPhase("interlude");
   }
 
   function continueJourney() {
     if (answers.length >= totalQuestions) {
+      const completedResult = getNatureResult(scoreChoices(answers));
+      trackJourneyEvent("journey_completed", {
+        resultId: completedResult.id,
+        resultName: completedResult.worldName
+      });
       setPhase("result");
       return;
     }
@@ -123,6 +135,10 @@ export default function Home() {
   }
 
   function restart() {
+    trackJourneyEvent("journey_restarted", {
+      fromPhase: phase,
+      answeredCount: answers.length
+    });
     setAnswers([]);
     setStep(0);
     setIsAdvancing(false);
@@ -152,6 +168,10 @@ export default function Home() {
     try {
       const blob = await createResultImage(result);
       downloadBlob(blob, `lok-khang-nai-${result.id}.png`);
+      trackJourneyEvent("result_downloaded", {
+        resultId: result.id,
+        resultName: result.worldName
+      });
       setSaveStatus("downloaded");
       downloadResetTimerRef.current = window.setTimeout(() => {
         setSaveStatus("idle");
@@ -442,6 +462,14 @@ function clearDownloadResetTimer(timerRef: MutableRefObject<number | null>) {
 
   window.clearTimeout(timerRef.current);
   timerRef.current = null;
+}
+
+function trackJourneyEvent(name: string, properties?: Record<string, string | number | boolean>) {
+  try {
+    track(name, properties);
+  } catch {
+    // Analytics should never block the reflective journey.
+  }
 }
 
 function fadeAmbientVolume(ambient: AmbientAudio | null, targetVolume: number, duration: number) {
