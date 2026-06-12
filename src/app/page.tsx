@@ -35,6 +35,11 @@ type DownloadFallback = {
   fileName: string;
 };
 
+type ResultImage = {
+  blob: Blob;
+  dataUrl: string;
+};
+
 const ambientVolume = 0.38;
 
 export default function Home() {
@@ -48,7 +53,6 @@ export default function Home() {
   const [downloadFallback, setDownloadFallback] = useState<DownloadFallback | null>(null);
   const audioRef = useRef<AmbientAudio | null>(null);
   const downloadResetTimerRef = useRef<number | null>(null);
-  const downloadFallbackUrlRef = useRef<string | null>(null);
   const introHeadingRef = useRef<HTMLHeadingElement | null>(null);
   const interludeHeadingRef = useRef<HTMLHeadingElement | null>(null);
   const questionHeadingRef = useRef<HTMLHeadingElement | null>(null);
@@ -80,7 +84,6 @@ export default function Home() {
   useEffect(() => {
     return () => {
       clearDownloadResetTimer(downloadResetTimerRef);
-      revokeDownloadFallback(downloadFallbackUrlRef);
       stopAmbientAudio(audioRef.current);
     };
   }, []);
@@ -175,12 +178,12 @@ export default function Home() {
     setSaveStatus("idle");
 
     try {
-      const blob = await createResultImage(result);
+      const resultImage = await createResultImage(result);
       const fileName = `lok-khang-nai-${result.id}.png`;
-      const file = new File([blob], fileName, { type: "image/png" });
+      const file = new File([resultImage.blob], fileName, { type: "image/png" });
 
       if (isInAppBrowser()) {
-        showDownloadFallback(blob, fileName);
+        showDownloadFallback(resultImage, fileName);
         trackJourneyEvent("result_download_fallback_shown", {
           reason: "in_app_browser",
           resultId: result.id,
@@ -211,10 +214,10 @@ export default function Home() {
         }
       }
 
-      downloadBlob(blob, fileName);
+      downloadBlob(resultImage.blob, fileName);
 
       if (shouldShowLongPressFallback()) {
-        showDownloadFallback(blob, fileName);
+        showDownloadFallback(resultImage, fileName);
         trackJourneyEvent("result_download_fallback_shown", {
           resultId: result.id,
           resultName: result.worldName
@@ -240,15 +243,11 @@ export default function Home() {
     }, 2600);
   }
 
-  function showDownloadFallback(blob: Blob, fileName: string) {
-    revokeDownloadFallback(downloadFallbackUrlRef);
-    const url = URL.createObjectURL(blob);
-    downloadFallbackUrlRef.current = url;
-    setDownloadFallback({ fileName, url });
+  function showDownloadFallback(resultImage: ResultImage, fileName: string) {
+    setDownloadFallback({ fileName, url: resultImage.dataUrl });
   }
 
   function closeDownloadFallback() {
-    revokeDownloadFallback(downloadFallbackUrlRef);
     setDownloadFallback(null);
   }
 
@@ -283,7 +282,7 @@ export default function Home() {
             <img
               src={downloadFallback.url}
               alt="รูปผลลัพธ์โลกข้างในสำหรับบันทึก"
-              className="mt-4 max-h-[52svh] w-full rounded-md bg-ink/5 object-contain"
+              className="pointer-events-auto mt-4 max-h-[52svh] w-full select-auto rounded-md bg-ink/5 object-contain"
             />
             <div className="mt-4 grid grid-cols-2 gap-2">
               <button
@@ -652,7 +651,7 @@ function NatureBackdrop({ imageUrl }: { imageUrl: string }) {
   );
 }
 
-async function createResultImage(result: NatureResult): Promise<Blob> {
+async function createResultImage(result: NatureResult): Promise<ResultImage> {
   const width = 1080;
   const height = 1920;
   const canvas = document.createElement("canvas");
@@ -776,6 +775,8 @@ async function createResultImage(result: NatureResult): Promise<Blob> {
   context.font = canvasFont(25, 400);
   context.fillText("ประสบการณ์สะท้อนใจ ไม่ใช่การประเมินทางจิตวิทยา", left, height - 184);
 
+  const dataUrl = canvas.toDataURL("image/png");
+
   return new Promise((resolve, reject) => {
     canvas.toBlob((blob) => {
       if (!blob) {
@@ -783,7 +784,7 @@ async function createResultImage(result: NatureResult): Promise<Blob> {
         return;
       }
 
-      resolve(blob);
+      resolve({ blob, dataUrl });
     }, "image/png");
   });
 }
@@ -870,15 +871,6 @@ function shouldShowLongPressFallback() {
 
 function isInAppBrowser() {
   return /instagram|line|fban|fbav|fb_iab|messenger|twitter|tiktok|wv/.test(navigator.userAgent.toLowerCase());
-}
-
-function revokeDownloadFallback(urlRef: MutableRefObject<string | null>) {
-  if (!urlRef.current) {
-    return;
-  }
-
-  URL.revokeObjectURL(urlRef.current);
-  urlRef.current = null;
 }
 
 function downloadBlob(blob: Blob, fileName: string) {
