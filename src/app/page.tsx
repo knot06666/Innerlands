@@ -30,6 +30,11 @@ type AmbientAudio = {
   fadeFrame: number | null;
 };
 
+type DownloadFallback = {
+  url: string;
+  fileName: string;
+};
+
 const ambientVolume = 0.38;
 
 export default function Home() {
@@ -40,8 +45,10 @@ export default function Home() {
   const [isAdvancing, setIsAdvancing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "downloaded">("idle");
+  const [downloadFallback, setDownloadFallback] = useState<DownloadFallback | null>(null);
   const audioRef = useRef<AmbientAudio | null>(null);
   const downloadResetTimerRef = useRef<number | null>(null);
+  const downloadFallbackUrlRef = useRef<string | null>(null);
   const introHeadingRef = useRef<HTMLHeadingElement | null>(null);
   const interludeHeadingRef = useRef<HTMLHeadingElement | null>(null);
   const questionHeadingRef = useRef<HTMLHeadingElement | null>(null);
@@ -73,6 +80,7 @@ export default function Home() {
   useEffect(() => {
     return () => {
       clearDownloadResetTimer(downloadResetTimerRef);
+      revokeDownloadFallback(downloadFallbackUrlRef);
       stopAmbientAudio(audioRef.current);
     };
   }, []);
@@ -143,6 +151,7 @@ export default function Home() {
     setStep(0);
     setIsAdvancing(false);
     clearDownloadResetTimer(downloadResetTimerRef);
+    closeDownloadFallback();
     setSaveStatus("idle");
     setIsMuted(true);
     fadeAmbientVolume(audioRef.current, 0, 900);
@@ -167,19 +176,69 @@ export default function Home() {
 
     try {
       const blob = await createResultImage(result);
-      downloadBlob(blob, `lok-khang-nai-${result.id}.png`);
+      const fileName = `lok-khang-nai-${result.id}.png`;
+      const file = new File([blob], fileName, { type: "image/png" });
+
+      if (shouldUseNativeFileShare(file)) {
+        try {
+          await navigator.share({
+            files: [file],
+            text: `โลกข้างในของฉันคือ ${result.worldName}`,
+            title: "โลกข้างใน"
+          });
+          trackJourneyEvent("result_downloaded", {
+            method: "native_share",
+            resultId: result.id,
+            resultName: result.worldName
+          });
+          markResultSaved();
+          return;
+        } catch (error) {
+          if (error instanceof DOMException && error.name === "AbortError") {
+            return;
+          }
+        }
+      }
+
+      downloadBlob(blob, fileName);
+
+      if (shouldShowLongPressFallback()) {
+        showDownloadFallback(blob, fileName);
+        trackJourneyEvent("result_download_fallback_shown", {
+          resultId: result.id,
+          resultName: result.worldName
+        });
+      }
+
       trackJourneyEvent("result_downloaded", {
+        method: shouldShowLongPressFallback() ? "browser_download_with_fallback" : "browser_download",
         resultId: result.id,
         resultName: result.worldName
       });
-      setSaveStatus("downloaded");
-      downloadResetTimerRef.current = window.setTimeout(() => {
-        setSaveStatus("idle");
-        downloadResetTimerRef.current = null;
-      }, 2600);
+      markResultSaved();
     } finally {
       setIsSaving(false);
     }
+  }
+
+  function markResultSaved() {
+    setSaveStatus("downloaded");
+    downloadResetTimerRef.current = window.setTimeout(() => {
+      setSaveStatus("idle");
+      downloadResetTimerRef.current = null;
+    }, 2600);
+  }
+
+  function showDownloadFallback(blob: Blob, fileName: string) {
+    revokeDownloadFallback(downloadFallbackUrlRef);
+    const url = URL.createObjectURL(blob);
+    downloadFallbackUrlRef.current = url;
+    setDownloadFallback({ fileName, url });
+  }
+
+  function closeDownloadFallback() {
+    revokeDownloadFallback(downloadFallbackUrlRef);
+    setDownloadFallback(null);
   }
 
   return (
@@ -195,6 +254,44 @@ export default function Home() {
         >
           {isMuted ? <VolumeX className="h-5 w-5" aria-hidden="true" /> : <Volume2 className="h-5 w-5" aria-hidden="true" />}
         </button>
+      ) : null}
+
+      {downloadFallback ? (
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-ink/72 px-4 py-4 backdrop-blur-sm sm:items-center">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="บันทึกรูปผลลัพธ์"
+            className="w-full max-w-sm rounded-lg border border-white/25 bg-white p-4 text-ink shadow-mist"
+          >
+            <h2 className="font-display-thai text-lg font-semibold">บันทึกรูปผลลัพธ์</h2>
+            <p className="font-poem-thai mt-2 text-sm leading-6 text-ink/70">
+              ถ้าเบราว์เซอร์ในแอปไม่ดาวน์โหลดรูป ให้แตะค้างที่รูป แล้วเลือกบันทึกรูปภาพ
+            </p>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={downloadFallback.url}
+              alt="รูปผลลัพธ์โลกข้างในสำหรับบันทึก"
+              className="mt-4 max-h-[52svh] w-full rounded-md bg-ink/5 object-contain"
+            />
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={closeDownloadFallback}
+                className="inline-flex min-h-11 items-center justify-center rounded-lg border border-ink/15 px-4 text-sm font-medium text-ink transition hover:bg-ink/5 focus:outline-none focus:ring-2 focus:ring-ink/30"
+              >
+                ปิด
+              </button>
+              <a
+                href={downloadFallback.url}
+                download={downloadFallback.fileName}
+                className="inline-flex min-h-11 items-center justify-center rounded-lg bg-ink px-4 text-sm font-medium text-white transition hover:bg-ink/90 focus:outline-none focus:ring-2 focus:ring-ink/30"
+              >
+                ลองดาวน์โหลดอีกครั้ง
+              </a>
+            </div>
+          </div>
+        </div>
       ) : null}
 
       <AnimatePresence mode="wait">
@@ -744,6 +841,31 @@ function roundRect(context: CanvasRenderingContext2D, x: number, y: number, widt
 
 function canvasFont(size: number, weight: number) {
   return `${weight} ${size}px "Noto Sans Thai", "Leelawadee UI", "Segoe UI", sans-serif`;
+}
+
+function shouldUseNativeFileShare(file: File) {
+  const hasTouch = navigator.maxTouchPoints > 0;
+  const hasCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
+
+  return hasTouch && hasCoarsePointer && Boolean(navigator.canShare?.({ files: [file] })) && Boolean(navigator.share);
+}
+
+function shouldShowLongPressFallback() {
+  const hasTouch = navigator.maxTouchPoints > 0;
+  const hasCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
+  const userAgent = navigator.userAgent.toLowerCase();
+  const isInAppBrowser = /instagram|line|fban|fbav|fb_iab|messenger|twitter|tiktok|wv/.test(userAgent);
+
+  return hasTouch || hasCoarsePointer || isInAppBrowser;
+}
+
+function revokeDownloadFallback(urlRef: MutableRefObject<string | null>) {
+  if (!urlRef.current) {
+    return;
+  }
+
+  URL.revokeObjectURL(urlRef.current);
+  urlRef.current = null;
 }
 
 function downloadBlob(blob: Blob, fileName: string) {
