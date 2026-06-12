@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { track } from "@vercel/analytics";
 import { ArrowRight, Download, RefreshCcw, Volume2, VolumeX } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { interludes, questions } from "@/data/quiz";
+import { interludes, questions, results } from "@/data/quiz";
 import { getNatureResult, scoreChoices } from "@/lib/personality";
 import type { AnswerChoice, NatureResult } from "@/types/quiz";
 import type { MutableRefObject, RefObject } from "react";
@@ -82,6 +82,8 @@ export default function Home() {
   const activeImage = phase === "interlude" ? interludeImage ?? questions[0].imageUrl : result?.imageUrl ?? currentQuestion?.imageUrl ?? questions[0].imageUrl;
 
   useEffect(() => {
+    preloadImages(getNatureImageUrls());
+
     return () => {
       clearDownloadResetTimer(downloadResetTimerRef);
       stopAmbientAudio(audioRef.current);
@@ -183,9 +185,9 @@ export default function Home() {
       const file = new File([resultImage.blob], fileName, { type: "image/png" });
 
       if (isInAppBrowser()) {
-        showDownloadFallback(resultImage, fileName);
+        window.location.href = getHostedResultImageUrl(result.id);
         trackJourneyEvent("result_download_fallback_shown", {
-          reason: "in_app_browser",
+          reason: "hosted_image",
           resultId: result.id,
           resultName: result.worldName
         });
@@ -633,14 +635,17 @@ function stopAmbientAudio(ambient: AmbientAudio | null) {
 function NatureBackdrop({ imageUrl }: { imageUrl: string }) {
   return (
     <div className="pointer-events-none absolute inset-0">
-      <motion.div
-        key={imageUrl}
-        initial={{ opacity: 0, scale: 1.05 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.4, ease: "easeOut" }}
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${imageUrl})` }}
-      />
+      <AnimatePresence initial={false}>
+        <motion.div
+          key={imageUrl}
+          initial={{ opacity: 0, scale: 1.035 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 1.015 }}
+          transition={{ duration: 1.75, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute inset-0 bg-cover bg-center will-change-transform"
+          style={{ backgroundImage: `url(${imageUrl})` }}
+        />
+      </AnimatePresence>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(255,255,255,0.1),transparent_22rem),linear-gradient(180deg,rgba(9,20,25,0.24),rgba(9,20,25,0.44)_46%,rgba(9,20,25,0.66))]" />
       <motion.div
         className="absolute inset-x-[-20%] top-1/4 h-48 bg-white/10 blur-3xl"
@@ -860,6 +865,22 @@ function shouldUseNativeFileShare(file: File) {
   const hasCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
 
   return hasTouch && hasCoarsePointer && Boolean(navigator.canShare?.({ files: [file] })) && Boolean(navigator.share);
+}
+
+function getHostedResultImageUrl(resultId: NatureResult["id"]) {
+  return `/result-image/${resultId}`;
+}
+
+function getNatureImageUrls() {
+  return Array.from(new Set([...questions.map((question) => question.imageUrl), ...Object.values(results).map((result) => result.imageUrl)]));
+}
+
+function preloadImages(urls: string[]) {
+  urls.forEach((url) => {
+    const image = new Image();
+    image.decoding = "async";
+    image.src = url;
+  });
 }
 
 function shouldShowLongPressFallback() {
