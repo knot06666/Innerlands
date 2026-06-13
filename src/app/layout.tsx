@@ -4,7 +4,7 @@ import "./globals.css";
 
 const title = "โลกข้างใน";
 const description = "เว็บเดินทางผ่านธรรมชาติของใจ เพื่อค้นพบว่าโลกข้างในของคุณคล้ายภูมิประเทศแบบไหน";
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://innerlands.vercel.app";
 const previewImage = "/og";
 
 export const metadata: Metadata = {
