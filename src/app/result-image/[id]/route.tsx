@@ -9,6 +9,13 @@ const imageSize = {
   height: 1920
 };
 
+const svgWorldColors: Partial<Record<NatureWorldId, string>> = {
+  "frozen-lake":    "linear-gradient(180deg, #0e1e2c, #1a3a58)",
+  "twilight-valley":"linear-gradient(180deg, #160e28, #3a2060)",
+  "volcanic-island":"linear-gradient(180deg, #1a0808, #4a1408)",
+  "deep-cave":      "linear-gradient(180deg, #060a0e, #0c1a28)",
+};
+
 const fontWeights = [400, 500, 600, 700] as const;
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
@@ -17,7 +24,8 @@ export async function GET(request: Request, { params }: { params: { id: string }
   }
 
   const result = results[params.id];
-  const backgroundUrl = new URL(result.imageUrl, request.url).toString();
+  const isSvg = result.imageUrl.endsWith(".svg");
+  const backgroundUrl = isSvg ? null : new URL(result.imageUrl, request.url).toString();
   const fonts = await Promise.all(
     fontWeights.map(async (weight) => ({
       data: await fetch(new URL(`/fonts/noto-sans-thai-${weight}.ttf`, request.url)).then((response) => response.arrayBuffer()),
@@ -32,7 +40,12 @@ export async function GET(request: Request, { params }: { params: { id: string }
       <div
         style={{
           alignItems: "center",
-          backgroundImage: `linear-gradient(180deg, rgba(11, 25, 31, 0.44), rgba(11, 25, 31, 0.72) 58%, rgba(11, 25, 31, 0.94)), url(${backgroundUrl})`,
+          background: isSvg
+            ? svgWorldColors[params.id as NatureWorldId] ?? "linear-gradient(180deg, #0b191f, #1a3040)"
+            : undefined,
+          backgroundImage: isSvg
+            ? undefined
+            : `linear-gradient(180deg, rgba(11, 25, 31, 0.44), rgba(11, 25, 31, 0.72) 58%, rgba(11, 25, 31, 0.94)), url(${backgroundUrl})`,
           backgroundPosition: "center",
           backgroundSize: "cover",
           color: "white",
