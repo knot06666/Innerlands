@@ -60,7 +60,6 @@ export const questions: JourneyQuestion[] = [
     scene: "ฉากที่หนึ่ง",
     title: "หากเช้านี้คุณตื่นขึ้นมาท่ามกลางธรรมชาติ",
     prompt: "พื้นที่แบบไหนที่ทำให้คุณรู้สึกว่า 'นี่แหละคือที่ของฉัน'",
-    imageUrl: "/nature/mist-forest.png",
     choices: [
       {
         id: "awakening-forest",
@@ -93,7 +92,6 @@ export const questions: JourneyQuestion[] = [
     scene: "ฉากที่สอง",
     title: "เสียงแบบไหนที่ทำให้คุณอยากก้าวเดินต่อ",
     prompt: "เลือกเสียงธรรมชาติที่ทำให้คุณรู้สึกปลอดภัยและสบายใจที่สุด",
-    imageUrl: "/nature/river-valley.png",
     choices: [
       {
         id: "sound-water",
@@ -111,7 +109,7 @@ export const questions: JourneyQuestion[] = [
         id: "sound-birds",
         text: "เสียงสรรพชีวิตที่เคลื่อนไหวในป่า",
         subtext: "คุณได้รับพลังงานดี ๆ เมื่ออยู่ท่ามกลางสิ่งที่มีชีวิตชีวา",
-        weights: { "tropical-rainforest": 3, "morning-meadow": 1 }
+        weights: { "tropical-rainforest": 3, "morning-meadow": 1, "rain-garden": 1, "river-valley": 1 }
       },
       {
         id: "sound-silence",
@@ -126,7 +124,6 @@ export const questions: JourneyQuestion[] = [
     scene: "ฉากที่สาม",
     title: "เมื่อเผชิญหน้ากับทางแยก",
     prompt: "ในวันที่ยังไม่แน่ใจทิศทาง คุณมักจะเลือกเดินหน้าต่อแบบไหน",
-    imageUrl: "/nature/mountain-wind.png",
     choices: [
       {
         id: "crossroad-light",
@@ -159,7 +156,6 @@ export const questions: JourneyQuestion[] = [
     scene: "ฉากที่สี่",
     title: "หากต้องเลือกสถานที่พักใจสักหนึ่งคืน",
     prompt: "ที่พักแบบไหนที่ทำให้คุณวางใจและทิ้งตัวนอนได้อย่างปลอดภัยที่สุด",
-    imageUrl: "/nature/rain-garden.png",
     choices: [
       {
         id: "shelter-cabin",
@@ -192,7 +188,6 @@ export const questions: JourneyQuestion[] = [
     scene: "ฉากสุดท้าย",
     title: "ในวันที่ร่างกายและหัวใจเหนื่อยล้า",
     prompt: "คุณอยากให้ธรรมชาติโอบกอดและปลอบโยนคุณด้วยสิ่งใด",
-    imageUrl: "/nature/desert-stars.png",
     choices: [
       {
         id: "tired-mist",
@@ -245,7 +240,7 @@ export const results: Record<NatureWorldId, NatureResult> = {
     imageUrl: "/nature/morning-meadow.png",
     poster: {
       quote: "คุณคือเช้าวันใหม่ที่กลับมาอย่างนุ่มนวล",
-      summary: "คุณมักเลือกหนทางที่มองหาประกายความหวัง แงแดดอุ่น และการเริ่มต้นใหม่ด้วยใจที่เบาสบาย",
+      summary: "คุณมักเลือกหนทางที่มองหาประกายความหวัง แสงแดดอุ่น และการเริ่มต้นใหม่ด้วยใจที่เบาสบาย",
       tiredMessage: "พักนิ่ง ๆ เสียหน่อยก็ได้ ไม่ต้องรีบเป็นแสงสว่างให้ใครตลอดเวลา"
     },
     quote: "คุณคือเช้าวันใหม่ที่หวนคืนอย่างนุ่มนวล ไม่ว่าคืนก่อนจะมืดมิดและยาวนานเพียงใด",
@@ -384,7 +379,7 @@ export const results: Record<NatureWorldId, NatureResult> = {
       tiredMessage: "หรี่ไฟในใจลงมาเป็นไออุ่นชั่วคราวเถอะนะ คุณไม่จำเป็นต้องปะทุพลังตลอดเวลา"
     },
     quote: "ไฟในตัวคุณไม่ได้มีไว้เผาทำลาย แต่มันคือพลังงานที่เตรียมสร้างผืนดินผืนใหม่",
-    strengths: ["มีความเป็นผู้นำและเด็ดขาด", "ซื่อตรงและรักความยุติธรรม", "สร้างแรงบันาลใจให้ผู้อื่นได้ดี"],
+    strengths: ["มีความเป็นผู้นำและเด็ดขาด", "ซื่อตรงและรักความยุติธรรม", "สร้างแรงบันดาลใจให้ผู้อื่นได้ดี"],
     hiddenFeelings: "คุณมักจะแบกรับความโกรธและความอัดอั้นไว้ข้างในเพียงลำพัง เพราะกลัวว่าถ้าควบคุมมันไม่ได้ พลังไฟของคุณจะเผลอไปทำร้ายคนรอบข้าง",
     tiredMessage: "ปล่อยให้ลาวาในใจได้พักผ่อนและตกตะกอนกลายเป็นผืนดินที่อุดมสมบูรณ์เถอะ วันนี้วางความรับผิดชอบลงก่อน แล้วให้ธรรมชาติช่วยโอบรับความร้อนใจของคุณเอง"
   },

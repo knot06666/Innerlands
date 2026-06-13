@@ -1090,10 +1090,6 @@ function getHostedResultImageUrl(resultId: NatureResult["id"]) {
   return `/result-image/${resultId}`;
 }
 
-function getNatureImageUrls() {
-  return Array.from(new Set([...questions.map((question) => question.imageUrl), ...Object.values(results).map((result) => result.imageUrl)]));
-}
-
 function preloadImages(urls: string[]) {
   urls.forEach((url) => {
     const image = new Image();

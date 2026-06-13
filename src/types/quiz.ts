@@ -26,7 +26,6 @@ export type JourneyQuestion = {
   scene: string;
   title: string;
   prompt: string;
-  imageUrl: string;
   choices: AnswerChoice[];
 };
 
