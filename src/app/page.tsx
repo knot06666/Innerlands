@@ -117,22 +117,22 @@ export default function Home() {
 
   const result = phase === "result" ? completedResult : null;
 
-  // Shuffled once on the client after mount — avoids SSR/client mismatch.
-  const [sessionImages, setSessionImages] = useState<string[]>(() => JOURNEY_POOL);
+  // Empty until shuffled client-side — avoids SSR mismatch and "always first image" on load.
+  const [sessionImages, setSessionImages] = useState<string[]>([]);
 
   const interludeImage =
     answers.length >= totalQuestions
       ? completedResult?.imageUrl
-      : sessionImages[answers.length + 1] ?? sessionImages[0];
+      : sessionImages.at(answers.length + 1) ?? sessionImages.at(0) ?? "";
 
   const activeImage =
     phase === "interlude"
-      ? interludeImage ?? sessionImages[0]
+      ? interludeImage || sessionImages.at(0) || ""
       : phase === "question"
-      ? sessionImages[step + 1] ?? sessionImages[0]
+      ? sessionImages.at(step + 1) ?? sessionImages.at(0) ?? ""
       : phase === "result"
-      ? result?.imageUrl ?? sessionImages[0]
-      : sessionImages[0];
+      ? result?.imageUrl ?? sessionImages.at(0) ?? ""
+      : sessionImages.at(0) ?? "";
 
   useEffect(() => {
     const shuffled = [...JOURNEY_POOL];
@@ -164,9 +164,10 @@ export default function Home() {
 
   function beginJourney() {
     const audio = ensureAudio();
-    void audio.play().catch(() => undefined);
-    setIsMuted(false);
-    fadeAmbientVolume(audioRef.current, ambientVolume, 1800);
+    void audio.play().then(() => {
+      setIsMuted(false);
+      fadeAmbientVolume(audioRef.current, ambientVolume, 1800);
+    }).catch(() => undefined);
     trackJourneyEvent("journey_started");
     setPhase("interlude");
   }
@@ -223,13 +224,16 @@ export default function Home() {
   }
 
   function toggleSound() {
-    const nextMuted = !isMuted;
     const audio = ensureAudio();
-    if (!nextMuted) {
-      void audio.play().catch(() => undefined);
+    if (isMuted) {
+      void audio.play().then(() => {
+        setIsMuted(false);
+        fadeAmbientVolume(audioRef.current, ambientVolume, 1400);
+      }).catch(() => undefined);
+    } else {
+      setIsMuted(true);
+      fadeAmbientVolume(audioRef.current, 0, 900);
     }
-    setIsMuted(nextMuted);
-    fadeAmbientVolume(audioRef.current, nextMuted ? 0 : ambientVolume, nextMuted ? 900 : 1400);
   }
 
   async function saveResultImage() {
@@ -379,10 +383,14 @@ export default function Home() {
         // user dismissed share dialog
       }
     } else {
-      await navigator.clipboard.writeText(url);
-      setShareStatus("copied");
-      clearDownloadResetTimer(shareResetTimerRef);
-      shareResetTimerRef.current = window.setTimeout(() => setShareStatus("idle"), 2500);
+      try {
+        await navigator.clipboard.writeText(url);
+        setShareStatus("copied");
+        clearDownloadResetTimer(shareResetTimerRef);
+        shareResetTimerRef.current = window.setTimeout(() => setShareStatus("idle"), 2500);
+      } catch {
+        // clipboard not available
+      }
     }
   }
 

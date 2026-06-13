@@ -1,16 +1,13 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import type { NatureResult } from "@/types/quiz";
 
 export default function ResultShareView({ result }: { result: NatureResult }) {
   const [copied, setCopied] = useState(false);
   const copyTimerRef = useRef<number | null>(null);
-
-  async function handleTakeQuiz() {
-    window.location.href = "/";
-  }
 
   async function handleShare() {
     const url = window.location.href;
@@ -21,10 +18,14 @@ export default function ResultShareView({ result }: { result: NatureResult }) {
         // user dismissed
       }
     } else {
-      await navigator.clipboard.writeText(url);
-      setCopied(true);
-      if (copyTimerRef.current !== null) window.clearTimeout(copyTimerRef.current);
-      copyTimerRef.current = window.setTimeout(() => setCopied(false), 2500);
+      try {
+        await navigator.clipboard.writeText(url);
+        setCopied(true);
+        if (copyTimerRef.current !== null) window.clearTimeout(copyTimerRef.current);
+        copyTimerRef.current = window.setTimeout(() => setCopied(false), 2500);
+      } catch {
+        // clipboard not available
+      }
     }
   }
 
@@ -94,14 +95,13 @@ export default function ResultShareView({ result }: { result: NatureResult }) {
           {/* CTA */}
           <div className="mt-5 text-center">
             <p className="font-poem-thai mb-4 text-sm font-medium text-white/72">คุณเป็นโลกธรรมชาติแบบไหน?</p>
-            <button
-              type="button"
-              onClick={handleTakeQuiz}
+            <Link
+              href="/"
               className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-white px-6 text-sm font-semibold text-ink shadow-mist transition hover:bg-mistBlue focus:outline-none focus:ring-2 focus:ring-white/70"
             >
               ลองทำแบบทดสอบ
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </button>
+            </Link>
           </div>
 
           {/* Details accordion */}
