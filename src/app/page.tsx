@@ -87,11 +87,30 @@ export default function Home() {
 
   const result = phase === "result" ? completedResult : null;
 
+  // Shuffle all 12 nature images once per session so intro + each question gets a unique image.
+  const sessionImages = useMemo(() => {
+    const urls = Object.values(results).map(r => r.imageUrl);
+    const shuffled = [...urls];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled; // [0] = intro, [1..totalQuestions] = questions
+  }, []);
+
   const interludeImage =
     answers.length >= totalQuestions
       ? completedResult?.imageUrl
-      : questions[Math.min(answers.length, totalQuestions - 1)]?.imageUrl;
-  const activeImage = phase === "interlude" ? interludeImage ?? questions[0].imageUrl : result?.imageUrl ?? currentQuestion?.imageUrl ?? questions[0].imageUrl;
+      : sessionImages[answers.length + 1] ?? sessionImages[0];
+
+  const activeImage =
+    phase === "interlude"
+      ? interludeImage ?? sessionImages[0]
+      : phase === "question"
+      ? sessionImages[step + 1] ?? sessionImages[0]
+      : phase === "result"
+      ? result?.imageUrl ?? sessionImages[0]
+      : sessionImages[0];
 
   useEffect(() => {
     preloadImages(getNatureImageUrls());
