@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" width="1400" height="900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7a2838"/>
+      <stop offset="55%" stop-color="#d06848"/>
+      <stop offset="100%" stop-color="#e8a870"/>
+    </linearGradient>
+  </defs>
+  <rect width="1400" height="900" fill="url(#bg)"/>
+  <!-- Sun glow rings -->
+  <circle cx="700" cy="560" r="240" fill="#f0c880" opacity="0.14"/>
+  <circle cx="700" cy="560" r="170" fill="#f0c060" opacity="0.18"/>
+  <circle cx="700" cy="560" r="110" fill="#f4d070" opacity="0.30"/>
+  <circle cx="700" cy="560" r="62" fill="#f8e080" opacity="0.70"/>
+  <!-- Horizon glow bands -->
+  <ellipse cx="700" cy="560" rx="1400" ry="72" fill="#e89050" opacity="0.22"/>
+  <ellipse cx="700" cy="520" rx="1200" ry="50" fill="#d87840" opacity="0.18"/>
+  <ellipse cx="700" cy="580" rx="1400" ry="55" fill="#e89858" opacity="0.16"/>
+  <!-- Ocean surface -->
+  <ellipse cx="700" cy="820" rx="1600" ry="360" fill="#5a2830" opacity="0.90"/>
+  <ellipse cx="700" cy="760" rx="1400" ry="200" fill="#6a3038" opacity="0.80"/>
+  <ellipse cx="700" cy="700" rx="1200" ry="120" fill="#783848" opacity="0.60"/>
+  <!-- Ocean shimmer -->
+  <ellipse cx="700" cy="640" rx="500" ry="18" fill="#f0c060" opacity="0.22"/>
+  <ellipse cx="600" cy="660" rx="300" ry="10" fill="#f0c060" opacity="0.16"/>
+  <ellipse cx="820" cy="655" rx="240" ry="9" fill="#f0c060" opacity="0.14"/>
+</svg>

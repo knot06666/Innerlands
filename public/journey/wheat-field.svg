@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" width="1400" height="900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3a2808"/>
+      <stop offset="45%" stop-color="#9a6020"/>
+      <stop offset="100%" stop-color="#c88030"/>
+    </linearGradient>
+  </defs>
+  <rect width="1400" height="900" fill="url(#bg)"/>
+  <!-- Sun glow -->
+  <circle cx="700" cy="300" r="220" fill="#f8e080" opacity="0.12"/>
+  <circle cx="700" cy="300" r="150" fill="#f8e060" opacity="0.16"/>
+  <circle cx="700" cy="300" r="90"  fill="#f8d840" opacity="0.28"/>
+  <circle cx="700" cy="300" r="52"  fill="#f8e060" opacity="0.55"/>
+  <!-- Horizon haze bands -->
+  <ellipse cx="700" cy="540" rx="1400" ry="60" fill="#d89040" opacity="0.22"/>
+  <ellipse cx="700" cy="500" rx="1300" ry="48" fill="#c87828" opacity="0.18"/>
+  <!-- Wheat field bands — layered waves -->
+  <ellipse cx="700" cy="680" rx="1600" ry="80" fill="#b06820" opacity="0.55"/>
+  <ellipse cx="300" cy="700" rx="1500" ry="70" fill="#c07828" opacity="0.60"/>
+  <ellipse cx="1000" cy="720" rx="1400" ry="65" fill="#b06820" opacity="0.58"/>
+  <ellipse cx="700" cy="750" rx="1600" ry="75" fill="#a85e18" opacity="0.65"/>
+  <ellipse cx="400" cy="780" rx="1400" ry="70" fill="#b86820" opacity="0.70"/>
+  <ellipse cx="900" cy="800" rx="1500" ry="72" fill="#a85e18" opacity="0.72"/>
+  <ellipse cx="700" cy="830" rx="1600" ry="78" fill="#985410" opacity="0.78"/>
+  <!-- Ground -->
+  <ellipse cx="700" cy="920" rx="1600" ry="260" fill="#6a3808" opacity="0.90"/>
+  <!-- Shimmer horizon line -->
+  <ellipse cx="700" cy="565" rx="800" ry="12" fill="#f0c840" opacity="0.20"/>
+  <ellipse cx="500" cy="575" rx="400" ry="8"  fill="#f0c840" opacity="0.16"/>
+  <ellipse cx="950" cy="572" rx="350" ry="7"  fill="#f0c840" opacity="0.14"/>
+</svg>

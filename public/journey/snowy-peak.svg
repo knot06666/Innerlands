@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" width="1400" height="900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a2a40"/>
+      <stop offset="60%" stop-color="#3a5878"/>
+      <stop offset="100%" stop-color="#6080a0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1400" height="900" fill="url(#bg)"/>
+  <!-- Cloud bands -->
+  <ellipse cx="700" cy="300" rx="1300" ry="50" fill="#8ab0d0" opacity="0.18"/>
+  <ellipse cx="400" cy="380" rx="900" ry="40" fill="#90b8d8" opacity="0.14"/>
+  <ellipse cx="1000" cy="260" rx="700" ry="35" fill="#88a8c8" opacity="0.16"/>
+  <!-- Far background peaks -->
+  <polygon points="200,900 550,200 900,900" fill="#3a5870" opacity="0.50"/>
+  <polygon points="700,900 1000,280 1300,900" fill="#406080" opacity="0.50"/>
+  <!-- Main center peak -->
+  <polygon points="0,900 700,80 1400,900" fill="#4a6888" opacity="0.80"/>
+  <!-- Snow cap -->
+  <polygon points="700,80 580,380 700,360 820,380" fill="#d8e8f0" opacity="0.90"/>
+  <polygon points="580,380 540,440 700,360 860,440 820,380 700,360" fill="#c8dce8" opacity="0.70"/>
+  <!-- Snow highlights -->
+  <ellipse cx="700" cy="280" rx="80" ry="40" fill="#eef4f8" opacity="0.50"/>
+  <ellipse cx="640" cy="360" rx="50" ry="20" fill="#e0edf5" opacity="0.40"/>
+  <ellipse cx="760" cy="355" rx="45" ry="18" fill="#e0edf5" opacity="0.38"/>
+  <!-- Depth atmosphere bands -->
+  <ellipse cx="700" cy="700" rx="1400" ry="80" fill="#4a6888" opacity="0.22"/>
+  <ellipse cx="700" cy="800" rx="1400" ry="70" fill="#3a5878" opacity="0.30"/>
+  <!-- Foreground snow plain -->
+  <ellipse cx="700" cy="920" rx="1600" ry="320" fill="#6090b8" opacity="0.60"/>
+  <ellipse cx="700" cy="960" rx="1600" ry="280" fill="#c8dce8" opacity="0.40"/>
+</svg>

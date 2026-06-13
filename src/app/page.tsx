@@ -40,9 +40,37 @@ const SCENE_PARTICLE_MAP: Record<string, { type: SceneParticleType; count: numbe
   "twilight-valley": { type: "stars", count: 10 },
   "volcanic-island": { type: "dust", count: 16 },
   "deep-cave": { type: "shimmer", count: 8 },
+  // journey pool
+  "sunrise-coast": { type: "shimmer", count: 12 },
+  "bamboo-grove": { type: "mist", count: 14 },
+  "autumn-forest": { type: "dust", count: 13 },
+  "snowy-peak": { type: "shimmer", count: 10 },
+  "meadow-dusk": { type: "stars", count: 18 },
+  "waterfall": { type: "mist", count: 16 },
+  "wheat-field": { type: "wind", count: 12 },
+  "still-lake": { type: "shimmer", count: 10 },
+  "ancient-forest": { type: "mist", count: 10 },
+  "highland-moor": { type: "wind", count: 9 },
+  "ocean-night": { type: "stars", count: 14 },
+  "lotus-pond": { type: "mist", count: 11 },
 };
 
 const JOURNEY_ICONS = [Leaf, Wind, Droplets, Mountain, Sparkles];
+
+const JOURNEY_POOL = [
+  "/journey/sunrise-coast.svg",
+  "/journey/bamboo-grove.svg",
+  "/journey/autumn-forest.svg",
+  "/journey/snowy-peak.svg",
+  "/journey/meadow-dusk.svg",
+  "/journey/waterfall.svg",
+  "/journey/wheat-field.svg",
+  "/journey/still-lake.svg",
+  "/journey/ancient-forest.svg",
+  "/journey/highland-moor.svg",
+  "/journey/ocean-night.svg",
+  "/journey/lotus-pond.svg",
+];
 
 type AmbientAudio = {
   element: HTMLAudioElement;
@@ -88,9 +116,7 @@ export default function Home() {
   const result = phase === "result" ? completedResult : null;
 
   // Shuffled once on the client after mount — avoids SSR/client mismatch.
-  const [sessionImages, setSessionImages] = useState<string[]>(() =>
-    Object.values(results).map(r => r.imageUrl)
-  );
+  const [sessionImages, setSessionImages] = useState<string[]>(() => JOURNEY_POOL);
 
   const interludeImage =
     answers.length >= totalQuestions
@@ -107,14 +133,14 @@ export default function Home() {
       : sessionImages[0];
 
   useEffect(() => {
-    const urls = Object.values(results).map(r => r.imageUrl);
-    const shuffled = [...urls];
+    const shuffled = [...JOURNEY_POOL];
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
     setSessionImages(shuffled);
     preloadImages(shuffled);
+    preloadImages(Object.values(results).map(r => r.imageUrl));
 
     return () => {
       clearDownloadResetTimer(downloadResetTimerRef);
@@ -423,7 +449,7 @@ export default function Home() {
             className="relative z-10 flex min-h-svh flex-col justify-end px-5 py-8 sm:justify-center"
           >
             <div className="mx-auto w-full max-w-lg pb-8 sm:pb-0">
-              <p className="font-kicker-thai text-sm font-medium leading-7 text-white/72">เว็บเดินทางสั้น ๆ ผ่านธรรมชาติของใจ</p>
+              <p className="font-kicker-thai text-sm font-medium leading-7 text-white/72">การเดินทางสั้น ๆ ผ่านธรรมชาติของใจ</p>
               <h1
                 ref={introHeadingRef}
                 tabIndex={-1}

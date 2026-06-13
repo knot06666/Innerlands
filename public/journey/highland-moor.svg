@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" width="1400" height="900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a3028"/>
+      <stop offset="55%" stop-color="#484840"/>
+      <stop offset="100%" stop-color="#606050"/>
+    </linearGradient>
+  </defs>
+  <rect width="1400" height="900" fill="url(#bg)"/>
+  <!-- Low clouds / overcast sky -->
+  <ellipse cx="700" cy="200" rx="1400" ry="90" fill="#808878" opacity="0.22"/>
+  <ellipse cx="300" cy="280" rx="900"  ry="65" fill="#788070" opacity="0.18"/>
+  <ellipse cx="1100" cy="240" rx="700" ry="55" fill="#808878" opacity="0.16"/>
+  <ellipse cx="700" cy="350" rx="1300" ry="60" fill="#707870" opacity="0.14"/>
+  <!-- Rolling hills — horizon layer -->
+  <ellipse cx="0"    cy="600" rx="550" ry="200" fill="#383c30" opacity="0.70"/>
+  <ellipse cx="500"  cy="580" rx="600" ry="190" fill="#404438" opacity="0.68"/>
+  <ellipse cx="1000" cy="595" rx="580" ry="200" fill="#383c30" opacity="0.70"/>
+  <ellipse cx="1400" cy="585" rx="520" ry="195" fill="#404438" opacity="0.68"/>
+  <!-- Rolling hills — mid layer -->
+  <ellipse cx="200"  cy="700" rx="600" ry="240" fill="#4c4e40" opacity="0.75"/>
+  <ellipse cx="750"  cy="690" rx="650" ry="230" fill="#545648" opacity="0.73"/>
+  <ellipse cx="1300" cy="705" rx="580" ry="240" fill="#4c4e40" opacity="0.75"/>
+  <!-- Rolling hills — foreground -->
+  <ellipse cx="0"    cy="820" rx="650" ry="300" fill="#383a30" opacity="0.85"/>
+  <ellipse cx="700"  cy="840" rx="700" ry="310" fill="#3c3e32" opacity="0.85"/>
+  <ellipse cx="1400" cy="820" rx="650" ry="300" fill="#383a30" opacity="0.85"/>
+  <!-- Ground dark base -->
+  <ellipse cx="700" cy="980" rx="1600" ry="300" fill="#28281e" opacity="0.95"/>
+  <!-- Heath texture — subtle dots -->
+  <ellipse cx="200"  cy="780" rx="30" ry="10" fill="#685848" opacity="0.25"/>
+  <ellipse cx="550"  cy="820" rx="28" ry="9"  fill="#705e50" opacity="0.22"/>
+  <ellipse cx="900"  cy="800" rx="32" ry="10" fill="#685848" opacity="0.25"/>
+  <ellipse cx="1200" cy="810" rx="26" ry="8"  fill="#705e50" opacity="0.22"/>
+  <ellipse cx="380"  cy="850" rx="20" ry="7"  fill="#685848" opacity="0.20"/>
+  <ellipse cx="1050" cy="845" rx="22" ry="8"  fill="#705e50" opacity="0.20"/>
+</svg>

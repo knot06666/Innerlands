@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" width="1400" height="900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#04080e"/>
+      <stop offset="55%" stop-color="#080f1c"/>
+      <stop offset="100%" stop-color="#0c1828"/>
+    </linearGradient>
+  </defs>
+  <rect width="1400" height="900" fill="url(#bg)"/>
+  <!-- Stars -->
+  <circle cx="80"   cy="60"  r="1.5" fill="#d0e0f0" opacity="0.70"/>
+  <circle cx="220"  cy="30"  r="2"   fill="#c8d8f0" opacity="0.65"/>
+  <circle cx="380"  cy="90"  r="1"   fill="#d8e8ff" opacity="0.60"/>
+  <circle cx="560"  cy="40"  r="2.5" fill="#d0e0f0" opacity="0.72"/>
+  <circle cx="720"  cy="70"  r="1.5" fill="#c8d8f0" opacity="0.68"/>
+  <circle cx="900"  cy="25"  r="2"   fill="#d8e8ff" opacity="0.65"/>
+  <circle cx="1080" cy="80"  r="1.5" fill="#d0e0f0" opacity="0.70"/>
+  <circle cx="1260" cy="45"  r="2"   fill="#c8d8f0" opacity="0.65"/>
+  <circle cx="1380" cy="100" r="1"   fill="#d8e8ff" opacity="0.58"/>
+  <circle cx="160"  cy="140" r="1.5" fill="#d0e0f0" opacity="0.55"/>
+  <circle cx="460"  cy="160" r="1"   fill="#c8d8f0" opacity="0.52"/>
+  <circle cx="820"  cy="130" r="2"   fill="#d8e8ff" opacity="0.60"/>
+  <circle cx="1160" cy="150" r="1.5" fill="#d0e0f0" opacity="0.55"/>
+  <!-- Moon -->
+  <circle cx="280" cy="190" r="55" fill="#d8e8f8" opacity="0.88"/>
+  <circle cx="280" cy="190" r="90" fill="#c0d4e8" opacity="0.08"/>
+  <!-- Moon reflection -->
+  <ellipse cx="280" cy="600" rx="40"  ry="300" fill="#d8e8f8" opacity="0.05"/>
+  <ellipse cx="280" cy="640" rx="24"  ry="200" fill="#d8e8f8" opacity="0.08"/>
+  <!-- Ocean waves — deep layers -->
+  <ellipse cx="700" cy="620" rx="1600" ry="80"  fill="#0a1828" opacity="0.70"/>
+  <ellipse cx="400" cy="660" rx="1400" ry="70"  fill="#0c2030" opacity="0.68"/>
+  <ellipse cx="900" cy="690" rx="1500" ry="75"  fill="#0a1828" opacity="0.72"/>
+  <ellipse cx="700" cy="730" rx="1600" ry="80"  fill="#08182a" opacity="0.78"/>
+  <ellipse cx="300" cy="770" rx="1400" ry="75"  fill="#0c2030" opacity="0.75"/>
+  <ellipse cx="1000" cy="800" rx="1500" ry="80" fill="#0a1828" opacity="0.80"/>
+  <ellipse cx="700" cy="840" rx="1600" ry="85"  fill="#081828" opacity="0.85"/>
+  <!-- Wave crests (bright lines) -->
+  <ellipse cx="700" cy="618" rx="900" ry="6"   fill="#3060a0" opacity="0.20"/>
+  <ellipse cx="500" cy="658" rx="700" ry="5"   fill="#2858a0" opacity="0.18"/>
+  <ellipse cx="950" cy="688" rx="800" ry="5"   fill="#3060a0" opacity="0.18"/>
+  <!-- Horizon -->
+  <ellipse cx="700" cy="595" rx="1400" ry="18" fill="#1a3050" opacity="0.30"/>
+</svg>

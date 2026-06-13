@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" width="1400" height="900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a0a30"/>
+      <stop offset="50%" stop-color="#4a2870"/>
+      <stop offset="100%" stop-color="#7a4890"/>
+    </linearGradient>
+  </defs>
+  <rect width="1400" height="900" fill="url(#bg)"/>
+  <!-- Stars -->
+  <circle cx="120"  cy="80"  r="2"   fill="#e0d0f0" opacity="0.70"/>
+  <circle cx="300"  cy="50"  r="1.5" fill="#e0d0f0" opacity="0.65"/>
+  <circle cx="500"  cy="100" r="2.5" fill="#f0e8ff" opacity="0.75"/>
+  <circle cx="750"  cy="40"  r="2"   fill="#e0d0f0" opacity="0.68"/>
+  <circle cx="950"  cy="90"  r="1.5" fill="#f0e8ff" opacity="0.60"/>
+  <circle cx="1150" cy="60"  r="2"   fill="#e0d0f0" opacity="0.70"/>
+  <circle cx="1350" cy="110" r="2.5" fill="#f0e8ff" opacity="0.65"/>
+  <circle cx="200"  cy="160" r="1.5" fill="#e0d0f0" opacity="0.55"/>
+  <circle cx="630"  cy="130" r="2"   fill="#f0e8ff" opacity="0.60"/>
+  <circle cx="1050" cy="145" r="1.5" fill="#e0d0f0" opacity="0.58"/>
+  <!-- Moon -->
+  <circle cx="1100" cy="160" r="48" fill="#f0e8c0" opacity="0.90"/>
+  <circle cx="1118" cy="148" r="42" fill="#7a4890" opacity="0.85"/>
+  <!-- Moon glow -->
+  <circle cx="1100" cy="160" r="80"  fill="#d8c890" opacity="0.10"/>
+  <circle cx="1100" cy="160" r="120" fill="#c0b080" opacity="0.06"/>
+  <!-- Dusk haze bands -->
+  <ellipse cx="700" cy="480" rx="1400" ry="60" fill="#9058b0" opacity="0.18"/>
+  <ellipse cx="700" cy="560" rx="1400" ry="55" fill="#804898" opacity="0.16"/>
+  <!-- Rolling hills — back -->
+  <ellipse cx="250"  cy="820" rx="480" ry="300" fill="#4a2870" opacity="0.70"/>
+  <ellipse cx="900"  cy="840" rx="520" ry="280" fill="#523080" opacity="0.68"/>
+  <ellipse cx="1350" cy="830" rx="400" ry="290" fill="#4a2870" opacity="0.70"/>
+  <!-- Rolling hills — front -->
+  <ellipse cx="0"    cy="900" rx="500" ry="280" fill="#3a1858" opacity="0.85"/>
+  <ellipse cx="700"  cy="920" rx="600" ry="300" fill="#3a1858" opacity="0.85"/>
+  <ellipse cx="1400" cy="900" rx="500" ry="280" fill="#3a1858" opacity="0.85"/>
+  <!-- Ground -->
+  <ellipse cx="700" cy="980" rx="1600" ry="320" fill="#200c38" opacity="0.95"/>
+</svg>

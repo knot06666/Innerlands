@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" width="1400" height="900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a3028"/>
+      <stop offset="55%" stop-color="#284840"/>
+      <stop offset="100%" stop-color="#386050"/>
+    </linearGradient>
+  </defs>
+  <rect width="1400" height="900" fill="url(#bg)"/>
+  <!-- Morning mist bands -->
+  <ellipse cx="700" cy="300" rx="1300" ry="55" fill="#90c0a8" opacity="0.18"/>
+  <ellipse cx="400" cy="400" rx="900"  ry="44" fill="#98c8b0" opacity="0.14"/>
+  <ellipse cx="1000" cy="240" rx="700" ry="38" fill="#88b8a0" opacity="0.16"/>
+  <!-- Pond surface -->
+  <ellipse cx="700" cy="760" rx="1200" ry="400" fill="#1a3830" opacity="0.85"/>
+  <ellipse cx="700" cy="720" rx="1000" ry="300" fill="#203e38" opacity="0.75"/>
+  <!-- Lily pads — large -->
+  <ellipse cx="250"  cy="680" rx="70" ry="42" fill="#2a5e38" opacity="0.80"/>
+  <ellipse cx="480"  cy="720" rx="82" ry="50" fill="#2e6640" opacity="0.82"/>
+  <ellipse cx="700"  cy="700" rx="75" ry="46" fill="#2a5e38" opacity="0.80"/>
+  <ellipse cx="920"  cy="715" rx="80" ry="48" fill="#2e6640" opacity="0.80"/>
+  <ellipse cx="1150" cy="690" rx="72" ry="44" fill="#2a5e38" opacity="0.78"/>
+  <!-- Lily pads — small -->
+  <ellipse cx="160"  cy="740" rx="48" ry="30" fill="#345e3c" opacity="0.70"/>
+  <ellipse cx="380"  cy="760" rx="52" ry="32" fill="#2e5838" opacity="0.68"/>
+  <ellipse cx="600"  cy="755" rx="50" ry="31" fill="#345e3c" opacity="0.70"/>
+  <ellipse cx="830"  cy="748" rx="54" ry="33" fill="#2e5838" opacity="0.70"/>
+  <ellipse cx="1060" cy="760" rx="48" ry="30" fill="#345e3c" opacity="0.68"/>
+  <ellipse cx="1280" cy="735" rx="52" ry="32" fill="#2e5838" opacity="0.68"/>
+  <!-- Lotus flowers -->
+  <circle cx="250"  cy="665" r="18" fill="#e0788a" opacity="0.82"/>
+  <circle cx="250"  cy="665" r="10" fill="#f0a0a8" opacity="0.90"/>
+  <circle cx="700"  cy="685" r="20" fill="#d87090" opacity="0.80"/>
+  <circle cx="700"  cy="685" r="11" fill="#f0a0a8" opacity="0.88"/>
+  <circle cx="1150" cy="672" r="18" fill="#e0788a" opacity="0.80"/>
+  <circle cx="1150" cy="672" r="10" fill="#f0a0a8" opacity="0.88"/>
+  <circle cx="480"  cy="706" r="15" fill="#e8a0a8" opacity="0.75"/>
+  <circle cx="920"  cy="700" r="16" fill="#d87090" opacity="0.75"/>
+  <!-- Reflections on water -->
+  <ellipse cx="700" cy="730" rx="400" ry="15" fill="#60a888" opacity="0.18"/>
+  <ellipse cx="400" cy="750" rx="250" ry="10" fill="#60a888" opacity="0.14"/>
+  <ellipse cx="1000" cy="740" rx="230" ry="10" fill="#60a888" opacity="0.14"/>
+  <!-- Shore vegetation -->
+  <ellipse cx="700" cy="940" rx="1600" ry="280" fill="#1a3028" opacity="0.90"/>
+</svg>

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" width="1400" height="900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a2c38"/>
+      <stop offset="100%" stop-color="#2a4a58"/>
+    </linearGradient>
+  </defs>
+  <rect width="1400" height="900" fill="url(#bg)"/>
+  <!-- Sky mist bands -->
+  <ellipse cx="700" cy="200" rx="1400" ry="65" fill="#6090a8" opacity="0.16"/>
+  <ellipse cx="700" cy="300" rx="1200" ry="50" fill="#5888a0" opacity="0.14"/>
+  <!-- Cliff face — left -->
+  <polygon points="0,0 480,0 480,900 0,900" fill="#182830" opacity="0.85"/>
+  <polygon points="380,0 480,0 480,900 320,900" fill="#203848" opacity="0.70"/>
+  <!-- Cliff face — right -->
+  <polygon points="920,0 1400,0 1400,900 920,900" fill="#182830" opacity="0.85"/>
+  <polygon points="920,0 1020,0 1080,900 920,900" fill="#203848" opacity="0.70"/>
+  <!-- Waterfall bands — main -->
+  <rect x="480" y="0"   width="440" height="900" fill="#3a6880" opacity="0.25"/>
+  <rect x="520" y="0"   width="50"  height="900" fill="#4a7890" opacity="0.40"/>
+  <rect x="600" y="0"   width="40"  height="900" fill="#507888" opacity="0.38"/>
+  <rect x="670" y="0"   width="55"  height="900" fill="#4a7890" opacity="0.42"/>
+  <rect x="750" y="0"   width="35"  height="900" fill="#507888" opacity="0.36"/>
+  <rect x="810" y="0"   width="50"  height="900" fill="#4a7890" opacity="0.40"/>
+  <!-- Waterfall mist bands horizontal -->
+  <ellipse cx="700" cy="780" rx="350" ry="40" fill="#88b8d0" opacity="0.30"/>
+  <ellipse cx="700" cy="820" rx="420" ry="50" fill="#78a8c0" opacity="0.25"/>
+  <ellipse cx="700" cy="860" rx="500" ry="55" fill="#6898b0" opacity="0.20"/>
+  <!-- Pool at bottom -->
+  <ellipse cx="700" cy="920" rx="600" ry="160" fill="#203848" opacity="0.90"/>
+  <ellipse cx="700" cy="900" rx="420" ry="90"  fill="#2a4a60" opacity="0.80"/>
+  <ellipse cx="700" cy="880" rx="280" ry="55"  fill="#3a6080" opacity="0.60"/>
+  <!-- Foam / spray -->
+  <ellipse cx="700" cy="855" rx="200" ry="22" fill="#c0d8e8" opacity="0.25"/>
+  <ellipse cx="620" cy="870" rx="100" ry="12" fill="#c8e0f0" opacity="0.20"/>
+  <ellipse cx="790" cy="868" rx="90"  ry="11" fill="#c8e0f0" opacity="0.18"/>
+  <!-- Moss on cliff edges -->
+  <ellipse cx="240" cy="500" rx="200" ry="30" fill="#304840" opacity="0.40"/>
+  <ellipse cx="1160" cy="450" rx="180" ry="28" fill="#304840" opacity="0.38"/>
+</svg>

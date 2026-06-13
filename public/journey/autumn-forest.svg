@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" width="1400" height="900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4a1c10"/>
+      <stop offset="50%" stop-color="#a04020"/>
+      <stop offset="100%" stop-color="#c86030"/>
+    </linearGradient>
+  </defs>
+  <rect width="1400" height="900" fill="url(#bg)"/>
+  <!-- Sky haze -->
+  <ellipse cx="700" cy="120" rx="1400" ry="90" fill="#d07840" opacity="0.18"/>
+  <!-- Tree canopies — back row -->
+  <ellipse cx="100"  cy="580" rx="140" ry="110" fill="#7a2a10" opacity="0.60"/>
+  <ellipse cx="320"  cy="540" rx="160" ry="130" fill="#8a3418" opacity="0.62"/>
+  <ellipse cx="560"  cy="560" rx="150" ry="120" fill="#7a2a10" opacity="0.58"/>
+  <ellipse cx="800"  cy="530" rx="170" ry="135" fill="#8a3418" opacity="0.62"/>
+  <ellipse cx="1030" cy="550" rx="155" ry="125" fill="#7a2a10" opacity="0.60"/>
+  <ellipse cx="1250" cy="565" rx="145" ry="115" fill="#8a3418" opacity="0.58"/>
+  <!-- Tree canopies — mid row -->
+  <ellipse cx="200"  cy="620" rx="170" ry="140" fill="#b84820" opacity="0.70"/>
+  <ellipse cx="450"  cy="600" rx="185" ry="150" fill="#c05228" opacity="0.72"/>
+  <ellipse cx="700"  cy="610" rx="175" ry="145" fill="#b84820" opacity="0.70"/>
+  <ellipse cx="950"  cy="605" rx="180" ry="148" fill="#c05228" opacity="0.72"/>
+  <ellipse cx="1200" cy="615" rx="170" ry="140" fill="#b84820" opacity="0.70"/>
+  <!-- Tree trunks — mid -->
+  <rect x="192" y="700" width="16" height="200" fill="#4a1808" opacity="0.80"/>
+  <rect x="442" y="700" width="18" height="200" fill="#521c0c" opacity="0.80"/>
+  <rect x="692" y="700" width="16" height="200" fill="#4a1808" opacity="0.80"/>
+  <rect x="942" y="700" width="18" height="200" fill="#521c0c" opacity="0.80"/>
+  <rect x="1192" y="700" width="16" height="200" fill="#4a1808" opacity="0.80"/>
+  <!-- Tree canopies — front row -->
+  <ellipse cx="0"    cy="700" rx="160" ry="170" fill="#d06030" opacity="0.80"/>
+  <ellipse cx="320"  cy="720" rx="200" ry="180" fill="#c85828" opacity="0.82"/>
+  <ellipse cx="700"  cy="710" rx="210" ry="175" fill="#d06030" opacity="0.80"/>
+  <ellipse cx="1080" cy="720" rx="200" ry="180" fill="#c85828" opacity="0.82"/>
+  <ellipse cx="1400" cy="700" rx="160" ry="170" fill="#d06030" opacity="0.80"/>
+  <!-- Ground -->
+  <ellipse cx="700" cy="900" rx="1600" ry="260" fill="#3a1208" opacity="0.90"/>
+  <!-- Fallen leaves scatter -->
+  <ellipse cx="260" cy="830" rx="18" ry="8" fill="#e07030" opacity="0.55"/>
+  <ellipse cx="500" cy="860" rx="14" ry="6" fill="#d06020" opacity="0.50"/>
+  <ellipse cx="750" cy="840" rx="16" ry="7" fill="#e07030" opacity="0.52"/>
+  <ellipse cx="1000" cy="855" rx="18" ry="8" fill="#d06020" opacity="0.50"/>
+  <ellipse cx="1200" cy="845" rx="14" ry="6" fill="#e07030" opacity="0.52"/>
+</svg>
