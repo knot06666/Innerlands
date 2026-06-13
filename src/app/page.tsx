@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { track } from "@vercel/analytics";
-import { ArrowRight, Download, RefreshCcw, Volume2, VolumeX } from "lucide-react";
+import { ArrowRight, Camera, RefreshCcw, Volume2, VolumeX } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { interludes, questions, results } from "@/data/quiz";
 import { getNatureResult, scoreChoices } from "@/lib/personality";
@@ -585,7 +585,9 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="mx-auto mt-3 grid w-full grid-cols-2 gap-2 rounded-lg bg-ink/32 p-1 backdrop-blur-md min-[700px]:bg-transparent min-[700px]:p-0 min-[700px]:backdrop-blur-0">
+              <p className="font-kicker-thai mt-3 text-center text-xs leading-5 text-white/58">แคปหน้าจอโปสเตอร์นี้ไว้ได้เลย</p>
+
+              <div className="mx-auto mt-2 grid w-full grid-cols-2 gap-2 rounded-lg bg-ink/32 p-1 backdrop-blur-md min-[700px]:bg-transparent min-[700px]:p-0 min-[700px]:backdrop-blur-0">
                 <button
                   type="button"
                   onClick={restart}
@@ -600,7 +602,7 @@ export default function Home() {
                   disabled={isSaving}
                   className="inline-flex min-h-12 items-center justify-center rounded-lg border border-white/24 bg-white/14 px-3 text-sm font-medium text-white shadow-mist transition hover:bg-white/22 focus:outline-none focus:ring-2 focus:ring-white/60 disabled:cursor-wait disabled:opacity-80"
                 >
-                  <Download className="mr-2 h-4 w-4" aria-hidden="true" />
+                  <Camera className="mr-2 h-4 w-4" aria-hidden="true" />
                   {isSaving ? "กำลังเตรียมรูป" : saveStatus === "downloaded" ? "บันทึกแล้ว" : "บันทึกผลลัพธ์"}
                 </button>
               </div>
@@ -665,7 +667,7 @@ export default function Home() {
                   disabled={isSaving}
                   className="inline-flex min-h-12 items-center justify-center rounded-lg border border-white/24 bg-white/14 px-3 text-sm font-medium text-white shadow-mist transition hover:bg-white/22 focus:outline-none focus:ring-2 focus:ring-white/60 disabled:cursor-wait disabled:opacity-80"
                 >
-                  <Download className="mr-2 h-4 w-4" aria-hidden="true" />
+                  <Camera className="mr-2 h-4 w-4" aria-hidden="true" />
                   {isSaving ? "กำลังเตรียมรูป" : saveStatus === "downloaded" ? "บันทึกแล้ว" : "บันทึกผลลัพธ์"}
                 </button>
               </div>

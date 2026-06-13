@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { questions, worldOrder } from "@/data/quiz";
+import { questions, results, worldOrder } from "@/data/quiz";
 import { calculateNatureWorld, getNatureResult, initialScores, scoreChoices } from "@/lib/personality";
 import type { AnswerChoice, NatureWorldId } from "@/types/quiz";
 
@@ -58,6 +58,16 @@ describe("nature world scoring", () => {
       }
     `);
     expect(max / min).toBeLessThanOrEqual(4);
+  });
+
+  it("keeps every result poster concise enough for mobile screenshots", () => {
+    for (const worldId of worldOrder) {
+      const poster = results[worldId].poster;
+
+      expect(poster.quote.length, `${worldId} poster quote`).toBeLessThanOrEqual(58);
+      expect(poster.description.length, `${worldId} poster description`).toBeLessThanOrEqual(82);
+      expect(poster.tiredMessage.length, `${worldId} poster tired message`).toBeLessThanOrEqual(92);
+    }
   });
 });
 
