@@ -41,6 +41,7 @@ export type NatureResult = {
   imageUrl: string;
   poster: {
     quote: string;
+    summary: string;
     description: string;
     tiredMessage: string;
   };

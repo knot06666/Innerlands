@@ -5,6 +5,7 @@ import "./globals.css";
 const title = "โลกข้างใน";
 const description = "เว็บเดินทางผ่านธรรมชาติของใจ เพื่อค้นพบว่าโลกข้างในของคุณคล้ายภูมิประเทศแบบไหน";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const previewImage = "/og";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -19,10 +20,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/nature/mist-forest.png",
-        width: 1024,
-        height: 1024,
-        alt: "ป่าสนในหมอกจากประสบการณ์โลกข้างใน"
+        url: previewImage,
+        width: 1200,
+        height: 630,
+        alt: "โลกข้างใน เว็บเดินทางผ่านธรรมชาติของใจ"
       }
     ]
   },
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description,
-    images: ["/nature/mist-forest.png"]
+    images: [previewImage]
   }
 };
 

@@ -231,6 +231,7 @@ export const results: Record<NatureWorldId, NatureResult> = {
     imageUrl: "/nature/mist-forest.png",
     poster: {
       quote: "บางคำตอบค่อย ๆ ก่อตัวขึ้นในหมอก",
+      summary: "คุณเลือกคำตอบที่พาไปหาความสงบ พื้นที่ส่วนตัว และการฟังใจตัวเอง",
       description: "คุณต้องการพื้นที่เงียบ เพื่อฟังเสียงใจตัวเองให้ชัดขึ้น",
       tiredMessage: "วันนี้ไม่ต้องหาคำตอบให้ทุกเรื่อง แค่หายใจกลับมาอยู่กับตัวเองก็พอ"
     },
@@ -247,6 +248,7 @@ export const results: Record<NatureWorldId, NatureResult> = {
     imageUrl: "/nature/morning-meadow.png",
     poster: {
       quote: "คุณคือเช้าวันใหม่ที่กลับมาอย่างนุ่มนวล",
+      summary: "คุณเลือกคำตอบที่มองหาความหวัง แสงอุ่น และการเริ่มต้นใหม่แบบเบาใจ",
       description: "คุณมองเห็นความหวังเล็ก ๆ ได้ แม้ในวันที่หนักหนา",
       tiredMessage: "พักนิ่ง ๆ ได้ ไม่ต้องรีบเป็นแสงสว่างให้ใครตลอดเวลา"
     },
@@ -263,6 +265,7 @@ export const results: Record<NatureWorldId, NatureResult> = {
     imageUrl: "/nature/clouded-sea.png",
     poster: {
       quote: "คลื่นในใจคุณไม่ได้มากเกินไป",
+      summary: "คุณเลือกคำตอบที่เปิดพื้นที่ให้อารมณ์ ความลึก และความจริงใจของตัวเอง",
       description: "คุณรู้สึกลึกและจริงใจกับหัวใจตัวเอง",
       tiredMessage: "อนุญาตให้ตัวเองรู้สึกได้เต็มที่ ไม่ต้องทำเป็นนิ่งเสมอไป"
     },
@@ -279,6 +282,7 @@ export const results: Record<NatureWorldId, NatureResult> = {
     imageUrl: "/nature/mountain-wind.png",
     poster: {
       quote: "คุณไม่ต้องถึงยอดเขาเพื่อให้การเดินทางมีความหมาย",
+      summary: "คุณเลือกคำตอบที่อยากเห็นภาพรวม ตั้งหลัก และเดินต่ออย่างมีเป้าหมาย",
       description: "คุณมองภาพใหญ่ และยังพยายามเดินต่อแม้ทางจะยาก",
       tiredMessage: "หยุดพักกลางทางได้ คุณมีคุณค่าโดยไม่ต้องพิสูจน์เสมอไป"
     },
@@ -295,6 +299,7 @@ export const results: Record<NatureWorldId, NatureResult> = {
     imageUrl: "/nature/rain-garden.png",
     poster: {
       quote: "ความอ่อนโยนของคุณคือวิธีเติบโต",
+      summary: "คุณเลือกคำตอบที่ต้องการความอ่อนโยน การดูแล และพื้นที่ที่ใจค่อย ๆ ฟื้นตัว",
       description: "คุณอบอุ่น ใส่ใจรายละเอียด และดูแลสิ่งเล็ก ๆ ได้ดี",
       tiredMessage: "ให้คนอื่นดูแลคุณกลับบ้าง ไม่ต้องแบกทุกอย่างไว้คนเดียว"
     },
@@ -311,6 +316,7 @@ export const results: Record<NatureWorldId, NatureResult> = {
     imageUrl: "/nature/river-valley.png",
     poster: {
       quote: "เปลี่ยนทางไม่ใช่หลงทาง",
+      summary: "คุณเลือกคำตอบที่ไหลไปกับจังหวะชีวิต ปรับตัว และไม่ฝืนทุกอย่างเกินจำเป็น",
       description: "คุณปรับตัวเก่ง และไปต่อได้แม้แผนจะเปลี่ยน",
       tiredMessage: "หยุดไหลสักครู่ก็ได้ การพักไม่ได้แปลว่าคุณล้าหลัง"
     },
@@ -327,6 +333,7 @@ export const results: Record<NatureWorldId, NatureResult> = {
     imageUrl: "/nature/desert-stars.png",
     poster: {
       quote: "ความเงียบของคุณเต็มไปด้วยดาว",
+      summary: "คุณเลือกคำตอบที่ให้ค่ากับอิสระ ความเงียบ และพื้นที่คิดกับตัวเอง",
       description: "คุณรักอิสระ ต้องการพื้นที่ส่วนตัว และคิดลึกก่อนตัดสินใจ",
       tiredMessage: "อยากมีใครสักคนอยู่ข้าง ๆ บ้างก็ไม่เป็นไร"
     },
@@ -343,6 +350,7 @@ export const results: Record<NatureWorldId, NatureResult> = {
     imageUrl: "/nature/tropical-rainforest.png",
     poster: {
       quote: "ในความซับซ้อนของคุณ มีชีวิตกำลังงอกงาม",
+      summary: "คุณเลือกคำตอบที่เต็มไปด้วยพลัง ความคิดสร้างสรรค์ และการรับรู้หลายด้าน",
       description: "คุณมีพลัง สร้างสรรค์ และรับรู้หลายอย่างพร้อมกัน",
       tiredMessage: "ค่อย ๆ ลดเสียงในใจลง คุณไม่ต้องจัดการทุกอย่างพร้อมกัน"
     },

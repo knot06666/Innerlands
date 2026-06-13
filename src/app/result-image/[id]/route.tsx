@@ -64,8 +64,8 @@ export async function GET(request: Request, { params }: { params: { id: string }
           <div style={{ background: "rgba(255,255,255,0.22)", height: 2, width: "100%" }} />
           <div style={{ color: "rgba(255,255,255,0.9)", fontSize: 42, fontWeight: 600, lineHeight: 1.48 }}>{result.poster.quote}</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-            <div style={{ color: "rgba(255,255,255,0.86)", fontSize: 38, fontWeight: 600 }}>โลกนี้บอกว่า</div>
-            <div style={{ color: "rgba(255,255,255,0.82)", fontSize: 38, fontWeight: 400, lineHeight: 1.5 }}>{result.poster.description}</div>
+            <div style={{ color: "rgba(255,255,255,0.86)", fontSize: 38, fontWeight: 600 }}>ทำไมคุณถึงได้โลกนี้</div>
+            <div style={{ color: "rgba(255,255,255,0.82)", fontSize: 38, fontWeight: 400, lineHeight: 1.5 }}>{result.poster.summary}</div>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
             <div style={{ color: "rgba(255,255,255,0.86)", fontSize: 38, fontWeight: 600 }}>พลังของคุณ</div>

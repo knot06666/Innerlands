@@ -205,7 +205,7 @@ export default function Home() {
 
       if (isInAppBrowser()) {
         showDownloadFallback(resultImage, fileName, hostedUrl);
-        trackJourneyEvent("result_download_fallback_shown", {
+        trackJourneyEvent("result_save_fallback_shown", {
           reason: "in_app_browser_actions",
           resultId: result.id,
           resultName: result.worldName
@@ -220,7 +220,7 @@ export default function Home() {
             text: `โลกข้างในของฉันคือ ${result.worldName}`,
             title: "โลกข้างใน"
           });
-          trackJourneyEvent("result_downloaded", {
+          trackJourneyEvent("result_save_completed", {
             method: "native_share",
             resultId: result.id,
             resultName: result.worldName
@@ -238,13 +238,13 @@ export default function Home() {
 
       if (shouldShowLongPressFallback()) {
         showDownloadFallback(resultImage, fileName, hostedUrl);
-        trackJourneyEvent("result_download_fallback_shown", {
+        trackJourneyEvent("result_save_fallback_shown", {
           resultId: result.id,
           resultName: result.worldName
         });
       }
 
-      trackJourneyEvent("result_downloaded", {
+      trackJourneyEvent("result_save_completed", {
         method: shouldShowLongPressFallback() ? "browser_download_with_fallback" : "browser_download",
         resultId: result.id,
         resultName: result.worldName
@@ -262,7 +262,7 @@ export default function Home() {
         text: `โลกข้างในของฉันคือ ${currentResult.worldName}`,
         title: "โลกข้างใน"
       });
-      trackJourneyEvent("result_downloaded", {
+      trackJourneyEvent("result_save_completed", {
         method: "native_share",
         resultId: currentResult.id,
         resultName: currentResult.worldName
@@ -575,9 +575,12 @@ export default function Home() {
                 </blockquote>
 
                 <div className="relative mt-5 grid gap-4">
-                  <p className="font-poem-thai text-pretty text-[15px] font-medium leading-7 text-white/78 max-[340px]:text-sm max-[340px]:leading-6 min-[700px]:text-[16px] min-[700px]:leading-8">
-                    {result.poster.description}
-                  </p>
+                  <div>
+                    <h2 className="font-display-thai text-sm font-semibold text-white">ทำไมคุณถึงได้โลกนี้</h2>
+                    <p className="font-poem-thai mt-2 text-pretty text-[15px] font-medium leading-7 text-white/78 max-[340px]:text-sm max-[340px]:leading-6 min-[700px]:text-[16px] min-[700px]:leading-8">
+                      {result.poster.summary}
+                    </p>
+                  </div>
 
                   <div>
                     <h2 className="font-display-thai text-sm font-semibold text-white">พลังของคุณ</h2>
@@ -634,8 +637,9 @@ export default function Home() {
               >
                 {result.worldName}
               </h1>
-              <p className="font-poem-thai mt-3 text-[16px] font-medium leading-8 text-white/78 min-[700px]:mt-4 min-[700px]:text-lg min-[700px]:leading-9">
-                {result.description}
+              <p className="font-kicker-thai mt-3 text-sm font-medium leading-6 text-white/58">ทำไมคุณถึงได้โลกนี้</p>
+              <p className="font-poem-thai mt-2 text-[16px] font-medium leading-8 text-white/78 min-[700px]:text-lg min-[700px]:leading-9">
+                {result.poster.summary}
               </p>
 
               <blockquote className="font-poem-thai mt-5 border-l-2 border-white/28 pl-4 text-[17px] font-semibold leading-8 text-white/86 min-[700px]:mt-6 min-[700px]:text-lg min-[700px]:leading-9">
@@ -878,12 +882,12 @@ async function createResultImage(result: NatureResult): Promise<ResultImage> {
   y += 62;
   context.fillStyle = "rgba(255, 255, 255, 0.86)";
   context.font = canvasFont(38, 600);
-  context.fillText("โลกนี้บอกว่า", left, y);
+  context.fillText("ทำไมคุณถึงได้โลกนี้", left, y);
 
   y += 58;
   context.fillStyle = "rgba(255, 255, 255, 0.82)";
   context.font = canvasFont(38, 400);
-  y = drawWrappedText(context, result.poster.description, left, y, 830, 58, 4);
+  y = drawWrappedText(context, result.poster.summary, left, y, 830, 58, 4);
 
   y += 58;
   context.fillStyle = "rgba(255, 255, 255, 0.86)";
