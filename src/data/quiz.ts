@@ -129,7 +129,7 @@ export const questions: JourneyQuestion[] = [
         id: "crossroad-light",
         text: "เลือกเส้นทางที่ดูอ่อนโยนและไม่กดดัน",
         subtext: "คุณจะทำได้ดีเมื่อรู้สึกว่าตัวเองไม่ได้ถูกเร่งรัดจากเวลา",
-        weights: { "morning-meadow": 2, "rain-garden": 2, "twilight-valley": 1 }
+        weights: { "morning-meadow": 1, "rain-garden": 1, "twilight-valley": 2 }
       },
       {
         id: "crossroad-height",
@@ -141,13 +141,13 @@ export const questions: JourneyQuestion[] = [
         id: "crossroad-depth",
         text: "ถอยกลับเข้าหาความเงียบเพื่อทบทวน",
         subtext: "คุณมักใช้เวลาฟังเสียงเรียกร้องข้างในก่อนเลือกทางเดิน",
-        weights: { "mist-forest": 2, "deep-cave": 2, "frozen-lake": 1 }
+        weights: { "mist-forest": 1, "deep-cave": 2, "frozen-lake": 2 }
       },
       {
         id: "crossroad-current",
         text: "ปล่อยให้สถานการณ์และจังหวะชีวิตพัดพาไป",
         subtext: "คุณปรับตัวเก่ง และเลือกที่จะไม่ฝืนกระแสหากไม่จำเป็น",
-        weights: { "river-valley": 2, "tropical-rainforest": 2, "clouded-sea": 1 }
+        weights: { "river-valley": 2, "tropical-rainforest": 1, "clouded-sea": 1 }
       }
     ]
   },
@@ -161,13 +161,13 @@ export const questions: JourneyQuestion[] = [
         id: "shelter-cabin",
         text: "บ้านไม้เงียบสงบที่มีแสงไฟสีอุ่นดวงเล็ก ๆ",
         subtext: "คุณโหยหาความอบอุ่นเรียบง่ายที่ปราศจากความวุ่นวาย",
-        weights: { "mist-forest": 2, "rain-garden": 1, "twilight-valley": 2 }
+        weights: { "mist-forest": 1, "rain-garden": 1, "twilight-valley": 2 }
       },
       {
         id: "shelter-garden",
         text: "เรือนกระจกกลางสวนชุ่มฉ่ำหลังฝนตก",
         subtext: "คุณอยากได้พื้นที่ช่วยชะล้างความหนักอึ้งในใจออกไปทีละน้อย",
-        weights: { "rain-garden": 2, "morning-meadow": 2, "volcanic-island": 1 }
+        weights: { "rain-garden": 2, "morning-meadow": 1, "volcanic-island": 2 }
       },
       {
         id: "shelter-shore",
@@ -179,7 +179,7 @@ export const questions: JourneyQuestion[] = [
         id: "shelter-canopy",
         text: "กระท่อมกลางป่าทึบที่มีเสียงธรรมชาติรายล้อม",
         subtext: "คุณรู้สึกอุ่นใจเมื่อไม่ต้องติดอยู่กับความคิดของตัวเองเพียงลำพัง",
-        weights: { "tropical-rainforest": 2, "desert-stars": 1, "deep-cave": 2, "mountain-wind": 1 }
+        weights: { "tropical-rainforest": 1, "desert-stars": 1, "deep-cave": 2, "mountain-wind": 1 }
       }
     ]
   },
