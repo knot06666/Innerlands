@@ -139,6 +139,10 @@ export default function Home() {
         resultId: completedResult.id,
         resultName: completedResult.worldName
       });
+      trackJourneyEvent("result_viewed", {
+        resultId: completedResult.id,
+        resultName: completedResult.worldName
+      });
       setPhase("result");
       return;
     }
@@ -179,6 +183,11 @@ export default function Home() {
     setIsSaving(true);
     clearDownloadResetTimer(downloadResetTimerRef);
     setSaveStatus("idle");
+    trackJourneyEvent("result_save_clicked", {
+      isInAppBrowser: isInAppBrowser(),
+      resultId: result.id,
+      resultName: result.worldName
+    });
 
     try {
       const resultImage = await createResultImage(result);
@@ -290,6 +299,17 @@ export default function Home() {
     }
 
     await navigator.clipboard?.writeText(new URL(downloadFallback.hostedUrl, window.location.href).toString()).catch(() => undefined);
+    trackJourneyEvent("result_image_link_copied", {
+      resultId: result?.id ?? "unknown",
+      resultName: result?.worldName ?? "unknown"
+    });
+  }
+
+  function trackResultImageOpened() {
+    trackJourneyEvent("result_image_opened", {
+      resultId: result?.id ?? "unknown",
+      resultName: result?.worldName ?? "unknown"
+    });
   }
 
   return (
@@ -343,6 +363,7 @@ export default function Home() {
                 target={downloadFallback.hostedUrl ? "_blank" : undefined}
                 rel={downloadFallback.hostedUrl ? "noreferrer" : undefined}
                 download={downloadFallback.hostedUrl ? undefined : downloadFallback.fileName}
+                onClick={trackResultImageOpened}
                 className="inline-flex min-h-11 items-center justify-center rounded-lg bg-ink px-4 text-sm font-medium text-white transition hover:bg-ink/90 focus:outline-none focus:ring-2 focus:ring-ink/30"
               >
                 เปิดรูปเต็มจอ
