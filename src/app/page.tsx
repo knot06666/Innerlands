@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { track } from "@vercel/analytics";
-import { ArrowRight, Camera, Droplets, Leaf, Mountain, RefreshCcw, Sparkles, Volume2, VolumeX, Wind } from "lucide-react";
+import { ArrowRight, Camera, Droplets, Leaf, Mountain, RefreshCcw, Share2, Sparkles, Volume2, VolumeX, Wind } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { interludes, questions, results } from "@/data/quiz";
 import { getNatureResult, scoreChoices } from "@/lib/personality";
@@ -99,9 +99,11 @@ export default function Home() {
   const [isAdvancing, setIsAdvancing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "downloaded">("idle");
+  const [shareStatus, setShareStatus] = useState<"idle" | "copied">("idle");
   const [downloadFallback, setDownloadFallback] = useState<DownloadFallback | null>(null);
   const audioRef = useRef<AmbientAudio | null>(null);
   const downloadResetTimerRef = useRef<number | null>(null);
+  const shareResetTimerRef = useRef<number | null>(null);
   const introHeadingRef = useRef<HTMLHeadingElement | null>(null);
   const interludeHeadingRef = useRef<HTMLHeadingElement | null>(null);
   const questionHeadingRef = useRef<HTMLHeadingElement | null>(null);
@@ -144,6 +146,7 @@ export default function Home() {
 
     return () => {
       clearDownloadResetTimer(downloadResetTimerRef);
+      clearDownloadResetTimer(shareResetTimerRef);
       stopAmbientAudio(audioRef.current);
     };
   }, []);
@@ -364,6 +367,23 @@ export default function Home() {
       resultId: result?.id ?? "unknown",
       resultName: result?.worldName ?? "unknown"
     });
+  }
+
+  async function shareResultLink() {
+    if (!result) return;
+    const url = `${window.location.origin}/result/${result.id}`;
+    if (typeof navigator.share === "function") {
+      try {
+        await navigator.share({ title: `โลก${result.worldName} — โลกข้างใน`, url });
+      } catch {
+        // user dismissed share dialog
+      }
+    } else {
+      await navigator.clipboard.writeText(url);
+      setShareStatus("copied");
+      clearDownloadResetTimer(shareResetTimerRef);
+      shareResetTimerRef.current = window.setTimeout(() => setShareStatus("idle"), 2500);
+    }
   }
 
   return (
@@ -697,6 +717,15 @@ export default function Home() {
                   {isSaving ? "กำลังเตรียมรูป" : saveStatus === "downloaded" ? "บันทึกแล้ว" : "บันทึกผลลัพธ์"}
                 </button>
               </div>
+
+              <button
+                type="button"
+                onClick={shareResultLink}
+                className="font-kicker-thai mx-auto mt-2 inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-lg border border-white/20 bg-white/10 px-4 text-sm font-medium text-white/78 backdrop-blur transition hover:bg-white/18 focus:outline-none focus:ring-2 focus:ring-white/50"
+              >
+                <Share2 className="h-4 w-4" aria-hidden="true" />
+                {shareStatus === "copied" ? "คัดลอก link แล้ว ✓" : "แชร์ link ผลลัพธ์นี้"}
+              </button>
 
               <details className="group mt-6 rounded-lg border border-white/18 bg-white/10 px-4 py-3 text-white shadow-mist backdrop-blur-md">
                 <summary className="font-display-thai flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold text-white outline-none focus-visible:ring-2 focus-visible:ring-white/60 [&::-webkit-details-marker]:hidden">
