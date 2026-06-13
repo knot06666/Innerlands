@@ -98,25 +98,20 @@ export default function Home() {
     };
   }, []);
 
-  async function startAmbientAudio() {
-    if (audioRef.current) {
-      if (!isMuted) {
-        await audioRef.current.element.play().catch(() => undefined);
-      }
-      return;
+  function ensureAudio(): HTMLAudioElement {
+    if (!audioRef.current) {
+      const audio = new Audio("/sound/sound.mp3");
+      audio.loop = true;
+      audio.preload = "auto";
+      audio.volume = 0;
+      audioRef.current = { element: audio, fadeFrame: null };
     }
-
-    const audio = new Audio("/sound/sound.mp3");
-    audio.loop = true;
-    audio.preload = "auto";
-    audio.volume = 0;
-
-    audioRef.current = { element: audio, fadeFrame: null };
-    await audio.play().catch(() => undefined);
+    return audioRef.current.element;
   }
 
-  async function beginJourney() {
-    await startAmbientAudio();
+  function beginJourney() {
+    const audio = ensureAudio();
+    void audio.play().catch(() => undefined);
     setIsMuted(false);
     fadeAmbientVolume(audioRef.current, ambientVolume, 1800);
     trackJourneyEvent("journey_started");
@@ -174,9 +169,12 @@ export default function Home() {
     setPhase("intro");
   }
 
-  async function toggleSound() {
+  function toggleSound() {
     const nextMuted = !isMuted;
-    await startAmbientAudio();
+    const audio = ensureAudio();
+    if (!nextMuted) {
+      void audio.play().catch(() => undefined);
+    }
     setIsMuted(nextMuted);
     fadeAmbientVolume(audioRef.current, nextMuted ? 0 : ambientVolume, nextMuted ? 900 : 1400);
   }
