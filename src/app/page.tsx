@@ -1026,7 +1026,7 @@ function roundRect(context: CanvasRenderingContext2D, x: number, y: number, widt
 }
 
 function canvasFont(size: number, weight: number) {
-  return `${weight} ${size}px "Noto Sans Thai", "Leelawadee UI", "Segoe UI", sans-serif`;
+  return `${weight} ${size}px "Sarabun", "Noto Sans Thai", "Leelawadee UI", "Segoe UI", sans-serif`;
 }
 
 function shouldUseNativeFileShare(file: File) {

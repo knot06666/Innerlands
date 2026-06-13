@@ -23,7 +23,6 @@ export type JourneyQuestion = {
   title: string;
   prompt: string;
   imageUrl: string;
-  ambient: string;
   choices: AnswerChoice[];
 };
 
@@ -42,11 +41,9 @@ export type NatureResult = {
   poster: {
     quote: string;
     summary: string;
-    description?: string;
     tiredMessage: string;
   };
   quote: string;
-  description?: string;
   strengths: string[];
   hiddenFeelings: string;
   tiredMessage: string;

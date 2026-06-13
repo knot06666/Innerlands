@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { Sarabun } from "next/font/google";
 import "./globals.css";
@@ -14,6 +14,10 @@ const title = "โลกข้างใน";
 const description = "เว็บเดินทางผ่านธรรมชาติของใจ เพื่อค้นพบว่าโลกข้างในของคุณคล้ายภูมิประเทศแบบไหน";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://innerlands.vercel.app";
 const previewImage = "/og";
+
+export const viewport: Viewport = {
+  themeColor: "#0b191f"
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
