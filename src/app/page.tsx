@@ -61,25 +61,16 @@ export default function Home() {
   const resultHeadingRef = useRef<HTMLHeadingElement | null>(null);
   const currentQuestion = questions[step];
   const interlude = interludes[Math.min(answers.length, interludes.length - 1)] ?? interludes[0];
-  const previewResult = useMemo(() => {
-    if (answers.length < totalQuestions) {
-      return null;
-    }
-
+  const completedResult = useMemo(() => {
+    if (answers.length < totalQuestions) return null;
     return getNatureResult(scoreChoices(answers));
   }, [answers]);
 
-  const result = useMemo(() => {
-    if (phase !== "result") {
-      return null;
-    }
-
-    return getNatureResult(scoreChoices(answers));
-  }, [answers, phase]);
+  const result = phase === "result" ? completedResult : null;
 
   const interludeImage =
     answers.length >= totalQuestions
-      ? previewResult?.imageUrl
+      ? completedResult?.imageUrl
       : questions[Math.min(answers.length, totalQuestions - 1)]?.imageUrl;
   const activeImage = phase === "interlude" ? interludeImage ?? questions[0].imageUrl : result?.imageUrl ?? currentQuestion?.imageUrl ?? questions[0].imageUrl;
 
@@ -608,7 +599,6 @@ export default function Home() {
                   <p className="font-kicker-thai mt-1 text-[11px] leading-5 text-white/52">
                     ประสบการณ์สะท้อนใจ ไม่ใช่การประเมินทางจิตวิทยา
                   </p>
-                  <p className="font-kicker-thai mt-1 text-[11px] leading-5 text-white/42">{siteCredit}</p>
                 </div>
               </div>
 
@@ -690,7 +680,6 @@ export default function Home() {
                   <p className="font-kicker-thai mt-5 text-xs leading-5 text-white/54 min-[700px]:mt-7">
                     ประสบการณ์นี้เป็นพื้นที่สะท้อนใจเพื่อความบันเทิง ไม่ใช่การประเมินทางจิตวิทยา
                   </p>
-                  <p className="font-kicker-thai mt-2 text-xs leading-5 text-white/42">{siteCredit}</p>
                 </div>
               </details>
             </div>
@@ -924,9 +913,6 @@ async function createResultImage(result: NatureResult): Promise<ResultImage> {
   context.fillStyle = "rgba(255, 255, 255, 0.52)";
   context.font = canvasFont(25, 400);
   context.fillText("ประสบการณ์สะท้อนใจ ไม่ใช่การประเมินทางจิตวิทยา", left, height - 184);
-  context.fillStyle = "rgba(255, 255, 255, 0.42)";
-  context.font = canvasFont(23, 400);
-  context.fillText(siteCredit, left, height - 142);
 
   const dataUrl = canvas.toDataURL("image/png");
 
@@ -1047,7 +1033,7 @@ function shouldShowLongPressFallback() {
 }
 
 function isInAppBrowser() {
-  return /instagram|line|fban|fbav|fb_iab|messenger|twitter|tiktok|; wv\)/.test(navigator.userAgent.toLowerCase());
+  return /instagram|line\/|fban|fbav|fb_iab|messenger|twitter|tiktok|; wv\)/.test(navigator.userAgent.toLowerCase());
 }
 
 function downloadBlob(blob: Blob, fileName: string) {

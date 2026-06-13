@@ -96,7 +96,6 @@ export async function GET(request: Request, { params }: { params: { id: string }
             <div style={{ color: "rgba(255,255,255,0.52)", fontSize: 25, fontWeight: 400 }}>
               ประสบการณ์สะท้อนใจ ไม่ใช่การประเมินทางจิตวิทยา
             </div>
-            <div style={{ color: "rgba(255,255,255,0.42)", fontSize: 23, fontWeight: 400 }}>made by knotji</div>
           </div>
         </div>
       </div>
