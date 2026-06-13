@@ -66,7 +66,6 @@ describe("nature world scoring", () => {
 
       expect(poster.quote.length, `${worldId} poster quote`).toBeLessThanOrEqual(58);
       expect(poster.summary.length, `${worldId} poster summary`).toBeLessThanOrEqual(96);
-      expect(poster.description.length, `${worldId} poster description`).toBeLessThanOrEqual(82);
       expect(poster.tiredMessage.length, `${worldId} poster tired message`).toBeLessThanOrEqual(92);
     }
   });

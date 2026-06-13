@@ -42,11 +42,11 @@ export type NatureResult = {
   poster: {
     quote: string;
     summary: string;
-    description: string;
+    description?: string;
     tiredMessage: string;
   };
   quote: string;
-  description: string;
+  description?: string;
   strengths: string[];
   hiddenFeelings: string;
   tiredMessage: string;

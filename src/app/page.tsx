@@ -317,7 +317,7 @@ export default function Home() {
     <main className="relative min-h-svh overflow-hidden bg-ink text-white">
       <NatureBackdrop imageUrl={activeImage} />
 
-      {phase !== "intro" && phase !== "result" ? (
+      {phase !== "intro" ? (
         <button
           type="button"
           onClick={toggleSound}
@@ -642,11 +642,11 @@ export default function Home() {
 
                 <div className="pt-4">
                   <p className="font-kicker-thai text-sm font-medium leading-7 text-white/68">โลกธรรมชาติของคุณ</p>
-                  <h1
+                  <h2
                     className="font-display-thai mt-3 text-balance text-[38px] font-semibold leading-[1.08] text-white outline-none min-[700px]:mt-4 min-[700px]:text-5xl"
                   >
                     {result.worldName}
-                  </h1>
+                  </h2>
                   <p className="font-kicker-thai mt-3 text-sm font-medium leading-6 text-white/58">ทำไมคุณถึงได้โลกนี้</p>
                   <p className="font-poem-thai mt-2 text-[16px] font-medium leading-8 text-white/78 min-[700px]:text-lg min-[700px]:leading-9">
                     {result.poster.summary}
@@ -960,12 +960,11 @@ function drawWrappedText(
   lineHeight: number,
   maxLines = Number.POSITIVE_INFINITY
 ) {
-  const words = text.split(" ");
   const lines: string[] = [];
   let line = "";
 
-  for (const word of words) {
-    const testLine = line ? `${line} ${word}` : word;
+  for (const char of Array.from(text)) {
+    const testLine = line + char;
 
     if (context.measureText(testLine).width <= maxWidth) {
       line = testLine;
@@ -975,7 +974,7 @@ function drawWrappedText(
     if (line) {
       lines.push(line);
     }
-    line = word;
+    line = char;
   }
 
   if (line) {
@@ -983,6 +982,15 @@ function drawWrappedText(
   }
 
   const visibleLines = lines.slice(0, maxLines);
+
+  if (lines.length > maxLines && visibleLines.length > 0) {
+    let lastLine = visibleLines[visibleLines.length - 1] + "…";
+    while (context.measureText(lastLine).width > maxWidth && lastLine.length > 1) {
+      lastLine = lastLine.slice(0, -2) + "…";
+    }
+    visibleLines[visibleLines.length - 1] = lastLine;
+  }
+
   visibleLines.forEach((visibleLine, index) => {
     context.fillText(visibleLine, x, y + index * lineHeight);
   });
@@ -1039,7 +1047,7 @@ function shouldShowLongPressFallback() {
 }
 
 function isInAppBrowser() {
-  return /instagram|line|fban|fbav|fb_iab|messenger|twitter|tiktok|wv/.test(navigator.userAgent.toLowerCase());
+  return /instagram|line|fban|fbav|fb_iab|messenger|twitter|tiktok|; wv\)/.test(navigator.userAgent.toLowerCase());
 }
 
 function downloadBlob(blob: Blob, fileName: string) {
