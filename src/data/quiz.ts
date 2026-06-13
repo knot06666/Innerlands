@@ -71,7 +71,7 @@ export const questions: JourneyQuestion[] = [
         id: "awakening-meadow",
         text: "ทุ่งหญ้ากว้างพร้อมแสงแดดอุ่นยามเช้า",
         subtext: "เติมพลังให้วันใหม่แบบเบาสบาย โดยไม่ต้องพิสูจน์อะไรกับใคร",
-        weights: { "morning-meadow": 3, "rain-garden": 1, "twilight-valley": 1 }
+        weights: { "morning-meadow": 3, "rain-garden": 1, "twilight-valley": 1, "tropical-rainforest": 1 }
       },
       {
         id: "awakening-sea",
@@ -179,7 +179,7 @@ export const questions: JourneyQuestion[] = [
         id: "shelter-canopy",
         text: "กระท่อมกลางป่าทึบที่มีเสียงธรรมชาติรายล้อม",
         subtext: "คุณรู้สึกอุ่นใจเมื่อไม่ต้องติดอยู่กับความคิดของตัวเองเพียงลำพัง",
-        weights: { "tropical-rainforest": 2, "desert-stars": 1, "deep-cave": 2 }
+        weights: { "tropical-rainforest": 2, "desert-stars": 1, "deep-cave": 2, "mountain-wind": 1 }
       }
     ]
   },
