@@ -550,12 +550,12 @@ export default function Home() {
                 </div>
 
                 <blockquote className="font-poem-thai relative mt-5 text-pretty text-[18px] font-semibold leading-8 text-white/90 max-[340px]:text-[16px] max-[340px]:leading-7 min-[700px]:text-[20px] min-[700px]:leading-9">
-                  {result.quote}
+                  {result.poster.quote}
                 </blockquote>
 
                 <div className="relative mt-5 grid gap-4">
                   <p className="font-poem-thai text-pretty text-[15px] font-medium leading-7 text-white/78 max-[340px]:text-sm max-[340px]:leading-6 min-[700px]:text-[16px] min-[700px]:leading-8">
-                    {result.description}
+                    {result.poster.description}
                   </p>
 
                   <div>
@@ -572,7 +572,7 @@ export default function Home() {
                   <div>
                     <h2 className="font-display-thai text-sm font-semibold text-white">ในวันที่คุณเหนื่อย</h2>
                     <p className="font-poem-thai mt-2 text-pretty text-sm font-medium leading-7 text-white/76 max-[340px]:leading-6 min-[700px]:text-[15px]">
-                      {result.tiredMessage}
+                      {result.poster.tiredMessage}
                     </p>
                   </div>
                 </div>
@@ -601,7 +601,7 @@ export default function Home() {
                   className="inline-flex min-h-12 items-center justify-center rounded-lg border border-white/24 bg-white/14 px-3 text-sm font-medium text-white shadow-mist transition hover:bg-white/22 focus:outline-none focus:ring-2 focus:ring-white/60 disabled:cursor-wait disabled:opacity-80"
                 >
                   <Download className="mr-2 h-4 w-4" aria-hidden="true" />
-                  {isSaving ? "กำลังวาดรูป" : saveStatus === "downloaded" ? "ดาวน์โหลดแล้ว" : "ดาวน์โหลด"}
+                  {isSaving ? "กำลังเตรียมรูป" : saveStatus === "downloaded" ? "บันทึกแล้ว" : "บันทึกผลลัพธ์"}
                 </button>
               </div>
 
@@ -666,7 +666,7 @@ export default function Home() {
                   className="inline-flex min-h-12 items-center justify-center rounded-lg border border-white/24 bg-white/14 px-3 text-sm font-medium text-white shadow-mist transition hover:bg-white/22 focus:outline-none focus:ring-2 focus:ring-white/60 disabled:cursor-wait disabled:opacity-80"
                 >
                   <Download className="mr-2 h-4 w-4" aria-hidden="true" />
-                  {isSaving ? "กำลังวาดรูป" : saveStatus === "downloaded" ? "ดาวน์โหลดแล้ว" : "ดาวน์โหลด"}
+                  {isSaving ? "กำลังเตรียมรูป" : saveStatus === "downloaded" ? "บันทึกแล้ว" : "บันทึกผลลัพธ์"}
                 </button>
               </div>
 
@@ -850,7 +850,7 @@ async function createResultImage(result: NatureResult): Promise<ResultImage> {
   y += 74;
   context.fillStyle = "rgba(255, 255, 255, 0.9)";
   context.font = canvasFont(42, 600);
-  y = drawWrappedText(context, result.quote, left, y, 830, 62, 3);
+  y = drawWrappedText(context, result.poster.quote, left, y, 830, 62, 3);
 
   y += 62;
   context.fillStyle = "rgba(255, 255, 255, 0.86)";
@@ -860,7 +860,7 @@ async function createResultImage(result: NatureResult): Promise<ResultImage> {
   y += 58;
   context.fillStyle = "rgba(255, 255, 255, 0.82)";
   context.font = canvasFont(38, 400);
-  y = drawWrappedText(context, result.description, left, y, 830, 58, 4);
+  y = drawWrappedText(context, result.poster.description, left, y, 830, 58, 4);
 
   y += 58;
   context.fillStyle = "rgba(255, 255, 255, 0.86)";
@@ -896,7 +896,7 @@ async function createResultImage(result: NatureResult): Promise<ResultImage> {
   y += 58;
   context.fillStyle = "rgba(255, 255, 255, 0.82)";
   context.font = canvasFont(38, 400);
-  drawWrappedText(context, result.tiredMessage, left, y, 830, 58, 3);
+  drawWrappedText(context, result.poster.tiredMessage, left, y, 830, 58, 3);
 
   context.fillStyle = "rgba(255, 255, 255, 0.72)";
   context.font = canvasFont(30, 500);

@@ -39,6 +39,11 @@ export type NatureResult = {
   worldName: string;
   relatedNature: string;
   imageUrl: string;
+  poster: {
+    quote: string;
+    description: string;
+    tiredMessage: string;
+  };
   quote: string;
   description: string;
   strengths: string[];

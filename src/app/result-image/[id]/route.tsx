@@ -62,10 +62,10 @@ export async function GET(request: Request, { params }: { params: { id: string }
             <div style={{ color: "rgba(255,255,255,0.78)", fontSize: 35, fontWeight: 500 }}>{result.relatedNature}</div>
           </div>
           <div style={{ background: "rgba(255,255,255,0.22)", height: 2, width: "100%" }} />
-          <div style={{ color: "rgba(255,255,255,0.9)", fontSize: 42, fontWeight: 600, lineHeight: 1.48 }}>{result.quote}</div>
+          <div style={{ color: "rgba(255,255,255,0.9)", fontSize: 42, fontWeight: 600, lineHeight: 1.48 }}>{result.poster.quote}</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
             <div style={{ color: "rgba(255,255,255,0.86)", fontSize: 38, fontWeight: 600 }}>โลกนี้บอกว่า</div>
-            <div style={{ color: "rgba(255,255,255,0.82)", fontSize: 38, fontWeight: 400, lineHeight: 1.5 }}>{result.description}</div>
+            <div style={{ color: "rgba(255,255,255,0.82)", fontSize: 38, fontWeight: 400, lineHeight: 1.5 }}>{result.poster.description}</div>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
             <div style={{ color: "rgba(255,255,255,0.86)", fontSize: 38, fontWeight: 600 }}>พลังของคุณ</div>
@@ -89,7 +89,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
             <div style={{ color: "rgba(255,255,255,0.86)", fontSize: 38, fontWeight: 600 }}>ในวันที่คุณเหนื่อย</div>
-            <div style={{ color: "rgba(255,255,255,0.82)", fontSize: 38, fontWeight: 400, lineHeight: 1.5 }}>{result.tiredMessage}</div>
+            <div style={{ color: "rgba(255,255,255,0.82)", fontSize: 38, fontWeight: 400, lineHeight: 1.5 }}>{result.poster.tiredMessage}</div>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 26 }}>
             <div style={{ color: "rgba(255,255,255,0.72)", fontSize: 30, fontWeight: 500 }}>โลกข้างใน</div>
