@@ -296,7 +296,7 @@ export default function Home() {
     <main className="relative min-h-svh overflow-hidden bg-ink text-white">
       <NatureBackdrop imageUrl={activeImage} />
 
-      {phase !== "intro" ? (
+      {phase !== "intro" && phase !== "result" ? (
         <button
           type="button"
           onClick={toggleSound}
@@ -530,13 +530,83 @@ export default function Home() {
             exit="exit"
             transition={{ duration: 0.62, ease: "easeOut" }}
             onAnimationComplete={(definition) => focusSceneHeading(definition, resultHeadingRef)}
-            className="relative z-10 flex min-h-svh flex-col px-5 py-4 max-[340px]:px-4 sm:py-6"
+            className="relative z-10 flex min-h-svh flex-col px-4 py-4 max-[340px]:px-3 sm:py-6"
           >
-            <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-start py-5 pb-44 min-[700px]:justify-center min-[700px]:py-8">
-              <p className="font-kicker-thai text-sm font-medium leading-7 text-white/68">โลกธรรมชาติของคุณ</p>
+            <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-start py-2 min-[700px]:max-w-[440px] min-[700px]:justify-center min-[700px]:py-6">
+              <div className="relative flex min-h-[calc(100svh-2rem)] w-full flex-col justify-between overflow-hidden rounded-lg border border-white/24 bg-white/12 px-5 py-5 shadow-mist backdrop-blur-md max-[340px]:px-4 max-[340px]:py-4 min-[700px]:aspect-[9/16] min-[700px]:min-h-0 min-[700px]:px-7 min-[700px]:py-7">
+                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),transparent_34%,rgba(9,20,25,0.24))]" />
+                <div className="relative">
+                  <p className="font-kicker-thai text-xs font-medium leading-6 text-white/66">โลกธรรมชาติของคุณ</p>
+                  <h1
+                    ref={resultHeadingRef}
+                    tabIndex={-1}
+                    className="font-display-thai mt-2 text-balance text-[34px] font-semibold leading-[1.08] text-white outline-none max-[340px]:text-[30px] min-[700px]:text-[42px]"
+                  >
+                    {result.worldName}
+                  </h1>
+                  <p className="font-display-thai mt-3 inline-flex rounded-full bg-white/18 px-3 py-1 text-xs font-semibold leading-5 text-white backdrop-blur">
+                    {result.relatedNature}
+                  </p>
+                </div>
+
+                <blockquote className="font-poem-thai relative mt-5 text-pretty text-[18px] font-semibold leading-8 text-white/90 max-[340px]:text-[16px] max-[340px]:leading-7 min-[700px]:text-[20px] min-[700px]:leading-9">
+                  {result.quote}
+                </blockquote>
+
+                <div className="relative mt-5 grid gap-4">
+                  <p className="font-poem-thai text-pretty text-[15px] font-medium leading-7 text-white/78 max-[340px]:text-sm max-[340px]:leading-6 min-[700px]:text-[16px] min-[700px]:leading-8">
+                    {result.description}
+                  </p>
+
+                  <div>
+                    <h2 className="font-display-thai text-sm font-semibold text-white">พลังของคุณ</h2>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {result.strengths.map((strength) => (
+                        <span key={strength} className="font-poem-thai rounded-full border border-white/18 bg-white/14 px-3 py-1.5 text-xs font-medium text-white/78 backdrop-blur">
+                          {strength}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h2 className="font-display-thai text-sm font-semibold text-white">ในวันที่คุณเหนื่อย</h2>
+                    <p className="font-poem-thai mt-2 text-pretty text-sm font-medium leading-7 text-white/76 max-[340px]:leading-6 min-[700px]:text-[15px]">
+                      {result.tiredMessage}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="relative mt-5 border-t border-white/18 pt-3">
+                  <p className="font-kicker-thai text-xs font-semibold leading-5 text-white/70">โลกข้างใน</p>
+                  <p className="font-kicker-thai mt-1 text-[11px] leading-5 text-white/52">
+                    ประสบการณ์สะท้อนใจ ไม่ใช่การประเมินทางจิตวิทยา
+                  </p>
+                </div>
+              </div>
+
+              <div className="mx-auto mt-3 grid w-full grid-cols-2 gap-2 rounded-lg bg-ink/32 p-1 backdrop-blur-md min-[700px]:bg-transparent min-[700px]:p-0 min-[700px]:backdrop-blur-0">
+                <button
+                  type="button"
+                  onClick={restart}
+                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg border border-white/24 bg-white/14 px-3 text-sm font-medium text-white shadow-mist transition hover:bg-white/22 focus:outline-none focus:ring-2 focus:ring-white/60"
+                >
+                  <RefreshCcw className="h-4 w-4" aria-hidden="true" />
+                  เริ่มใหม่
+                </button>
+                <button
+                  type="button"
+                  onClick={saveResultImage}
+                  disabled={isSaving}
+                  className="inline-flex min-h-12 items-center justify-center rounded-lg border border-white/24 bg-white/14 px-3 text-sm font-medium text-white shadow-mist transition hover:bg-white/22 focus:outline-none focus:ring-2 focus:ring-white/60 disabled:cursor-wait disabled:opacity-80"
+                >
+                  <Download className="mr-2 h-4 w-4" aria-hidden="true" />
+                  {isSaving ? "กำลังวาดรูป" : saveStatus === "downloaded" ? "ดาวน์โหลดแล้ว" : "ดาวน์โหลด"}
+                </button>
+              </div>
+
+              <p className="font-kicker-thai mt-8 text-sm font-medium leading-7 text-white/68">โลกธรรมชาติของคุณ</p>
               <h1
-                ref={resultHeadingRef}
-                tabIndex={-1}
                 className="font-display-thai mt-3 text-balance text-[42px] font-semibold leading-[1.08] text-white outline-none min-[700px]:mt-4 min-[700px]:text-5xl"
               >
                 {result.worldName}
@@ -580,7 +650,7 @@ export default function Home() {
                 </div>
               </section>
 
-              <div className="mx-auto mt-6 grid w-full max-w-md grid-cols-2 gap-2 rounded-lg bg-ink/32 py-1 backdrop-blur-md min-[341px]:fixed min-[341px]:inset-x-4 min-[341px]:bottom-3 min-[341px]:z-20 min-[341px]:w-auto min-[341px]:max-w-none min-[700px]:static min-[700px]:mt-9 min-[700px]:w-full min-[700px]:max-w-md min-[700px]:bg-transparent min-[700px]:py-0 min-[700px]:backdrop-blur-0">
+              <div className="hidden">
                 <button
                   type="button"
                   onClick={restart}
