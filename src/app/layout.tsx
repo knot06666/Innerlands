@@ -1,6 +1,14 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
+import { Sarabun } from "next/font/google";
 import "./globals.css";
+
+const sarabun = Sarabun({
+  subsets: ["thai", "latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-sarabun",
+  display: "swap"
+});
 
 const title = "โลกข้างใน";
 const description = "เว็บเดินทางผ่านธรรมชาติของใจ เพื่อค้นพบว่าโลกข้างในของคุณคล้ายภูมิประเทศแบบไหน";
@@ -41,7 +49,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="th">
+    <html lang="th" className={sarabun.variable}>
       <body>
         {children}
         <Analytics />
