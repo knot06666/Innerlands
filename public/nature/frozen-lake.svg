@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" width="1400" height="900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7aaabf"/>
+      <stop offset="100%" stop-color="#cce4f0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1400" height="900" fill="url(#bg)"/>
+
+  <!-- Distant mountain silhouettes -->
+  <polygon points="0,680 220,320 440,680" fill="#5a90aa" opacity="0.45"/>
+  <polygon points="320,680 600,240 880,680" fill="#4e8098" opacity="0.5"/>
+  <polygon points="700,680 1020,280 1340,680" fill="#5a90aa" opacity="0.42"/>
+  <polygon points="1050,680 1250,380 1450,680" fill="#4a7a90" opacity="0.48"/>
+
+  <!-- Atmospheric ice-mist bands -->
+  <ellipse cx="700" cy="420" rx="1100" ry="42" fill="#b8d8ec" opacity="0.32"/>
+  <ellipse cx="400" cy="480" rx="900" ry="36" fill="#c4e0f0" opacity="0.28"/>
+  <ellipse cx="900" cy="360" rx="800" ry="30" fill="#aed0e4" opacity="0.25"/>
+  <ellipse cx="700" cy="540" rx="1300" ry="38" fill="#c8e4f4" opacity="0.22"/>
+  <ellipse cx="600" cy="310" rx="700" ry="26" fill="#b4d4e8" opacity="0.20"/>
+
+  <!-- Frozen lake surface -->
+  <ellipse cx="700" cy="900" rx="1600" ry="420" fill="#9ec4d8" opacity="0.72"/>
+  <ellipse cx="700" cy="940" rx="1600" ry="360" fill="#b4d4e4" opacity="0.80"/>
+
+  <!-- Ice surface reflection lines -->
+  <ellipse cx="500" cy="810" rx="380" ry="10" fill="#d4eaf8" opacity="0.50"/>
+  <ellipse cx="950" cy="840" rx="280" ry="7" fill="#d4eaf8" opacity="0.45"/>
+  <ellipse cx="200" cy="860" rx="220" ry="6" fill="#dceef8" opacity="0.40"/>
+  <ellipse cx="1150" cy="820" rx="320" ry="8" fill="#d0e8f4" opacity="0.42"/>
+  <ellipse cx="700" cy="870" rx="500" ry="9" fill="#d8ecf8" opacity="0.38"/>
+
+  <!-- Snowflake/ice crystal dots -->
+  <circle cx="180" cy="560" r="5" fill="#deeef8" opacity="0.55"/>
+  <circle cx="620" cy="490" r="4" fill="#e4f2fc" opacity="0.50"/>
+  <circle cx="1050" cy="530" r="5" fill="#deeef8" opacity="0.55"/>
+  <circle cx="380" cy="620" r="3" fill="#e0f0fa" opacity="0.45"/>
+  <circle cx="840" cy="580" r="4" fill="#e4f2fc" opacity="0.48"/>
+  <circle cx="1280" cy="600" r="5" fill="#deeef8" opacity="0.50"/>
+  <circle cx="100" cy="640" r="3" fill="#e0f0fa" opacity="0.42"/>
+</svg>

@@ -8,7 +8,11 @@ export const worldOrder: NatureWorldId[] = [
   "rain-garden",
   "river-valley",
   "desert-stars",
-  "tropical-rainforest"
+  "tropical-rainforest",
+  "frozen-lake",
+  "twilight-valley",
+  "volcanic-island",
+  "deep-cave"
 ];
 
 export const interludes: JourneyInterlude[] = [
@@ -62,25 +66,25 @@ export const questions: JourneyQuestion[] = [
         id: "awakening-forest",
         text: "ป่าสนเงียบสงบที่มีสายหมอกปกคลุม",
         subtext: "คุณต้องการความเงียบเพื่อฟังเสียงหัวใจตัวเองให้ชัดเจนขึ้น",
-        weights: { "mist-forest": 3, "desert-stars": 1 }
+        weights: { "mist-forest": 3, "desert-stars": 1, "deep-cave": 1 }
       },
       {
         id: "awakening-meadow",
         text: "ทุ่งหญ้ากว้างพร้อมแสงแดดอุ่นยามเช้า",
         subtext: "เติมพลังให้วันใหม่แบบเบาสบาย โดยไม่ต้องพิสูจน์อะไรกับใคร",
-        weights: { "morning-meadow": 3, "rain-garden": 1 }
+        weights: { "morning-meadow": 3, "rain-garden": 1, "twilight-valley": 1 }
       },
       {
         id: "awakening-sea",
         text: "ทะเลกว้างอันมีเสียงคลื่นซัดสม่ำเสมอ",
         subtext: "คุณอยากโอบรับความรู้สึกที่ขึ้นลง โดยไม่ต้องกดดันตัวเอง",
-        weights: { "clouded-sea": 3, "river-valley": 1 }
+        weights: { "clouded-sea": 3, "river-valley": 1, "frozen-lake": 1 }
       },
       {
         id: "awakening-mountain",
         text: "ภูเขาสูงที่มองเห็นเส้นขอบฟ้าไกลสุดตา",
         subtext: "คุณอยากเห็นภาพรวมและรู้ว่าตัวเองกำลังเดินไปในทิศทางไหน",
-        weights: { "mountain-wind": 3, "desert-stars": 1 }
+        weights: { "mountain-wind": 3, "volcanic-island": 1, "desert-stars": 1 }
       }
     ]
   },
@@ -95,13 +99,13 @@ export const questions: JourneyQuestion[] = [
         id: "sound-water",
         text: "เสียงกระแสน้ำไหลเอื่อย",
         subtext: "คุณเชื่อว่าการค่อย ๆ ปรับตัวและเปลี่ยนแปลงจะพาเราไปต่อได้",
-        weights: { "river-valley": 3, "clouded-sea": 1 }
+        weights: { "river-valley": 3, "clouded-sea": 1, "volcanic-island": 1 }
       },
       {
         id: "sound-leaves",
         text: "เสียงสายฝนหรือหยดน้ำกระทบใบไม้เบา ๆ",
         subtext: "คุณต้องการเวลาเยียวยาตัวเองเงียบ ๆ โดยไม่ต้องอธิบายให้ใครฟัง",
-        weights: { "rain-garden": 3, "mist-forest": 1 }
+        weights: { "rain-garden": 3, "mist-forest": 1, "twilight-valley": 1 }
       },
       {
         id: "sound-birds",
@@ -113,7 +117,7 @@ export const questions: JourneyQuestion[] = [
         id: "sound-silence",
         text: "ความสงบเงียบใต้ท้องฟ้ากว้างอันโดดเดี่ยว",
         subtext: "คุณต้องการพื้นที่ที่ไร้เสียงรบกวน เพื่อตกตะกอนความคิด",
-        weights: { "desert-stars": 3, "mountain-wind": 1 }
+        weights: { "desert-stars": 3, "mountain-wind": 1, "frozen-lake": 1, "deep-cave": 1 }
       }
     ]
   },
@@ -128,25 +132,25 @@ export const questions: JourneyQuestion[] = [
         id: "crossroad-light",
         text: "เลือกเส้นทางที่ดูอ่อนโยนและไม่กดดัน",
         subtext: "คุณจะทำได้ดีเมื่อรู้สึกว่าตัวเองไม่ได้ถูกเร่งรัดจากเวลา",
-        weights: { "morning-meadow": 2, "rain-garden": 2 }
+        weights: { "morning-meadow": 2, "rain-garden": 2, "twilight-valley": 1 }
       },
       {
         id: "crossroad-height",
         text: "มองจากที่สูงเพื่อดูภาพรวมก่อนตัดสินใจ",
         subtext: "คุณอยากเข้าใจสถานการณ์ทั้งหมดก่อนจะก้าวขาเดินต่อ",
-        weights: { "mountain-wind": 3, "desert-stars": 1 }
+        weights: { "mountain-wind": 2, "volcanic-island": 2, "desert-stars": 1 }
       },
       {
         id: "crossroad-depth",
         text: "ถอยกลับเข้าหาความเงียบเพื่อทบทวน",
         subtext: "คุณมักใช้เวลาฟังเสียงเรียกร้องข้างในก่อนเลือกทางเดิน",
-        weights: { "mist-forest": 2, "tropical-rainforest": 2 }
+        weights: { "mist-forest": 2, "deep-cave": 2, "frozen-lake": 1 }
       },
       {
         id: "crossroad-current",
         text: "ปล่อยให้สถานการณ์และจังหวะชีวิตพัดพาไป",
         subtext: "คุณปรับตัวเก่ง และเลือกที่จะไม่ฝืนกระแสหากไม่จำเป็น",
-        weights: { "river-valley": 3, "clouded-sea": 1 }
+        weights: { "river-valley": 2, "tropical-rainforest": 2, "clouded-sea": 1 }
       }
     ]
   },
@@ -161,25 +165,25 @@ export const questions: JourneyQuestion[] = [
         id: "shelter-cabin",
         text: "บ้านไม้เงียบสงบที่มีแสงไฟสีอุ่นดวงเล็ก ๆ",
         subtext: "คุณโหยหาความอบอุ่นเรียบง่ายที่ปราศจากความวุ่นวาย",
-        weights: { "mist-forest": 3, "mountain-wind": 1 }
+        weights: { "mist-forest": 2, "rain-garden": 1, "twilight-valley": 2 }
       },
       {
         id: "shelter-garden",
         text: "เรือนกระจกกลางสวนชุ่มฉ่ำหลังฝนตก",
         subtext: "คุณอยากได้พื้นที่ช่วยชะล้างความหนักอึ้งในใจออกไปทีละน้อย",
-        weights: { "rain-garden": 3, "morning-meadow": 1 }
+        weights: { "rain-garden": 2, "morning-meadow": 2, "volcanic-island": 1 }
       },
       {
         id: "shelter-shore",
         text: "ห้องพักริมหาดที่เคล้าด้วยเสียงคลื่น",
         subtext: "อยากปล่อยให้ความรู้สึกหลั่งไหลออกมาโดยไม่ต้องซ่อนเร้น",
-        weights: { "clouded-sea": 3, "river-valley": 1 }
+        weights: { "clouded-sea": 2, "river-valley": 1, "frozen-lake": 2 }
       },
       {
         id: "shelter-canopy",
         text: "กระท่อมกลางป่าทึบที่มีเสียงธรรมชาติรายล้อม",
         subtext: "คุณรู้สึกอุ่นใจเมื่อไม่ต้องติดอยู่กับความคิดของตัวเองเพียงลำพัง",
-        weights: { "tropical-rainforest": 3, "desert-stars": 1 }
+        weights: { "tropical-rainforest": 2, "desert-stars": 1, "deep-cave": 2 }
       }
     ]
   },
@@ -194,25 +198,25 @@ export const questions: JourneyQuestion[] = [
         id: "tired-mist",
         text: "สายหมอกอันเงียบเชียบที่ไม่เอ่ยคำถามใด ๆ",
         subtext: "คุณแค่ต้องการพื้นที่พักผ่อน โดยไม่ต้องอธิบายอะไรให้ใครฟัง",
-        weights: { "mist-forest": 2, "clouded-sea": 2 }
+        weights: { "mist-forest": 2, "clouded-sea": 1, "frozen-lake": 2 }
       },
       {
         id: "tired-sun",
         text: "แสงแดดอุ่น ๆ ยามเช้า",
         subtext: "คุณต้องการพลังใจเล็ก ๆ ที่คอยย้ำเตือนว่าเราเริ่มใหม่ได้เสมอ",
-        weights: { "morning-meadow": 3, "river-valley": 1 }
+        weights: { "morning-meadow": 2, "river-valley": 1, "volcanic-island": 2 }
       },
       {
         id: "tired-rain",
         text: "สายฝนโปรยปรายที่ช่วยล้างความค้างคา",
         subtext: "คุณอยากระบายความเหนื่อยล้า โดยไม่ต้องทำเป็นเข้มแข็งตลอดเวลา",
-        weights: { "rain-garden": 2, "tropical-rainforest": 2 }
+        weights: { "rain-garden": 1, "tropical-rainforest": 2, "twilight-valley": 2 }
       },
       {
         id: "tired-stars",
         text: "ทะเลดาวระยิบระยับบนท้องฟ้าอันกว้างใหญ่",
         subtext: "คุณอยากมองเรื่องหนัก ๆ ให้เล็กลง เพื่อกลับมาหายใจได้โล่งขึ้น",
-        weights: { "desert-stars": 3, "mountain-wind": 1 }
+        weights: { "desert-stars": 2, "mountain-wind": 1, "deep-cave": 2 }
       }
     ]
   }
@@ -241,7 +245,7 @@ export const results: Record<NatureWorldId, NatureResult> = {
     imageUrl: "/nature/morning-meadow.png",
     poster: {
       quote: "คุณคือเช้าวันใหม่ที่กลับมาอย่างนุ่มนวล",
-      summary: "คุณมักเลือกหนทางที่มองหาประกายความหวัง แสงแดดอุ่น และการเริ่มต้นใหม่ด้วยใจที่เบาสบาย",
+      summary: "คุณมักเลือกหนทางที่มองหาประกายความหวัง แงแดดอุ่น และการเริ่มต้นใหม่ด้วยใจที่เบาสบาย",
       tiredMessage: "พักนิ่ง ๆ เสียหน่อยก็ได้ ไม่ต้องรีบเป็นแสงสว่างให้ใครตลอดเวลา"
     },
     quote: "คุณคือเช้าวันใหม่ที่หวนคืนอย่างนุ่มนวล ไม่ว่าคืนก่อนจะมืดมิดและยาวนานเพียงใด",
@@ -317,7 +321,7 @@ export const results: Record<NatureWorldId, NatureResult> = {
     poster: {
       quote: "ความเงียบของคุณเต็มไปด้วยดวงดาว",
       summary: "คุณมักเลือกหนทางที่ให้คุณค่ากับอิสระ ความเงียบสงบ และการมีพื้นที่ตกตะกอนความคิดกับตัวเอง",
-      tiredMessage: "ในวันทีเหนื่อยล้า หากอยากมีใครสักคนมาอยู่ข้าง ๆ บ้างก็ไม่เป็นไรเลย"
+      tiredMessage: "ในวันที่เหนื่อยล้า หากอยากมีใครสักคนมาอยู่ข้าง ๆ บ้างก็ไม่เป็นไรเลย"
     },
     quote: "ความเงียบของคุณไม่เคยว่างเปล่า มันเต็มไปด้วยดวงดาวมากมายที่ยังไม่จำเป็นต้องรีบนิยาม",
     strengths: ["เป็นตัวของตัวเองอย่างเด่นชัด", "พึ่งพาตัวเองได้ดี", "คิดลึกซึ้งและไม่รีบตัดสินใคร"],
@@ -338,5 +342,65 @@ export const results: Record<NatureWorldId, NatureResult> = {
     strengths: ["มีความคิดสร้างสรรค์สูง", "มองเห็นได้หลากหลายมิติ", "ส่งต่อพลังงานดี ๆ ให้คนรอบข้าง"],
     hiddenFeelings: "คุณเหนื่อยล้าจากความคิดและความรู้สึกที่ถาโถมเข้ามาพร้อมกัน ทั้งอยากริเริ่มสิ่งใหม่ อยากวิ่งหนีไปพัก และอยากให้มีใครสักคนรับฟังคุณอย่างแท้จริง",
     tiredMessage: "ลองหรี่เสียงในหัวลงทีละนิดเถอะนะ คุณไม่จำเป็นต้องตอบสนองหรือจัดการทุกอย่างที่ผ่านเข้ามาในเวลาเดียวกัน"
+  },
+  "frozen-lake": {
+    id: "frozen-lake",
+    worldName: "ทะเลสาบน้ำแข็ง",
+    relatedNature: "ผิวน้ำนิ่ง หิมะขาวโปรย ความเยือกเย็น",
+    imageUrl: "/nature/frozen-lake.svg",
+    poster: {
+      quote: "ผิวน้ำที่เยือกเย็น โอบอุ้มเรื่องราวที่ลึกเกินกว่าจะเอ่ย",
+      summary: "คุณมักเลือกหนทางที่เน้นความสงบนิ่ง ควบคุมสถานการณ์ และปกป้องโลกส่วนตัวเอาไว้อย่างมิดชิด",
+      tiredMessage: "วันนี้ไม่ต้องทำเป็นเข้มแข็งจนเย็นชาหรอกนะ ปล่อยให้น้ำแข็งละลายลงบ้างก็ได้"
+    },
+    quote: "ความเย็นชาไม่ได้แปลว่าไร้ความรู้สึก น้ำแข็งเพียงกำลังโอบอุ้มเรื่องราวที่ลึกเกินกว่าจะอธิบาย",
+    strengths: ["ควบคุมอารมณ์ได้ดีเยี่ยม", "มีสมาธิและสติสูง", "พึ่งพาตนเองได้อย่างมั่นคง"],
+    hiddenFeelings: "ลึก ๆ คุณแบกรับความเหงาและความกดดันไว้เพียงลำพัง เพราะกลัวว่าถ้าแสดงความอ่อนแอออกมา โลกที่คุณพยายามสร้างไว้จะพังทลายลง",
+    tiredMessage: "อนุญาตให้โลกภายในของคุณได้รับความอบอุ่นบ้างนะ วันนี้ไม่ต้องแช่แข็งทุกความรู้สึกเอาไว้หรอก เหนื่อยก็แค่ยอมรับว่าเหนื่อย"
+  },
+  "twilight-valley": {
+    id: "twilight-valley",
+    worldName: "หุบเขาแสงทไวไลท์",
+    relatedNature: "แสงก้ำกึ่ง ขอบฟ้าเปลี่ยนสี ความเงียบงดงาม",
+    imageUrl: "/nature/twilight-valley.svg",
+    poster: {
+      quote: "แสงก้ำกึ่งก็งดงามในแบบของมันเอง",
+      summary: "คุณมักเลือกหนทางแห่งความสุนทรีย์ อ่อนโยน และพื้นที่ก้ำกึ่งที่ปลอดภัยต่อจินตนาการ",
+      tiredMessage: "ปล่อยใจให้ฟุ้งซ่านอย่างปลอดภัยในหุบเขาแห่งนี้เถอะ วันนี้ไม่ต้องรีบหาความชัดเจนหรอก"
+    },
+    quote: "คุณไม่จำเป็นต้องเลือกข้างระหว่างวันและคืน แสงก้ำกึ่งก็งดงามในแบบของมันเอง",
+    strengths: ["มีเซนส์ด้านศิลปะและสุนทรียภาพ", "เข้าใจความรู้สึกที่ซับซ้อนและเปราะบาง", "มีความเห็นอกเห็นใจสูง"],
+    hiddenFeelings: "บางครั้งคุณรู้สึกเคว้งคว้างเพราะหาจุดยืนที่ชัดเจนในโลกแห่งความจริงไม่ได้ และมักจะติดอยู่กับความอาลัยอาวรณ์ในอดีตหรือสิ่งชั่วคราว",
+    tiredMessage: "พักผ่อนท่ามกลางแสงสลัวนี้เถอะนะ ไม่ต้องฝืนทำตัวให้ชัดเจนหรือเดินตามกรอบของใคร แค่ปล่อยให้ใจได้ละเลียดความรู้สึกในตอนนี้ก็พอ"
+  },
+  "volcanic-island": {
+    id: "volcanic-island",
+    worldName: "เกาะภูเขาไฟ",
+    relatedNature: "ลาวาอุ่น หินดำหนักแน่น พลังงานเพาะปลูก",
+    imageUrl: "/nature/volcanic-island.svg",
+    poster: {
+      quote: "ไฟในตัวคุณมีไว้เพื่อสร้างสรรค์ผืนดินผืนใหม่",
+      summary: "คุณมักเลือกหนทางที่เต็มไปด้วยความมุ่งมั่น แรงผลักดัน และการปกป้องสิ่งสำคัญด้วยหัวใจที่ซื่อตรง",
+      tiredMessage: "หรี่ไฟในใจลงมาเป็นไออุ่นชั่วคราวเถอะนะ คุณไม่จำเป็นต้องปะทุพลังตลอดเวลา"
+    },
+    quote: "ไฟในตัวคุณไม่ได้มีไว้เผาทำลาย แต่มันคือพลังงานที่เตรียมสร้างผืนดินผืนใหม่",
+    strengths: ["มีความเป็นผู้นำและเด็ดขาด", "ซื่อตรงและรักความยุติธรรม", "สร้างแรงบันาลใจให้ผู้อื่นได้ดี"],
+    hiddenFeelings: "คุณมักจะแบกรับความโกรธและความอัดอั้นไว้ข้างในเพียงลำพัง เพราะกลัวว่าถ้าควบคุมมันไม่ได้ พลังไฟของคุณจะเผลอไปทำร้ายคนรอบข้าง",
+    tiredMessage: "ปล่อยให้ลาวาในใจได้พักผ่อนและตกตะกอนกลายเป็นผืนดินที่อุดมสมบูรณ์เถอะ วันนี้วางความรับผิดชอบลงก่อน แล้วให้ธรรมชาติช่วยโอบรับความร้อนใจของคุณเอง"
+  },
+  "deep-cave": {
+    id: "deep-cave",
+    worldName: "ถ้ำหินงอกหินย้อยอันลึกลับ",
+    relatedNature: "ความมืดสงบ ผลึกคริสตัลระยิบระยับ ความลึก",
+    imageUrl: "/nature/deep-cave.svg",
+    poster: {
+      quote: "ผลึกที่สวยงามที่สุด มักเติบโตในจุดที่แสงส่องไม่ถึง",
+      summary: "คุณมักเลือกหนทางที่ลึกซึ้ง ตกตะกอนความคิด และชอบศึกษาความลึกลับของโลกและจิตใจ",
+      tiredMessage: "เอนกายลงในความมืดที่แสนปลอดภัยนี้เถอะ วันนี้ปล่อยวางความคิดอันซับซ้อนลงได้แล้ว"
+    },
+    quote: "ความมืดไม่ได้น่ากลัวเสมอไป บางครั้งผลึกที่สวยงามที่สุด ก็เติบโตในจุดที่แสงส่องไม่ถึง",
+    strengths: ["คิดวิเคราะห์อย่างลึกซึ้งและมีระบบ", "เก็บรักษาความลับและความรู้สึกเก่ง", "มองเห็นสัจธรรมหรือแก่นแท้ของปัญหา"],
+    hiddenFeelings: "บางครั้งคุณรู้สึกแปลกแยกจากคนอื่นและระแวดระวังตัวมากเกินไป จนกลายเป็นการสร้างกำแพงปิดกั้นตัวเองออกจากความสัมพันธ์ที่อบอุ่น",
+    tiredMessage: "ความมืดในถ้ำแห่งนี้จะช่วยโอบกอดความเหนื่อยล้าของคุณเอง วันนี้ไม่ต้องพยายามทำความเข้าใจอะไรทั้งนั้น ปล่อยให้สมองและหัวใจได้พักผ่อนท่ามกลางความเงียบสงัดนี้เถอะ"
   }
 };

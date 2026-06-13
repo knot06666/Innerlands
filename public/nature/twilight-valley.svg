@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" width="1400" height="900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e1030"/>
+      <stop offset="52%" stop-color="#8a3848"/>
+      <stop offset="100%" stop-color="#c0704a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1400" height="900" fill="url(#bg)"/>
+
+  <!-- Twilight glow bands near horizon -->
+  <ellipse cx="700" cy="560" rx="1300" ry="80" fill="#d4784a" opacity="0.28"/>
+  <ellipse cx="700" cy="520" rx="1100" ry="55" fill="#c86858" opacity="0.22"/>
+  <ellipse cx="700" cy="490" rx="900" ry="40" fill="#b85868" opacity="0.18"/>
+  <ellipse cx="700" cy="580" rx="1400" ry="60" fill="#c86840" opacity="0.20"/>
+  <ellipse cx="700" cy="460" rx="700" ry="30" fill="#a04870" opacity="0.15"/>
+
+  <!-- Valley hill layers — far -->
+  <ellipse cx="700" cy="820" rx="1800" ry="380" fill="#1a0c20" opacity="0.90"/>
+  <ellipse cx="200" cy="800" rx="800" ry="340" fill="#160a1c" opacity="0.80"/>
+  <ellipse cx="1200" cy="810" rx="700" ry="320" fill="#160a1c" opacity="0.78"/>
+
+  <!-- Valley hill layers — mid -->
+  <ellipse cx="700" cy="750" rx="1400" ry="260" fill="#240e2e" opacity="0.82"/>
+  <ellipse cx="350" cy="730" rx="700" ry="240" fill="#1e0c28" opacity="0.75"/>
+  <ellipse cx="1100" cy="740" rx="600" ry="230" fill="#1e0c28" opacity="0.72"/>
+
+  <!-- Valley silhouette foreground -->
+  <ellipse cx="700" cy="900" rx="1600" ry="340" fill="#120820" opacity="0.95"/>
+
+  <!-- Stars in dark sky -->
+  <circle cx="150" cy="80" r="2" fill="#f0d8e8" opacity="0.60"/>
+  <circle cx="420" cy="50" r="2" fill="#f0d8e8" opacity="0.55"/>
+  <circle cx="680" cy="100" r="1.5" fill="#f0d8e8" opacity="0.50"/>
+  <circle cx="920" cy="60" r="2" fill="#f0d8e8" opacity="0.58"/>
+  <circle cx="1180" cy="90" r="1.5" fill="#f0d8e8" opacity="0.52"/>
+  <circle cx="1320" cy="45" r="2" fill="#f0d8e8" opacity="0.55"/>
+  <circle cx="60" cy="150" r="1.5" fill="#f0d8e8" opacity="0.45"/>
+  <circle cx="290" cy="180" r="2" fill="#f0d8e8" opacity="0.50"/>
+  <circle cx="780" cy="140" r="1.5" fill="#f0d8e8" opacity="0.48"/>
+  <circle cx="1050" cy="160" r="2" fill="#f0d8e8" opacity="0.52"/>
+  <circle cx="1380" cy="130" r="1.5" fill="#f0d8e8" opacity="0.45"/>
+  <circle cx="540" cy="200" r="1.5" fill="#f0d8e8" opacity="0.42"/>
+  <circle cx="1240" cy="210" r="2" fill="#f0d8e8" opacity="0.48"/>
+</svg>

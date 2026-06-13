@@ -36,6 +36,10 @@ const SCENE_PARTICLE_MAP: Record<string, { type: SceneParticleType; count: numbe
   "river-valley": { type: "shimmer", count: 12 },
   "desert-stars": { type: "stars", count: 16 },
   "tropical-rainforest": { type: "rain", count: 22 },
+  "frozen-lake": { type: "shimmer", count: 14 },
+  "twilight-valley": { type: "stars", count: 10 },
+  "volcanic-island": { type: "dust", count: 16 },
+  "deep-cave": { type: "shimmer", count: 8 },
 };
 
 const JOURNEY_ICONS = [Leaf, Wind, Droplets, Mountain, Sparkles];
@@ -1148,7 +1152,7 @@ function getParticleStyle(type: SceneParticleType, index: number): CSSProperties
 }
 
 function NatureParticles({ imageUrl }: { imageUrl: string }) {
-  const sceneKey = imageUrl.replace("/nature/", "").replace(".png", "");
+  const sceneKey = imageUrl.split("/").pop()?.replace(/\.(png|svg|webp|jpg)$/, "") ?? "";
   const config = SCENE_PARTICLE_MAP[sceneKey];
   if (!config) return null;
 

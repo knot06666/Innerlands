@@ -6,7 +6,11 @@ export type NatureWorldId =
   | "rain-garden"
   | "river-valley"
   | "desert-stars"
-  | "tropical-rainforest";
+  | "tropical-rainforest"
+  | "frozen-lake"
+  | "twilight-valley"
+  | "volcanic-island"
+  | "deep-cave";
 
 export type NatureWeights = Partial<Record<NatureWorldId, number>>;
 
