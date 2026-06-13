@@ -125,8 +125,7 @@ export default function Home() {
   }
 
   function continueJourney() {
-    if (answers.length >= totalQuestions) {
-      const completedResult = getNatureResult(scoreChoices(answers));
+    if (answers.length >= totalQuestions && completedResult) {
       trackJourneyEvent("journey_completed", {
         resultId: completedResult.id,
         resultName: completedResult.worldName
@@ -1044,5 +1043,5 @@ function downloadBlob(blob: Blob, fileName: string) {
   document.body.appendChild(anchor);
   anchor.click();
   anchor.remove();
-  window.setTimeout(() => URL.revokeObjectURL(url), 500);
+  window.setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
