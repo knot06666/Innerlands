@@ -556,7 +556,7 @@ export default function Home() {
             className="relative z-10 flex min-h-svh flex-col px-4 py-4 max-[340px]:px-3 sm:py-6"
           >
             <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-start py-2 min-[700px]:max-w-[440px] min-[700px]:justify-center min-[700px]:py-6">
-              <div className="relative flex min-h-[calc(100svh-2rem)] w-full flex-col justify-between overflow-hidden rounded-lg border border-white/24 bg-white/12 px-5 py-5 shadow-mist backdrop-blur-md max-[340px]:px-4 max-[340px]:py-4 min-[700px]:aspect-[9/16] min-[700px]:min-h-0 min-[700px]:px-7 min-[700px]:py-7">
+              <div className="relative flex w-full flex-col gap-4 overflow-hidden rounded-lg border border-white/24 bg-white/12 px-5 py-5 shadow-mist backdrop-blur-md max-[340px]:gap-3 max-[340px]:px-4 max-[340px]:py-4 min-[700px]:aspect-[9/16] min-[700px]:justify-between min-[700px]:gap-5 min-[700px]:px-7 min-[700px]:py-7">
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),transparent_34%,rgba(9,20,25,0.24))]" />
                 <div className="relative">
                   <p className="font-kicker-thai text-xs font-medium leading-6 text-white/66">โลกธรรมชาติของคุณ</p>
@@ -572,23 +572,23 @@ export default function Home() {
                   </p>
                 </div>
 
-                <blockquote className="font-poem-thai relative mt-5 text-pretty text-[18px] font-semibold leading-8 text-white/90 max-[340px]:text-[16px] max-[340px]:leading-7 min-[700px]:text-[20px] min-[700px]:leading-9">
+                <blockquote className="font-poem-thai relative text-pretty text-[18px] font-semibold leading-8 text-white/90 max-[340px]:text-[16px] max-[340px]:leading-7 min-[700px]:text-[20px] min-[700px]:leading-9">
                   {result.poster.quote}
                 </blockquote>
 
-                <div className="relative mt-5 grid gap-4">
+                <div className="relative grid gap-4 max-[340px]:gap-3">
                   <div>
                     <h2 className="font-display-thai text-sm font-semibold text-white">ทำไมคุณถึงได้โลกนี้</h2>
-                    <p className="font-poem-thai mt-2 text-pretty text-[15px] font-medium leading-7 text-white/78 max-[340px]:text-sm max-[340px]:leading-6 min-[700px]:text-[16px] min-[700px]:leading-8">
+                    <p className="font-poem-thai mt-1.5 text-pretty text-[15px] font-medium leading-7 text-white/78 max-[340px]:text-sm max-[340px]:leading-6 min-[700px]:mt-2 min-[700px]:text-[16px] min-[700px]:leading-8">
                       {result.poster.summary}
                     </p>
                   </div>
 
                   <div>
                     <h2 className="font-display-thai text-sm font-semibold text-white">พลังของคุณ</h2>
-                    <div className="mt-2 flex flex-wrap gap-2">
+                    <div className="mt-2 flex flex-wrap gap-2 max-[340px]:gap-1.5">
                       {result.strengths.map((strength) => (
-                        <span key={strength} className="font-poem-thai rounded-full border border-white/18 bg-white/14 px-3 py-1.5 text-xs font-medium text-white/78 backdrop-blur">
+                        <span key={strength} className="font-poem-thai rounded-full border border-white/18 bg-white/14 px-3 py-1.5 text-xs font-medium leading-5 text-white/78 backdrop-blur max-[340px]:px-2.5">
                           {strength}
                         </span>
                       ))}
@@ -597,13 +597,13 @@ export default function Home() {
 
                   <div>
                     <h2 className="font-display-thai text-sm font-semibold text-white">ในวันที่คุณเหนื่อย</h2>
-                    <p className="font-poem-thai mt-2 text-pretty text-sm font-medium leading-7 text-white/76 max-[340px]:leading-6 min-[700px]:text-[15px]">
+                    <p className="font-poem-thai mt-1.5 text-pretty text-sm font-medium leading-7 text-white/76 max-[340px]:leading-6 min-[700px]:mt-2 min-[700px]:text-[15px]">
                       {result.poster.tiredMessage}
                     </p>
                   </div>
                 </div>
 
-                <div className="relative mt-5 border-t border-white/18 pt-3">
+                <div className="relative border-t border-white/18 pt-3">
                   <p className="font-kicker-thai text-xs font-semibold leading-5 text-white/70">โลกข้างใน</p>
                   <p className="font-kicker-thai mt-1 text-[11px] leading-5 text-white/52">
                     ประสบการณ์สะท้อนใจ ไม่ใช่การประเมินทางจิตวิทยา
