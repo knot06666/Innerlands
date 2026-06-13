@@ -87,16 +87,10 @@ export default function Home() {
 
   const result = phase === "result" ? completedResult : null;
 
-  // Shuffle all 12 nature images once per session so intro + each question gets a unique image.
-  const sessionImages = useMemo(() => {
-    const urls = Object.values(results).map(r => r.imageUrl);
-    const shuffled = [...urls];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled; // [0] = intro, [1..totalQuestions] = questions
-  }, []);
+  // Shuffled once on the client after mount — avoids SSR/client mismatch.
+  const [sessionImages, setSessionImages] = useState<string[]>(() =>
+    Object.values(results).map(r => r.imageUrl)
+  );
 
   const interludeImage =
     answers.length >= totalQuestions
@@ -113,7 +107,14 @@ export default function Home() {
       : sessionImages[0];
 
   useEffect(() => {
-    preloadImages(getNatureImageUrls());
+    const urls = Object.values(results).map(r => r.imageUrl);
+    const shuffled = [...urls];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    setSessionImages(shuffled);
+    preloadImages(shuffled);
 
     return () => {
       clearDownloadResetTimer(downloadResetTimerRef);
