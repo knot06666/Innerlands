@@ -2,28 +2,43 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { track } from "@vercel/analytics";
-import { ArrowRight, Camera, RefreshCcw, Volume2, VolumeX } from "lucide-react";
+import { ArrowRight, Camera, Droplets, Leaf, Mountain, RefreshCcw, Sparkles, Volume2, VolumeX, Wind } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { interludes, questions, results } from "@/data/quiz";
 import { getNatureResult, scoreChoices } from "@/lib/personality";
 import type { AnswerChoice, NatureResult } from "@/types/quiz";
-import type { MutableRefObject, RefObject } from "react";
+import type { CSSProperties, MutableRefObject, RefObject } from "react";
 
 const totalQuestions = questions.length;
 
 const sceneVariants = {
-  enter: { opacity: 0, scale: 1.02, filter: "blur(8px)" },
-  center: { opacity: 1, scale: 1, filter: "blur(0px)" },
-  exit: { opacity: 0, scale: 0.985, filter: "blur(8px)" }
+  enter: { opacity: 0, scale: 1.04, filter: "blur(12px) brightness(1.3)" },
+  center: { opacity: 1, scale: 1, filter: "blur(0px) brightness(1)" },
+  exit: { opacity: 0, scale: 0.97, filter: "blur(8px) brightness(0.7)" }
 };
 
 const quietFade = {
-  enter: { opacity: 0 },
-  center: { opacity: 1 },
-  exit: { opacity: 0 }
+  enter: { opacity: 0, scale: 1.015 },
+  center: { opacity: 1, scale: 1 },
+  exit: { opacity: 0, scale: 0.99 }
 };
 
 type Phase = "intro" | "question" | "interlude" | "result";
+
+type SceneParticleType = "mist" | "dust" | "rain" | "stars" | "wind" | "shimmer";
+
+const SCENE_PARTICLE_MAP: Record<string, { type: SceneParticleType; count: number }> = {
+  "mist-forest": { type: "mist", count: 14 },
+  "morning-meadow": { type: "dust", count: 11 },
+  "clouded-sea": { type: "shimmer", count: 10 },
+  "mountain-wind": { type: "wind", count: 8 },
+  "rain-garden": { type: "rain", count: 18 },
+  "river-valley": { type: "shimmer", count: 12 },
+  "desert-stars": { type: "stars", count: 16 },
+  "tropical-rainforest": { type: "rain", count: 22 },
+};
+
+const JOURNEY_ICONS = [Leaf, Wind, Droplets, Mountain, Sparkles];
 
 type AmbientAudio = {
   element: HTMLAudioElement;
@@ -477,9 +492,21 @@ export default function Home() {
           >
             <header className="mx-auto flex w-full max-w-md items-center justify-between pr-12 text-sm text-white/72">
               <span>{currentQuestion.scene}</span>
-              <span>
-                {step + 1} จาก {totalQuestions}
-              </span>
+              <div className="flex items-center gap-1.5" aria-label={`ขั้นตอนที่ ${step + 1} จาก ${totalQuestions}`}>
+                {JOURNEY_ICONS.map((Icon, index) => (
+                  <Icon
+                    key={index}
+                    aria-hidden="true"
+                    className={`h-3.5 w-3.5 transition-all duration-500 ${
+                      index < step
+                        ? "text-white"
+                        : index === step
+                        ? "text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.9)]"
+                        : "text-white/28"
+                    }`}
+                  />
+                ))}
+              </div>
             </header>
 
             <div className="mx-auto mt-3 h-1.5 w-full max-w-md overflow-hidden rounded-full bg-white/20 sm:mt-4">
@@ -780,6 +807,9 @@ function NatureBackdrop({ imageUrl }: { imageUrl: string }) {
         />
       </AnimatePresence>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(255,255,255,0.1),transparent_22rem),linear-gradient(180deg,rgba(9,20,25,0.24),rgba(9,20,25,0.44)_46%,rgba(9,20,25,0.66))]" />
+      <AnimatePresence initial={false}>
+        <NatureParticles key={`p-${imageUrl}`} imageUrl={imageUrl} />
+      </AnimatePresence>
       <motion.div
         className="absolute inset-x-[-20%] top-1/4 h-48 bg-white/10 blur-3xl"
         animate={{ x: ["-8%", "8%", "-8%"], opacity: [0.24, 0.38, 0.24] }}
@@ -1033,6 +1063,110 @@ function shouldShowLongPressFallback() {
 
 function isInAppBrowser() {
   return /instagram|line\/|fban|fbav|fb_iab|messenger|twitter|tiktok|; wv\)/.test(navigator.userAgent.toLowerCase());
+}
+
+function seeded(index: number, salt: number): number {
+  return ((index * 9301 + salt * 49297 + 233) % 23328) / 23328;
+}
+
+function getParticleStyle(type: SceneParticleType, index: number): CSSProperties {
+  const x = seeded(index, 1);
+  const y = seeded(index, 2);
+  const delay = seeded(index, 3) * 5;
+  const duration = 3 + seeded(index, 4) * 4;
+  const size = 2 + seeded(index, 5) * 3;
+
+  switch (type) {
+    case "mist":
+      return {
+        position: "absolute",
+        left: `${x * 100}%`,
+        top: `${20 + y * 60}%`,
+        width: `${size}px`,
+        height: `${size}px`,
+        borderRadius: "50%",
+        background: "rgba(255,255,255,0.5)",
+        filter: "blur(1.5px)",
+        animation: `particle-float ${duration + 3}s ${delay}s infinite ease-in-out`,
+      };
+    case "dust":
+      return {
+        position: "absolute",
+        left: `${x * 100}%`,
+        top: `${15 + y * 65}%`,
+        width: `${size - 0.5}px`,
+        height: `${size - 0.5}px`,
+        borderRadius: "50%",
+        background: "rgba(255,212,95,0.62)",
+        filter: "blur(1px)",
+        animation: `particle-float ${duration + 2}s ${delay}s infinite ease-in-out`,
+      };
+    case "rain":
+      return {
+        position: "absolute",
+        left: `${x * 100}%`,
+        top: 0,
+        width: "1px",
+        height: `${10 + seeded(index, 6) * 8}px`,
+        background: "rgba(180,215,255,0.4)",
+        borderRadius: "1px",
+        animation: `particle-rain ${0.5 + seeded(index, 7) * 0.5}s ${delay * 0.4}s infinite linear`,
+      };
+    case "stars":
+      return {
+        position: "absolute",
+        left: `${x * 100}%`,
+        top: `${y * 65}%`,
+        width: `${size - 0.5}px`,
+        height: `${size - 0.5}px`,
+        borderRadius: "50%",
+        background: "rgba(255,252,200,0.88)",
+        boxShadow: "0 0 5px rgba(255,248,180,0.6)",
+        animation: `particle-twinkle ${2 + seeded(index, 8) * 3}s ${delay}s infinite ease-in-out`,
+      };
+    case "wind":
+      return {
+        position: "absolute",
+        left: "-5%",
+        top: `${15 + y * 70}%`,
+        width: `${50 + seeded(index, 9) * 70}px`,
+        height: "1px",
+        background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.36), transparent)",
+        animation: `particle-wind ${1.5 + seeded(index, 10) * 2}s ${delay}s infinite ease-in-out`,
+      };
+    case "shimmer":
+      return {
+        position: "absolute",
+        left: `${x * 100}%`,
+        top: `${10 + y * 75}%`,
+        width: `${size}px`,
+        height: `${size}px`,
+        borderRadius: "50%",
+        background: "rgba(150,210,255,0.72)",
+        filter: "blur(0.5px)",
+        animation: `particle-shimmer ${2 + seeded(index, 11) * 3}s ${delay}s infinite ease-in-out`,
+      };
+  }
+}
+
+function NatureParticles({ imageUrl }: { imageUrl: string }) {
+  const sceneKey = imageUrl.replace("/nature/", "").replace(".png", "");
+  const config = SCENE_PARTICLE_MAP[sceneKey];
+  if (!config) return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 1.4 }}
+      className="nature-particles pointer-events-none absolute inset-0 overflow-hidden"
+    >
+      {Array.from({ length: config.count }, function(_, i) {
+        return <span key={i} aria-hidden="true" style={getParticleStyle(config.type, i)} />;
+      })}
+    </motion.div>
+  );
 }
 
 function downloadBlob(blob: Blob, fileName: string) {
