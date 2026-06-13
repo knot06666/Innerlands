@@ -634,76 +634,65 @@ export default function Home() {
                 </button>
               </div>
 
-              <p className="font-kicker-thai mt-8 text-sm font-medium leading-7 text-white/68">โลกธรรมชาติของคุณ</p>
-              <h1
-                className="font-display-thai mt-3 text-balance text-[42px] font-semibold leading-[1.08] text-white outline-none min-[700px]:mt-4 min-[700px]:text-5xl"
-              >
-                {result.worldName}
-              </h1>
-              <p className="font-kicker-thai mt-3 text-sm font-medium leading-6 text-white/58">ทำไมคุณถึงได้โลกนี้</p>
-              <p className="font-poem-thai mt-2 text-[16px] font-medium leading-8 text-white/78 min-[700px]:text-lg min-[700px]:leading-9">
-                {result.poster.summary}
-              </p>
+              <details className="group mt-6 rounded-lg border border-white/18 bg-white/10 px-4 py-3 text-white shadow-mist backdrop-blur-md">
+                <summary className="font-display-thai flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold text-white outline-none focus-visible:ring-2 focus-visible:ring-white/60 [&::-webkit-details-marker]:hidden">
+                  อ่านรายละเอียดเพิ่มเติม
+                  <span className="text-lg leading-none text-white/62 transition group-open:rotate-45" aria-hidden="true">+</span>
+                </summary>
 
-              <blockquote className="font-poem-thai mt-5 border-l-2 border-white/28 pl-4 text-[17px] font-semibold leading-8 text-white/86 min-[700px]:mt-6 min-[700px]:text-lg min-[700px]:leading-9">
-                {result.quote}
-              </blockquote>
-
-              <div className="mt-5 flex items-center gap-3 border-y border-white/20 py-3 min-[700px]:mt-7 min-[700px]:py-4">
-                <span className="font-kicker-thai text-sm text-white/58">ธรรมชาติที่รายล้อม</span>
-                <span className="font-display-thai rounded-full bg-white/18 px-3 py-1 text-sm font-semibold text-white backdrop-blur">{result.relatedNature}</span>
-              </div>
-
-              <section className="mt-5 min-[700px]:mt-7">
-                <h2 className="font-display-thai text-base font-semibold text-white">พลังของโลกนี้</h2>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {result.strengths.map((strength) => (
-                    <span key={strength} className="font-poem-thai rounded-full border border-white/20 bg-white/14 px-3 py-2 text-sm font-medium text-white/78 backdrop-blur">
-                      {strength}
-                    </span>
-                  ))}
-                </div>
-              </section>
-
-              <section className="mt-5 grid gap-4 min-[700px]:mt-7 min-[700px]:gap-5">
-                <div>
-                  <h2 className="font-display-thai text-base font-semibold text-white">ความรู้สึกที่ซ่อนอยู่</h2>
-                  <p className="font-poem-thai mt-2 text-[16px] font-medium leading-8 text-white/76 min-[700px]:text-lg min-[700px]:leading-9">
-                    {result.hiddenFeelings}
+                <div className="pt-4">
+                  <p className="font-kicker-thai text-sm font-medium leading-7 text-white/68">โลกธรรมชาติของคุณ</p>
+                  <h1
+                    className="font-display-thai mt-3 text-balance text-[38px] font-semibold leading-[1.08] text-white outline-none min-[700px]:mt-4 min-[700px]:text-5xl"
+                  >
+                    {result.worldName}
+                  </h1>
+                  <p className="font-kicker-thai mt-3 text-sm font-medium leading-6 text-white/58">ทำไมคุณถึงได้โลกนี้</p>
+                  <p className="font-poem-thai mt-2 text-[16px] font-medium leading-8 text-white/78 min-[700px]:text-lg min-[700px]:leading-9">
+                    {result.poster.summary}
                   </p>
-                </div>
-                <div>
-                  <h2 className="font-display-thai text-base font-semibold text-white">ในวันที่คุณเหนื่อย</h2>
-                  <p className="font-poem-thai mt-2 text-[16px] font-medium leading-8 text-white/76 min-[700px]:text-lg min-[700px]:leading-9">
-                    {result.tiredMessage}
+
+                  <blockquote className="font-poem-thai mt-5 border-l-2 border-white/28 pl-4 text-[17px] font-semibold leading-8 text-white/86 min-[700px]:mt-6 min-[700px]:text-lg min-[700px]:leading-9">
+                    {result.quote}
+                  </blockquote>
+
+                  <div className="mt-5 flex items-center gap-3 border-y border-white/20 py-3 min-[700px]:mt-7 min-[700px]:py-4">
+                    <span className="font-kicker-thai text-sm text-white/58">ธรรมชาติที่รายล้อม</span>
+                    <span className="font-display-thai rounded-full bg-white/18 px-3 py-1 text-sm font-semibold text-white backdrop-blur">{result.relatedNature}</span>
+                  </div>
+
+                  <section className="mt-5 min-[700px]:mt-7">
+                    <h2 className="font-display-thai text-base font-semibold text-white">พลังของโลกนี้</h2>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {result.strengths.map((strength) => (
+                        <span key={strength} className="font-poem-thai rounded-full border border-white/20 bg-white/14 px-3 py-2 text-sm font-medium text-white/78 backdrop-blur">
+                          {strength}
+                        </span>
+                      ))}
+                    </div>
+                  </section>
+
+                  <section className="mt-5 grid gap-4 min-[700px]:mt-7 min-[700px]:gap-5">
+                    <div>
+                      <h2 className="font-display-thai text-base font-semibold text-white">ความรู้สึกที่ซ่อนอยู่</h2>
+                      <p className="font-poem-thai mt-2 text-[16px] font-medium leading-8 text-white/76 min-[700px]:text-lg min-[700px]:leading-9">
+                        {result.hiddenFeelings}
+                      </p>
+                    </div>
+                    <div>
+                      <h2 className="font-display-thai text-base font-semibold text-white">ในวันที่คุณเหนื่อย</h2>
+                      <p className="font-poem-thai mt-2 text-[16px] font-medium leading-8 text-white/76 min-[700px]:text-lg min-[700px]:leading-9">
+                        {result.tiredMessage}
+                      </p>
+                    </div>
+                  </section>
+
+                  <p className="font-kicker-thai mt-5 text-xs leading-5 text-white/54 min-[700px]:mt-7">
+                    ประสบการณ์นี้เป็นพื้นที่สะท้อนใจเพื่อความบันเทิง ไม่ใช่การประเมินทางจิตวิทยา
                   </p>
+                  <p className="font-kicker-thai mt-2 text-xs leading-5 text-white/42">{siteCredit}</p>
                 </div>
-              </section>
-
-              <div className="hidden">
-                <button
-                  type="button"
-                  onClick={restart}
-                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg border border-white/24 bg-white/14 px-3 text-sm font-medium text-white shadow-mist transition hover:bg-white/22 focus:outline-none focus:ring-2 focus:ring-white/60"
-                >
-                  <RefreshCcw className="h-4 w-4" aria-hidden="true" />
-                  เริ่มใหม่
-                </button>
-                <button
-                  type="button"
-                  onClick={saveResultImage}
-                  disabled={isSaving}
-                  className="inline-flex min-h-12 items-center justify-center rounded-lg border border-white/24 bg-white/14 px-3 text-sm font-medium text-white shadow-mist transition hover:bg-white/22 focus:outline-none focus:ring-2 focus:ring-white/60 disabled:cursor-wait disabled:opacity-80"
-                >
-                  <Camera className="mr-2 h-4 w-4" aria-hidden="true" />
-                  {isSaving ? "กำลังเตรียมรูป" : saveStatus === "downloaded" ? "บันทึกแล้ว" : "บันทึกผลลัพธ์"}
-                </button>
-              </div>
-
-              <p className="font-kicker-thai mt-5 text-xs leading-5 text-white/54 min-[700px]:mt-7">
-                ประสบการณ์นี้เป็นพื้นที่สะท้อนใจเพื่อความบันเทิง ไม่ใช่การประเมินทางจิตวิทยา
-              </p>
-              <p className="font-kicker-thai mt-2 text-xs leading-5 text-white/42">{siteCredit}</p>
+              </details>
             </div>
           </motion.section>
         ) : null}
