@@ -33,6 +33,7 @@ type AmbientAudio = {
 type DownloadFallback = {
   url: string;
   fileName: string;
+  hostedUrl?: string;
 };
 
 type ResultImage = {
@@ -183,15 +184,23 @@ export default function Home() {
       const resultImage = await createResultImage(result);
       const fileName = `lok-khang-nai-${result.id}.png`;
       const file = new File([resultImage.blob], fileName, { type: "image/png" });
+      const hostedUrl = getHostedResultImageUrl(result.id);
+
+      if (isInAppBrowser() && shouldUseNativeFileShare(file)) {
+        const didShare = await shareResultFile(file, result);
+        if (didShare) {
+          markResultSaved();
+          return;
+        }
+      }
 
       if (isInAppBrowser()) {
-        window.location.href = getHostedResultImageUrl(result.id);
+        showDownloadFallback(resultImage, fileName, hostedUrl);
         trackJourneyEvent("result_download_fallback_shown", {
-          reason: "hosted_image",
+          reason: "in_app_browser_actions",
           resultId: result.id,
           resultName: result.worldName
         });
-        markResultSaved();
         return;
       }
 
@@ -219,7 +228,7 @@ export default function Home() {
       downloadBlob(resultImage.blob, fileName);
 
       if (shouldShowLongPressFallback()) {
-        showDownloadFallback(resultImage, fileName);
+        showDownloadFallback(resultImage, fileName, hostedUrl);
         trackJourneyEvent("result_download_fallback_shown", {
           resultId: result.id,
           resultName: result.worldName
@@ -237,6 +246,28 @@ export default function Home() {
     }
   }
 
+  async function shareResultFile(file: File, currentResult: NatureResult) {
+    try {
+      await navigator.share({
+        files: [file],
+        text: `โลกข้างในของฉันคือ ${currentResult.worldName}`,
+        title: "โลกข้างใน"
+      });
+      trackJourneyEvent("result_downloaded", {
+        method: "native_share",
+        resultId: currentResult.id,
+        resultName: currentResult.worldName
+      });
+      return true;
+    } catch (error) {
+      if (error instanceof DOMException && error.name === "AbortError") {
+        return true;
+      }
+
+      return false;
+    }
+  }
+
   function markResultSaved() {
     setSaveStatus("downloaded");
     downloadResetTimerRef.current = window.setTimeout(() => {
@@ -245,12 +276,20 @@ export default function Home() {
     }, 2600);
   }
 
-  function showDownloadFallback(resultImage: ResultImage, fileName: string) {
-    setDownloadFallback({ fileName, url: resultImage.dataUrl });
+  function showDownloadFallback(resultImage: ResultImage, fileName: string, hostedUrl?: string) {
+    setDownloadFallback({ fileName, hostedUrl, url: resultImage.dataUrl });
   }
 
   function closeDownloadFallback() {
     setDownloadFallback(null);
+  }
+
+  async function copyResultImageLink() {
+    if (!downloadFallback?.hostedUrl) {
+      return;
+    }
+
+    await navigator.clipboard?.writeText(new URL(downloadFallback.hostedUrl, window.location.href).toString()).catch(() => undefined);
   }
 
   return (
@@ -278,8 +317,13 @@ export default function Home() {
           >
             <h2 className="font-display-thai text-lg font-semibold">บันทึกรูปผลลัพธ์</h2>
             <p className="font-poem-thai mt-2 text-sm leading-6 text-ink/70">
-              ถ้าเบราว์เซอร์ในแอปไม่ดาวน์โหลดรูป ให้แตะค้างที่รูป แล้วเลือกบันทึกรูปภาพ
+              เบราว์เซอร์ในแอปบางตัวไม่ยอมบันทึกรูปโดยตรง ลองใช้ปุ่มด้านล่างเพื่อเปิดรูปหรือคัดลอกลิงก์แทน
             </p>
+            {downloadFallback.hostedUrl ? (
+              <p className="font-poem-thai mt-2 text-sm leading-6 text-ink/70">
+                ถ้า IG ยังไม่ขึ้นเมนูบันทึก ให้เปิดรูปเต็มจอ แล้วกดเมนูของ IG เพื่อเปิดต่อใน Safari หรือ Chrome
+              </p>
+            ) : null}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={downloadFallback.url}
@@ -295,12 +339,23 @@ export default function Home() {
                 ปิด
               </button>
               <a
-                href={downloadFallback.url}
-                download={downloadFallback.fileName}
+                href={downloadFallback.hostedUrl ?? downloadFallback.url}
+                target={downloadFallback.hostedUrl ? "_blank" : undefined}
+                rel={downloadFallback.hostedUrl ? "noreferrer" : undefined}
+                download={downloadFallback.hostedUrl ? undefined : downloadFallback.fileName}
                 className="inline-flex min-h-11 items-center justify-center rounded-lg bg-ink px-4 text-sm font-medium text-white transition hover:bg-ink/90 focus:outline-none focus:ring-2 focus:ring-ink/30"
               >
-                ลองดาวน์โหลดอีกครั้ง
+                เปิดรูปเต็มจอ
               </a>
+              {downloadFallback.hostedUrl ? (
+                <button
+                  type="button"
+                  onClick={copyResultImageLink}
+                  className="col-span-2 inline-flex min-h-11 items-center justify-center rounded-lg border border-ink/15 px-4 text-sm font-medium text-ink transition hover:bg-ink/5 focus:outline-none focus:ring-2 focus:ring-ink/30"
+                >
+                  คัดลอกลิงก์รูป
+                </button>
+              ) : null}
             </div>
           </div>
         </div>
