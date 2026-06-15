@@ -618,13 +618,10 @@ export default function Home() {
                     whileTap={{ scale: 0.985 }}
                     onClick={() => chooseAnswer(choice)}
                     disabled={isAdvancing}
-                    className="group min-h-20 rounded-lg border border-white/20 bg-white/14 px-4 py-3 text-left shadow-mist backdrop-blur-md transition hover:border-white/40 hover:bg-white/22 focus:outline-none focus:ring-2 focus:ring-white/60 disabled:cursor-wait disabled:opacity-70 max-[340px]:min-h-[72px] max-[340px]:py-2.5 min-[700px]:min-h-24 min-[700px]:py-4"
+                    className="group min-h-14 rounded-lg border border-white/20 bg-white/14 px-4 py-3 text-left shadow-mist backdrop-blur-md transition hover:border-white/40 hover:bg-white/22 focus:outline-none focus:ring-2 focus:ring-white/60 disabled:cursor-wait disabled:opacity-70 max-[340px]:min-h-12 max-[340px]:py-2.5 min-[700px]:min-h-16 min-[700px]:py-4"
                   >
                     <span className="font-display-thai block text-[15px] font-semibold leading-6 text-white max-[340px]:text-sm max-[340px]:leading-5 min-[700px]:text-base min-[700px]:leading-7">
                       {choice.text}
-                    </span>
-                    <span className="font-poem-thai mt-1 block text-sm font-medium leading-6 text-white/62 max-[340px]:text-[13px] max-[340px]:leading-5 min-[700px]:leading-6">
-                      {choice.subtext}
                     </span>
                   </motion.button>
                 ))}

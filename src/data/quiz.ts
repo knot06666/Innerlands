@@ -64,25 +64,21 @@ export const questions: JourneyQuestion[] = [
       {
         id: "awakening-forest",
         text: "ป่าสนเงียบสงบที่มีสายหมอกปกคลุม",
-        subtext: "คุณต้องการความเงียบเพื่อฟังเสียงหัวใจตัวเองให้ชัดเจนขึ้น",
         weights: { "mist-forest": 3, "desert-stars": 1, "deep-cave": 1 }
       },
       {
         id: "awakening-meadow",
         text: "ทุ่งหญ้ากว้างพร้อมแสงแดดอุ่นยามเช้า",
-        subtext: "เติมพลังให้วันใหม่แบบเบาสบาย โดยไม่ต้องพิสูจน์อะไรกับใคร",
         weights: { "morning-meadow": 3, "rain-garden": 1, "twilight-valley": 1, "tropical-rainforest": 1 }
       },
       {
         id: "awakening-sea",
         text: "ทะเลกว้างอันมีเสียงคลื่นซัดสม่ำเสมอ",
-        subtext: "คุณอยากโอบรับความรู้สึกที่ขึ้นลง โดยไม่ต้องกดดันตัวเอง",
         weights: { "clouded-sea": 3, "river-valley": 1, "frozen-lake": 1 }
       },
       {
         id: "awakening-mountain",
         text: "ภูเขาสูงที่มองเห็นเส้นขอบฟ้าไกลสุดตา",
-        subtext: "คุณอยากเห็นภาพรวมและรู้ว่าตัวเองกำลังเดินไปในทิศทางไหน",
         weights: { "mountain-wind": 3, "volcanic-island": 1, "desert-stars": 1 }
       }
     ]
@@ -96,25 +92,21 @@ export const questions: JourneyQuestion[] = [
       {
         id: "sound-water",
         text: "เสียงกระแสน้ำไหลเอื่อย",
-        subtext: "คุณเชื่อว่าการค่อย ๆ ปรับตัวและเปลี่ยนแปลงจะพาเราไปต่อได้",
         weights: { "river-valley": 3, "clouded-sea": 1, "volcanic-island": 1 }
       },
       {
         id: "sound-leaves",
         text: "เสียงสายฝนหรือหยดน้ำกระทบใบไม้เบา ๆ",
-        subtext: "คุณต้องการเวลาเยียวยาตัวเองเงียบ ๆ โดยไม่ต้องอธิบายให้ใครฟัง",
         weights: { "rain-garden": 3, "mist-forest": 1, "twilight-valley": 1 }
       },
       {
         id: "sound-birds",
         text: "เสียงสรรพชีวิตที่เคลื่อนไหวในป่า",
-        subtext: "คุณได้รับพลังงานดี ๆ เมื่ออยู่ท่ามกลางสิ่งที่มีชีวิตชีวา",
         weights: { "tropical-rainforest": 3, "morning-meadow": 1, "rain-garden": 1, "river-valley": 1 }
       },
       {
         id: "sound-silence",
         text: "ความสงบเงียบใต้ท้องฟ้ากว้างอันโดดเดี่ยว",
-        subtext: "คุณต้องการพื้นที่ที่ไร้เสียงรบกวน เพื่อตกตะกอนความคิด",
         weights: { "desert-stars": 3, "mountain-wind": 1, "frozen-lake": 1, "deep-cave": 1 }
       }
     ]
@@ -128,25 +120,21 @@ export const questions: JourneyQuestion[] = [
       {
         id: "crossroad-light",
         text: "เลือกเส้นทางที่ดูอ่อนโยนและไม่กดดัน",
-        subtext: "คุณจะทำได้ดีเมื่อรู้สึกว่าตัวเองไม่ได้ถูกเร่งรัดจากเวลา",
         weights: { "morning-meadow": 1, "rain-garden": 1, "twilight-valley": 2 }
       },
       {
         id: "crossroad-height",
         text: "มองจากที่สูงเพื่อดูภาพรวมก่อนตัดสินใจ",
-        subtext: "คุณอยากเข้าใจสถานการณ์ทั้งหมดก่อนจะก้าวขาเดินต่อ",
         weights: { "mountain-wind": 2, "volcanic-island": 2, "desert-stars": 1 }
       },
       {
         id: "crossroad-depth",
         text: "ถอยกลับเข้าหาความเงียบเพื่อทบทวน",
-        subtext: "คุณมักใช้เวลาฟังเสียงเรียกร้องข้างในก่อนเลือกทางเดิน",
         weights: { "mist-forest": 1, "deep-cave": 2, "frozen-lake": 2 }
       },
       {
         id: "crossroad-current",
         text: "ปล่อยให้สถานการณ์และจังหวะชีวิตพัดพาไป",
-        subtext: "คุณปรับตัวเก่ง และเลือกที่จะไม่ฝืนกระแสหากไม่จำเป็น",
         weights: { "river-valley": 2, "tropical-rainforest": 1, "clouded-sea": 1 }
       }
     ]
@@ -160,25 +148,21 @@ export const questions: JourneyQuestion[] = [
       {
         id: "shelter-cabin",
         text: "บ้านไม้เงียบสงบที่มีแสงไฟสีอุ่นดวงเล็ก ๆ",
-        subtext: "คุณโหยหาความอบอุ่นเรียบง่ายที่ปราศจากความวุ่นวาย",
         weights: { "mist-forest": 1, "rain-garden": 1, "twilight-valley": 2 }
       },
       {
         id: "shelter-garden",
         text: "เรือนกระจกกลางสวนชุ่มฉ่ำหลังฝนตก",
-        subtext: "คุณอยากได้พื้นที่ช่วยชะล้างความหนักอึ้งในใจออกไปทีละน้อย",
         weights: { "rain-garden": 2, "morning-meadow": 1, "volcanic-island": 2 }
       },
       {
         id: "shelter-shore",
         text: "ห้องพักริมหาดที่เคล้าด้วยเสียงคลื่น",
-        subtext: "อยากปล่อยให้ความรู้สึกหลั่งไหลออกมาโดยไม่ต้องซ่อนเร้น",
         weights: { "clouded-sea": 2, "river-valley": 1, "frozen-lake": 2 }
       },
       {
         id: "shelter-canopy",
         text: "กระท่อมกลางป่าทึบที่มีเสียงธรรมชาติรายล้อม",
-        subtext: "คุณรู้สึกอุ่นใจเมื่อไม่ต้องติดอยู่กับความคิดของตัวเองเพียงลำพัง",
         weights: { "tropical-rainforest": 1, "desert-stars": 1, "deep-cave": 2, "mountain-wind": 1 }
       }
     ]
@@ -192,25 +176,21 @@ export const questions: JourneyQuestion[] = [
       {
         id: "tired-mist",
         text: "สายหมอกอันเงียบเชียบที่ไม่เอ่ยคำถามใด ๆ",
-        subtext: "คุณแค่ต้องการพื้นที่พักผ่อน โดยไม่ต้องอธิบายอะไรให้ใครฟัง",
         weights: { "mist-forest": 2, "clouded-sea": 1, "frozen-lake": 2 }
       },
       {
         id: "tired-sun",
         text: "แสงแดดอุ่น ๆ ยามเช้า",
-        subtext: "คุณต้องการพลังใจเล็ก ๆ ที่คอยย้ำเตือนว่าเราเริ่มใหม่ได้เสมอ",
         weights: { "morning-meadow": 2, "river-valley": 1, "volcanic-island": 2 }
       },
       {
         id: "tired-rain",
         text: "สายฝนโปรยปรายที่ช่วยล้างความค้างคา",
-        subtext: "คุณอยากระบายความเหนื่อยล้า โดยไม่ต้องทำเป็นเข้มแข็งตลอดเวลา",
         weights: { "rain-garden": 1, "tropical-rainforest": 2, "twilight-valley": 2 }
       },
       {
         id: "tired-stars",
         text: "ทะเลดาวระยิบระยับบนท้องฟ้าอันกว้างใหญ่",
-        subtext: "คุณอยากมองเรื่องหนัก ๆ ให้เล็กลง เพื่อกลับมาหายใจได้โล่งขึ้น",
         weights: { "desert-stars": 2, "mountain-wind": 1, "deep-cave": 2 }
       }
     ]

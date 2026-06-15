@@ -47,14 +47,18 @@ describe("nature world scoring", () => {
 
     expect(distribution).toMatchInlineSnapshot(`
       {
-        "clouded-sea": 148,
-        "desert-stars": 97,
-        "mist-forest": 203,
-        "morning-meadow": 156,
-        "mountain-wind": 90,
-        "rain-garden": 144,
-        "river-valley": 71,
-        "tropical-rainforest": 115,
+        "clouded-sea": 123,
+        "deep-cave": 35,
+        "desert-stars": 88,
+        "frozen-lake": 47,
+        "mist-forest": 135,
+        "morning-meadow": 118,
+        "mountain-wind": 126,
+        "rain-garden": 117,
+        "river-valley": 88,
+        "tropical-rainforest": 72,
+        "twilight-valley": 34,
+        "volcanic-island": 41,
       }
     `);
     expect(max / min).toBeLessThanOrEqual(4);

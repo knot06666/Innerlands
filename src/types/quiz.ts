@@ -17,7 +17,6 @@ export type NatureWeights = Partial<Record<NatureWorldId, number>>;
 export type AnswerChoice = {
   id: string;
   text: string;
-  subtext: string;
   weights: NatureWeights;
 };
 
